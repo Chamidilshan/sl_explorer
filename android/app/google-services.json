@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "869319262185",
+    "project_id": "sl-explorer",
+    "storage_bucket": "sl-explorer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:869319262185:android:3f37413957b7c6f2a41578",
+        "android_client_info": {
+          "package_name": "com.example.final_reg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMcyEQ4dHWWWoi_AReovD2bczcUIFfu1E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

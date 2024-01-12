@@ -1,4 +1,4 @@
-# sl_explorer
+# final_reg
 
 A new Flutter project.
 

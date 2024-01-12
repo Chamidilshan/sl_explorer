@@ -178,7 +178,8 @@ class _FormTestState extends State<FormTest> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: SocialButton(),
+                    child: SocialButton(
+                    ),
                   ),
                 ],
               ),

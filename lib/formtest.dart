@@ -1,4 +1,6 @@
+import 'package:final_reg/features/authentication/controllers/signup_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'widgets.dart';
 
 class FormTest extends StatefulWidget {
@@ -23,6 +25,7 @@ class _FormTestState extends State<FormTest> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignUpController());
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -163,8 +166,9 @@ class _FormTestState extends State<FormTest> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _formKey.currentState!.save();
-                            print('First Name: $_firstName');
+                            // _formKey.currentState!.save();
+                            // print('First Name: $_firstName');
+                            controller.signUp();
                           }
                         },
                       ),

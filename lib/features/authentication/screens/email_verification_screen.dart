@@ -122,7 +122,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               },
               child: Center(
                 child: Text(
-                  'Resend email', 
+                  'Resend email',
                   style: GoogleFonts.lato(
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF262626),

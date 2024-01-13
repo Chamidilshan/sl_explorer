@@ -82,7 +82,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               ),
             ),
             SizedBox(
-              height: 10.0,
+              height: 20.0,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),

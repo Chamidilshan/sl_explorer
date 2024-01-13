@@ -54,6 +54,7 @@ class SignUpController extends GetxController{
 
       final userRepository = Get.put(UserRepository());
       userRepository.saveUser(newUser);
+      CommonLoaders.successSnackBar(title: 'Congratulations', duration: 4, message: 'Your account has been created');
       Navigator.push(context, MaterialPageRoute(builder: (context)=> EmailVerificationScreen()));
 
 

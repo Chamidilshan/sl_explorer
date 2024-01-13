@@ -1,10 +1,12 @@
-import 'package:final_reg/common/exceptions/firebase_auth_exceptions.dart';
-import 'package:final_reg/common/exceptions/firebase_exceptions.dart';
-import 'package:final_reg/common/exceptions/format_exceptions.dart';
-import 'package:final_reg/common/exceptions/platform_exceptions.dart';
+
+import 'package:SL_Explorer/common/exceptions/firebase_auth_exceptions.dart';
+import 'package:SL_Explorer/common/exceptions/firebase_exceptions.dart';
+import 'package:SL_Explorer/common/exceptions/format_exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../common/exceptions/platform_exceptions.dart';
 
 class AuthenticationRepository extends GetxController{
 

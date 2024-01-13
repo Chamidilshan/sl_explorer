@@ -1,6 +1,7 @@
-import 'package:final_reg/services/firebase_services/google_signin_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
+
+import 'services/firebase_services/google_signin_service.dart';
 
 class CustomWidgets {
   static Widget buildTextField({

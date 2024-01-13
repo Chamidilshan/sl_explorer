@@ -1,4 +1,4 @@
-import 'package:final_reg/features/authentication/controllers/signup_controller.dart';
+import 'package:SL_Explorer/features/authentication/controllers/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'widgets.dart';

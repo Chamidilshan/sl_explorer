@@ -1,11 +1,12 @@
-import 'package:final_reg/bindings/general_binding.dart';
-import 'package:final_reg/firebase_options.dart';
-import 'package:final_reg/formtest.dart';
-import 'package:final_reg/services/firebase_services/authentication_repository.dart';
+import 'package:SL_Explorer/bindings/general_binding.dart';
+import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
+import 'package:SL_Explorer/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+
+import 'services/firebase_services/authentication_repository.dart';
 
 Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
       ),
-      home: FormTest(),
+      home: EmailVerificationScreen(),
     );
   }
 }

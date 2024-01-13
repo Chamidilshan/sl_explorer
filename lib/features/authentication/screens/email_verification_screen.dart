@@ -1,9 +1,12 @@
+import 'package:SL_Explorer/features/authentication/controllers/verify_email_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
-  const EmailVerificationScreen({super.key});
+  final String? email;
+  const EmailVerificationScreen({super.key, this.email});
 
   @override
   State<EmailVerificationScreen> createState() => _EmailVerificationScreenState();
@@ -12,6 +15,7 @@ class EmailVerificationScreen extends StatefulWidget {
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(VerifyEmailController());
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -59,7 +63,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                      'youremail@email.com',
+                      widget.email ?? '',
                     style: GoogleFonts.lato(
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF262626),
@@ -86,19 +90,24 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-              child: Container(
-                height: 48.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: Color(0xFFFD8103),
-                ),
-                child: Center(
-                  child: Text(
-                    'Continue',
-                    style: GoogleFonts.inter(
-                      fontSize: 16.0,
-                      color: Colors.white
+              child: InkWell(
+                onTap: (){
+                  controller.checkEmailVerificationStatus();
+                },
+                child: Container(
+                  height: 48.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12.0),
+                    color: Color(0xFFFD8103),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Continue',
+                      style: GoogleFonts.inter(
+                        fontSize: 16.0,
+                        color: Colors.white
+                      ),
                     ),
                   ),
                 ),
@@ -107,13 +116,18 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             SizedBox(
               height: 10.0,
             ),
-            Center(
-              child: Text(
-                'Resend email',
-                style: GoogleFonts.lato(
-                    fontWeight: FontWeight.w500,
-                    color: const Color(0xFF262626),
-                    fontSize: 14.0
+            InkWell(
+              onTap: (){
+                controller.sendEmailVerification();
+              },
+              child: Center(
+                child: Text(
+                  'Resend email', 
+                  style: GoogleFonts.lato(
+                      fontWeight: FontWeight.w500,
+                      color: const Color(0xFF262626),
+                      fontSize: 14.0
+                  ),
                 ),
               ),
             )

@@ -1,6 +1,7 @@
 import 'package:SL_Explorer/bindings/general_binding.dart';
 import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
 import 'package:SL_Explorer/firebase_options.dart';
+import 'package:SL_Explorer/formtest.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
       ),
-      home: EmailVerificationScreen(),
+      home: FormTest(),
     );
   }
 }

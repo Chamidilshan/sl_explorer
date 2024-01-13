@@ -44,4 +44,20 @@ Future<UserCredential> registerWithEmailPassword(String email, String password) 
    }
 }
 
+Future<void> sendEmailVerification() async{
+  try{
+    return await _auth.currentUser?.sendEmailVerification();
+  } on FirebaseAuthException catch(e){
+    throw CustomFirebaseAuthException(e.code).message;
+  } on FirebaseException catch(e){
+    throw CustomFirebaseException(e.code).message;
+  } on FormatException catch(e) {
+    throw CustomFormatException();
+  } on PlatformException catch(e) {
+    throw CustomPlatformException(e.code).message;
+  }catch(e){
+    throw 'Something went wrong. Please try again';
+  }
+}
+
 }

@@ -168,7 +168,13 @@ class _FormTestState extends State<FormTest> {
                           if (_formKey.currentState!.validate()) {
                             // _formKey.currentState!.save();
                             // print('First Name: $_firstName');
-                            controller.signUp();
+                            controller.signUp(
+                                email: _email,
+                                password: _password,
+                                firstName: _firstName,
+                                familyName: _familyName,
+                              context: context
+                            );
                           }
                         },
                       ),

@@ -1,9 +1,9 @@
-import 'package:final_reg/common/snackbar.dart';
-import 'package:final_reg/constants/utils/network_manager.dart';
-import 'package:final_reg/features/authentication/screens/email_verification_screen.dart';
-import 'package:final_reg/models/user_model.dart';
-import 'package:final_reg/services/firebase_services/authentication_repository.dart';
-import 'package:final_reg/services/firebase_services/user_repository.dart';
+import 'package:SL_Explorer/common/snackbar.dart';
+import 'package:SL_Explorer/constants/utils/network_manager.dart';
+import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
+import 'package:SL_Explorer/models/user_model.dart';
+import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
+import 'package:SL_Explorer/services/firebase_services/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,7 +55,12 @@ class SignUpController extends GetxController{
       final userRepository = Get.put(UserRepository());
       userRepository.saveUser(newUser);
       CommonLoaders.successSnackBar(title: 'Congratulations', duration: 4, message: 'Your account has been created');
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> EmailVerificationScreen()));
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context)=> EmailVerificationScreen(
+            email: email,
+          )
+      )
+      );
 
 
     }catch(e){

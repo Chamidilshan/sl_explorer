@@ -2,9 +2,14 @@
 import 'package:SL_Explorer/common/exceptions/firebase_auth_exceptions.dart';
 import 'package:SL_Explorer/common/exceptions/firebase_exceptions.dart';
 import 'package:SL_Explorer/common/exceptions/format_exceptions.dart';
+import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
+import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
+import 'package:SL_Explorer/features/authentication/screens/on_boarding_Screen.dart';
+import 'package:SL_Explorer/features/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../common/exceptions/platform_exceptions.dart';
 
@@ -12,14 +17,32 @@ class AuthenticationRepository extends GetxController{
 
   static AuthenticationRepository get instance => Get.find();
 
-  // final deviceStorage = GetStorage();
+  final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
 
 @override
 void onReady(){
-
+  screenRedirect();
 }
 
+screenRedirect() async {
+
+  final user = _auth.currentUser;
+
+  if(user!=null){
+    if(user.emailVerified){
+      Get.offAll(()=> const HomePage());
+    }else{
+      Get.offAll(()=>const EmailVerificationScreen());
+    }
+  }else{
+    deviceStorage.writeIfNull('IsFirstTime', true);
+
+    deviceStorage.read('IsFirstTime') != true
+        ? Get.offAll(() => const LoginScreen())
+        : Get.offAll(const OnBoardingScreen());
+  }
+}
 
 //login
 
@@ -59,5 +82,23 @@ Future<void> sendEmailVerification() async{
     throw 'Something went wrong. Please try again';
   }
 }
+
+
+  Future<void> logOut() async{
+    try{
+      await FirebaseAuth.instance.signOut();
+      Get.offAll(()=> const LoginScreen());
+    }on FirebaseAuthException catch(e){
+      throw CustomFirebaseAuthException(e.code).message;
+    } on FirebaseException catch(e){
+      throw CustomFirebaseException(e.code).message;
+    } on FormatException catch(e) {
+      throw CustomFormatException();
+    } on PlatformException catch(e) {
+      throw CustomPlatformException(e.code).message;
+    }catch(e){
+      throw 'Something went wrong. Please try again';
+    }
+  }
 
 }

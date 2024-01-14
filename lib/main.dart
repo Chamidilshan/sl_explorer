@@ -1,5 +1,7 @@
 import 'package:SL_Explorer/bindings/general_binding.dart';
 import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
+import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
+import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/firebase_options.dart';
 import 'package:SL_Explorer/formtest.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
       ),
-      home: FormTest(),
+      home: Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Color(0xFFFD8103),
+          ),
+        ),
+      ),
     );
   }
 }

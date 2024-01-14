@@ -4,7 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class SuccessVerificationScreen extends StatefulWidget {
-  const SuccessVerificationScreen({super.key});
+  final VoidCallback onPressed;
+  const SuccessVerificationScreen({
+    super.key,
+    required this.onPressed
+  });
 
   @override
   State<SuccessVerificationScreen> createState() => _SuccessVerificationScreenState();
@@ -35,6 +39,7 @@ class _SuccessVerificationScreenState extends State<SuccessVerificationScreen> {
               children: [
                 Text(
                   'Your Account Verified Successfully',
+                textAlign: TextAlign.center,
                   style: GoogleFonts.lato(
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF262626),
@@ -56,14 +61,12 @@ class _SuccessVerificationScreenState extends State<SuccessVerificationScreen> {
               ],
             ),
           ),
-          SizedBox(
-            height: 20.0,
-          ),
+          Spacer(),
           Padding(
             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
             child: InkWell(
               onTap: (){
-                // controller.checkEmailVerificationStatus();
+                widget.onPressed();
               },
               child: Container(
                 height: 48.0,
@@ -83,6 +86,9 @@ class _SuccessVerificationScreenState extends State<SuccessVerificationScreen> {
                 ),
               ),
             ),
+          ),
+          SizedBox(
+            height: 20.0,
           ),
         ],
       )

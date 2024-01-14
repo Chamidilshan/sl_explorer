@@ -48,6 +48,7 @@ dependencies:
   google_fonts: ^6.1.0
   flutter_svg: ^2.0.9
   lottie: ^3.0.0
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:

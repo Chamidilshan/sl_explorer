@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:SL_Explorer/common/snackbar.dart';
+import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
 import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +33,11 @@ setTimer(){
       final user = FirebaseAuth.instance.currentUser;
       if(user?.emailVerified ?? false){
         timer.cancel();
-        Get.off(()=> SuccessVerificationScreen()
+        Get.off(()=> SuccessVerificationScreen(
+          onPressed: () {
+            AuthenticationRepository.instance.screenRedirect();
+            },
+        )
         );
       }
     });
@@ -42,9 +47,14 @@ checkEmailVerificationStatus() async{
     final currentUser = FirebaseAuth.instance.currentUser;
     if(currentUser != null && currentUser.emailVerified){
       Get.off(
-              ()=> SuccessVerificationScreen()
+              ()=> SuccessVerificationScreen(
+                onPressed: () {
+                  AuthenticationRepository.instance.screenRedirect();
+                },
+              )
       );
     }
 }
+
 
 }

@@ -1,6 +1,8 @@
+import 'package:SL_Explorer/features/authentication/controllers/signin_controller.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_button.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_textfield.dart';
 import 'package:SL_Explorer/formtest.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +15,11 @@ class LoginPage extends StatelessWidget{
   final passwordController = TextEditingController();
 
   //sign user in method
-  void  signUserIn(){}
+ 
 
   @override
   Widget build(BuildContext context){
+    final controller = Get.put(SignInController());
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -84,7 +87,31 @@ class LoginPage extends StatelessWidget{
 
             //Log in button
               MyButton(
-                onTap: signUserIn,
+                onTap: () async{
+
+                  if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+                    showDialog(
+                        context: context,
+                        builder: (context){
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFFfd8103),
+                            ),
+                          );
+                        }
+                    );
+                    
+                    await controller.emailAndPasswordSignIn(
+                        email: emailController.text,
+                        password: passwordController.text
+                    );
+
+                   // Navigator.pop(context);
+
+                  }
+
+
+                },
               ),
 
               const SizedBox(height:25),
@@ -127,21 +154,21 @@ class LoginPage extends StatelessWidget{
                Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                       'Not a member?',
                     style: TextStyle(
                       fontFamily: 'ABeeZee',
                       color: Colors.grey,
                     ),
                   ),
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   GestureDetector(
                     onTap: (){
                       Get.to(
                           FormTest()
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Register now',
                       style: TextStyle(
                         fontFamily: 'ABeeZee',

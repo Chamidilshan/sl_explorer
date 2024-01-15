@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
       ),
-      home: Scaffold(
+      home: const Scaffold(
         body: Center(
           child: CircularProgressIndicator(
             color: Color(0xFFFD8103),

@@ -14,6 +14,7 @@ class _FormTestState extends State<FormTest> {
   String _email = '';
   String _password = '';
   String _confirmPassword = '';
+  bool isLoading = false;
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController familyNameController = TextEditingController();
@@ -164,17 +165,32 @@ class _FormTestState extends State<FormTest> {
                           'Sign Up'.toUpperCase(),
                           style: TextStyle(fontSize: 15.0),
                         ),
-                        onPressed: () {
+                        onPressed: () async{
                           if (_formKey.currentState!.validate()) {
-                            // _formKey.currentState!.save();
-                            // print('First Name: $_firstName');
-                            controller.signUp(
+                            
+                            _formKey.currentState!.save();
+                            print('First Name: $_firstName');
+
+                            showDialog(
+                                context: context,
+                                builder: (context){
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      color: Color(0xFFfd8103),
+                                    ),
+                                  );
+                                }
+                            );
+                            
+                            await controller.signUp(
                                 email: _email,
                                 password: _password,
                                 firstName: _firstName,
                                 familyName: _familyName,
                               context: context
                             );
+
+                            Navigator.pop(context);
                           }
                         },
                       ),
@@ -184,7 +200,7 @@ class _FormTestState extends State<FormTest> {
                     opacity: 0.6,
                     child: Text(
                       "or sign up with",
-                    ),
+                    ), 
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),

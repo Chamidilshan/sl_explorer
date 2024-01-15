@@ -1,6 +1,5 @@
 import 'package:SL_Explorer/bindings/general_binding.dart';
 import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
-import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
 import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/firebase_options.dart';
 import 'package:SL_Explorer/formtest.dart';

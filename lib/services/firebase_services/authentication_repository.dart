@@ -3,7 +3,7 @@ import 'package:SL_Explorer/common/exceptions/firebase_auth_exceptions.dart';
 import 'package:SL_Explorer/common/exceptions/firebase_exceptions.dart';
 import 'package:SL_Explorer/common/exceptions/format_exceptions.dart';
 import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
-import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
+import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:SL_Explorer/features/authentication/screens/on_boarding_Screen.dart';
 import 'package:SL_Explorer/features/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +39,7 @@ screenRedirect() async {
     deviceStorage.writeIfNull('IsFirstTime', true);
 
     deviceStorage.read('IsFirstTime') != true
-        ? Get.offAll(() => const LoginScreen())
+        ? Get.offAll(() =>  LoginPage())
         : Get.offAll(const OnBoardingScreen());
   }
 }
@@ -87,7 +87,7 @@ Future<void> sendEmailVerification() async{
   Future<void> logOut() async{
     try{
       await FirebaseAuth.instance.signOut();
-      Get.offAll(()=> const LoginScreen());
+      Get.offAll(()=>  LoginPage());
     }on FirebaseAuthException catch(e){
       throw CustomFirebaseAuthException(e.code).message;
     } on FirebaseException catch(e){

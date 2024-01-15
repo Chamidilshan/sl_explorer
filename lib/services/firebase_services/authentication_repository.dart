@@ -6,6 +6,7 @@ import 'package:SL_Explorer/features/authentication/screens/email_verification_s
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:SL_Explorer/features/authentication/screens/on_boarding_Screen.dart';
 import 'package:SL_Explorer/features/home/home_page.dart';
+import 'package:SL_Explorer/welcome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,7 @@ screenRedirect() async {
 
     deviceStorage.read('IsFirstTime') != true
         ? Get.offAll(() =>  LoginPage())
-        : Get.offAll(const OnBoardingScreen());
+        : Get.offAll(const WelcomePage());
   }
 }
 

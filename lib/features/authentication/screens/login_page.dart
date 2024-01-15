@@ -93,7 +93,7 @@ class LoginPage extends StatelessWidget{
                     showDialog(
                         context: context,
                         builder: (context){
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(
                               color: Color(0xFFfd8103),
                             ),
@@ -132,17 +132,37 @@ class LoginPage extends StatelessWidget{
 
 
             //google+ apple sign in buttons
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Apple Button
-                  SquareTitle(imagePath: 'assets/images/apple-logo.png'),
-                  SizedBox(width: 20),
+                  const SquareTitle(
+                      imagePath: 'assets/images/apple-logo.png',
+                  ),
+                  const SizedBox(width: 20),
                   //Google Button
-                  SquareTitle(imagePath: 'assets/images/search.png'),
-                  SizedBox(width: 20),
+                  GestureDetector(
+                      child: const SquareTitle(
+                          imagePath: 'assets/images/search.png'
+                      ),
+                    onTap: () async{
+                      showDialog(
+                          context: context,
+                          builder: (context){
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFfd8103),
+                              ),
+                            );
+                          }
+                      );
+                        await controller.googleSignIn();
+                        // Navigator.pop(context);
+                    },
+                  ),
+                  const SizedBox(width: 20),
                   //Facebook Button
-                  SquareTitle(imagePath: 'assets/images/facebook.png'),
+                  const SquareTitle(imagePath: 'assets/images/facebook.png'),
 
                 ],
               ),

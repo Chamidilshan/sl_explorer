@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:SL_Explorer/common/snackbar.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +24,7 @@ class NetworkManager extends GetxController{
 Future<void> _updateConnectionStatus(ConnectivityResult result) async{
   _connectionStatus.value = result;
   if(_connectionStatus.value == ConnectivityResult.none){
-    //No Internet Connection
+   CommonLoaders.warningSnackBar(title: 'No Internet', duration: 4, message: 'Please check your internet connection');
   }
 }
 

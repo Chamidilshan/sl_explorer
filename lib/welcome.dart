@@ -1,74 +1,46 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
+import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
+class WelcomePage extends StatefulWidget {
+  const WelcomePage({super.key});
+
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class _WelcomePageState extends State<WelcomePage> {
+  late PageController _pageController;
+  int currentImageIndex = 0;
 
-  // This widget is the root of your application.
+  List<String> imageUrlList = [
+    'https://images.unsplash.com/photo-1522310570852-0b661319089c?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1592905169881-eff95fe441ed?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1701544857566-dd1d044b9dea?q=80&w=1500&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1574611122955-5baa61496637?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1586963306223-51f28ba54028?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+  ];
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFFD8103)),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    Timer.periodic(Duration(seconds: 4), (Timer timer) {
+      changeBackgroundImage();
+    });
   }
-}
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-
-
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+  void changeBackgroundImage() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      currentImageIndex = (currentImageIndex + 1) % imageUrlList.length;
+      _pageController.animateToPage(
+        currentImageIndex,
+        duration: Duration(seconds: 1),
+        curve: Curves.easeInOut,
+      );
     });
   }
 
@@ -78,28 +50,76 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Stack(
           children: [
-            Image.asset('lib/Images/1.png',
-              fit: BoxFit.fitWidth,
-              width: 1000.0,
+            PageView.builder(
+              controller: _pageController,
+              itemCount: imageUrlList.length,
+              itemBuilder: (context, index) {
+                return Image.network(
+                  imageUrlList[index],
+                  fit: BoxFit.cover,
+                  height: double.infinity,
+                  width: double.infinity,
+                );
+              },
             ),
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end
-                ,
-                children: [
-                  const Text("Welcome",
-                    style: TextStyle(
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Text(
+                    'Plan your',
+                    style: GoogleFonts.montserrat(
                       color: Colors.white,
-                      fontSize: 50.0,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 80.0,top: 30.0),
-                    child: Image.asset("lib/Images/logo.png"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: Text(
+                    'Luxurious\nVacation',
+                    style: GoogleFonts.montserrat(
+                      color: Colors.white,
+                      fontSize: 40.0,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ],
-              ),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                  child: InkWell(
+                    onTap: () {
+                      Get.to(LoginPage());
+                    },
+                    child: Container(
+                      height: 48.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12.0),
+                        color: Color(0xFFFD8103),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Sign Up Free',
+                          style: GoogleFonts.inter(
+                              fontSize: 16.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+              ],
             ),
           ],
         ),

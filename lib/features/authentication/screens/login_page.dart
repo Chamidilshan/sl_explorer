@@ -5,6 +5,7 @@ import 'package:SL_Explorer/formtest.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/square_title.dart';
 class LoginPage extends StatelessWidget{
@@ -33,27 +34,27 @@ class LoginPage extends StatelessWidget{
 
             //welcome back. you've been missed!
 
-              const Padding(
+              Padding(
                 padding: EdgeInsets.fromLTRB(25.0,0.0,0.0,0.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Log Into\nYour Account ',
+                    'LOG INTO\nYOUR ACCOUNT',
                     textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontFamily: 'Abel',
-                      color: Colors.black,
+                    style: GoogleFonts.abel(
+                        fontWeight: FontWeight.w400,
+                        color: const Color(0xFF000000),
+                        fontSize: 36.0
                     ),
                   ),
                 ),
               ),
-            const SizedBox(height:10),
+            const SizedBox(height:40),
 
             //Email textfield
               MyTextField(
                   controller: emailController,
-                  hintText: 'Email',
+                  hintText: 'Email Address',
                   obscureText: false,
               ),
             //Password TextField
@@ -72,7 +73,7 @@ class LoginPage extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      'forgot password?',
+                      'Forgot Password?',
                       style: TextStyle(
                         color: Colors.black,
                         fontFamily: 'ABeeZee',
@@ -83,35 +84,38 @@ class LoginPage extends StatelessWidget{
               ),
 
 
-              const SizedBox(height:25),
+              const SizedBox(height:40.0),
 
             //Log in button
-              MyButton(
-                onTap: () async{
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                child: MyButton(
+                  btnText: 'LOG IN',
+                  onTap: () async{
+                    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+                      showDialog(
+                          context: context,
+                          builder: (context){
+                            return const Center(
+                              child: CircularProgressIndicator(
+                                color: Color(0xFFfd8103),
+                              ),
+                            );
+                          }
+                      );
 
-                  if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
-                    showDialog(
-                        context: context,
-                        builder: (context){
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              color: Color(0xFFfd8103),
-                            ),
-                          );
-                        }
-                    );
-                    
-                    await controller.emailAndPasswordSignIn(
-                        email: emailController.text,
-                        password: passwordController.text
-                    );
+                      await controller.emailAndPasswordSignIn(
+                          email: emailController.text,
+                          password: passwordController.text
+                      );
 
-                   // Navigator.pop(context);
+                     // Navigator.pop(context);
 
-                  }
+                    }
 
 
-                },
+                  },
+                ),
               ),
 
               const SizedBox(height:25),

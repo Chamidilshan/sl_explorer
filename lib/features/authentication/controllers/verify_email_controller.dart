@@ -1,7 +1,5 @@
 import 'dart:async';
-
 import 'package:SL_Explorer/common/snackbar.dart';
-import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
 import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';

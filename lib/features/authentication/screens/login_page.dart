@@ -1,7 +1,12 @@
+import 'package:SL_Explorer/features/authentication/controllers/signin_controller.dart';
+import 'package:SL_Explorer/features/authentication/widgets/my_button.dart';
+import 'package:SL_Explorer/features/authentication/widgets/my_textfield.dart';
+import 'package:SL_Explorer/formtest.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:tourisma_pp/components/my_button.dart';
-import 'package:tourisma_pp/components/my_textfield.dart';
-import 'package:tourisma_pp/components/square_title.dart';
+import 'package:get/get.dart';
+
+import '../widgets/square_title.dart';
 class LoginPage extends StatelessWidget{
   LoginPage({super.key});
 
@@ -10,12 +15,14 @@ class LoginPage extends StatelessWidget{
   final passwordController = TextEditingController();
 
   //sign user in method
-  void  signUserIn(){}
+ 
 
   @override
   Widget build(BuildContext context){
+    final controller = Get.put(SignInController());
     return Scaffold(
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
           child: Column(
@@ -80,7 +87,31 @@ class LoginPage extends StatelessWidget{
 
             //Log in button
               MyButton(
-                onTap: signUserIn,
+                onTap: () async{
+
+                  if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
+                    showDialog(
+                        context: context,
+                        builder: (context){
+                          return Center(
+                            child: CircularProgressIndicator(
+                              color: Color(0xFFfd8103),
+                            ),
+                          );
+                        }
+                    );
+                    
+                    await controller.emailAndPasswordSignIn(
+                        email: emailController.text,
+                        password: passwordController.text
+                    );
+
+                   // Navigator.pop(context);
+
+                  }
+
+
+                },
               ),
 
               const SizedBox(height:25),
@@ -105,13 +136,13 @@ class LoginPage extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //Apple Button
-                  SquareTitle(imagePath: 'lib/Images/apple-logo.png'),
+                  SquareTitle(imagePath: 'assets/images/apple-logo.png'),
                   SizedBox(width: 20),
                   //Google Button
-                  SquareTitle(imagePath: 'lib/Images/search.png'),
+                  SquareTitle(imagePath: 'assets/images/search.png'),
                   SizedBox(width: 20),
                   //Facebook Button
-                  SquareTitle(imagePath: 'lib/Images/facebook.png'),
+                  SquareTitle(imagePath: 'assets/images/facebook.png'),
 
                 ],
               ),
@@ -120,26 +151,31 @@ class LoginPage extends StatelessWidget{
 
 
             //not a member? register now
-              const Row(
+               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                       'Not a member?',
                     style: TextStyle(
                       fontFamily: 'ABeeZee',
                       color: Colors.grey,
                     ),
                   ),
-                  SizedBox(width: 5),
-                  Text(
-                    'Register now',
-                    style: TextStyle(
-                      fontFamily: 'ABeeZee',
-                      color: Color(0xFFfd8103),
-                      fontWeight: FontWeight.bold,
-
-
-                    )
+                  const SizedBox(width: 5),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(
+                          FormTest()
+                      );
+                    },
+                    child: const Text(
+                      'Register now',
+                      style: TextStyle(
+                        fontFamily: 'ABeeZee',
+                        color: Color(0xFFfd8103),
+                        fontWeight: FontWeight.bold,
+                      )
+                    ),
                   ),
                 ],
               )

@@ -1,4 +1,4 @@
-import 'package:SL_Explorer/features/authentication/screens/login_screen.dart';
+import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -26,7 +26,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   onPressed: (){
                     final storage = GetStorage();
                     storage.write('IsFirstTime', true);
-                    Get.offAll(()=> const LoginScreen());
+                    Get.offAll(()=>  LoginPage());
                   },
                   child: Text(
                     'Click Me To Next Screen'

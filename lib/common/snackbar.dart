@@ -41,4 +41,23 @@ class CommonLoaders{
     );
   }
 
+  static warningSnackBar({
+    required title,
+    message = '',
+    required duration
+  }){
+    Get.snackbar(
+        title,
+        message,
+        isDismissible: true,
+        shouldIconPulse: true,
+        colorText: Colors.white,
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+        duration: Duration(seconds: duration),
+        margin: EdgeInsets.all(10),
+        icon: Icon(Icons.check, color: Colors.white,)
+    );
+  }
+
 }

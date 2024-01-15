@@ -41,7 +41,7 @@ class SignUpController extends GetxController{
      final userCredentials = await AuthenticationRepository.instance.registerWithEmailPassword(email, password);
       
       final newUser = UserModel(
-          id: userCredentials.user!.uid,
+          id: userCredentials!.user!.uid,
           firstName: firstName,
           lastName: '',
           familyName: familyName,

@@ -1,5 +1,7 @@
+import 'package:SL_Explorer/features/authentication/controllers/signin_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_social_button/flutter_social_button.dart';
+import 'package:get/get.dart';
 
 import 'services/firebase_services/google_signin_service.dart';
 
@@ -118,6 +120,7 @@ class CustomWidgets {
 class SocialButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignInController());
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -127,8 +130,19 @@ class SocialButton extends StatelessWidget {
           buttonType: ButtonType.apple,
         ),
         FlutterSocialButton(
-          onTap: () {
-            signInWithGoogle();
+          onTap: () async{
+            showDialog(
+                context: context,
+                builder: (context){
+                  return const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(0xFFfd8103),
+                    ),
+                  );
+                }
+            );
+            await controller.googleSignIn();
+            // signInWithGoogle();
           },
           mini: true,
           buttonType: ButtonType.google,

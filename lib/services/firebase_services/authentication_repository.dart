@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../common/exceptions/platform_exceptions.dart';
 
@@ -45,7 +46,7 @@ screenRedirect() async {
 }
 
 //login
-Future<UserCredential> loginWithEmailPassword(String email, String password) async{
+Future<UserCredential?> loginWithEmailPassword(String email, String password) async{
  try{
    return await _auth.signInWithEmailAndPassword(email: email, password: password);
  } on FirebaseAuthException catch(e){
@@ -65,7 +66,7 @@ Future<UserCredential> loginWithEmailPassword(String email, String password) asy
 //signUp
 
 
-Future<UserCredential> registerWithEmailPassword(String email, String password) async{
+Future<UserCredential?> registerWithEmailPassword(String email, String password) async{
    try{
      return await _auth.createUserWithEmailAndPassword(email: email, password: password);
    } on FirebaseAuthException catch(e){
@@ -80,6 +81,33 @@ Future<UserCredential> registerWithEmailPassword(String email, String password) 
      throw 'Something went wrong. Please try again';
    }
 }
+
+  Future<UserCredential?> signInWithGoogle() async{
+    try{
+      final GoogleSignInAccount? userAccount = await GoogleSignIn().signIn();
+
+      final GoogleSignInAuthentication? googleAuth = await userAccount?.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken
+      );
+
+      return await _auth.signInWithCredential(credential);
+
+    } on FirebaseAuthException catch(e){
+      throw CustomFirebaseAuthException(e.code).message;
+    } on FirebaseException catch(e){
+      throw CustomFirebaseException(e.code).message;
+    } on FormatException catch(e) {
+      throw CustomFormatException();
+    } on PlatformException catch(e) {
+      throw CustomPlatformException(e.code).message;
+    }catch(e){
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
 
 Future<void> sendEmailVerification() async{
   try{
@@ -100,6 +128,7 @@ Future<void> sendEmailVerification() async{
 
   Future<void> logOut() async{
     try{
+      await GoogleSignIn().signOut();
       await FirebaseAuth.instance.signOut();
       Get.offAll(()=>  LoginPage());
     }on FirebaseAuthException catch(e){

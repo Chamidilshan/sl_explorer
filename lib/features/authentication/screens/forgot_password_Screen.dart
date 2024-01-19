@@ -1,6 +1,8 @@
+import 'package:SL_Explorer/features/authentication/controllers/forgot_password_controller.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_button.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -11,7 +13,7 @@ class ForgotPasswordScreen extends StatelessWidget {
 
     final height = MediaQuery.of(context).size.height;
     final emailController = TextEditingController();
-
+    final controller = Get.put(ForgotPasswordController());
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -66,6 +68,8 @@ class ForgotPasswordScreen extends StatelessWidget {
                       );
                     }
                 );
+
+                controller.sendPasswordResetEmail(emailController.text.toString());
 
                 // Navigator.pop(context);
               };

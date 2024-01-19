@@ -1,4 +1,5 @@
 import 'package:SL_Explorer/features/authentication/controllers/signin_controller.dart';
+import 'package:SL_Explorer/features/authentication/screens/forgot_password_Screen.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_button.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_textfield.dart';
 import 'package:SL_Explorer/formtest.dart';
@@ -67,16 +68,23 @@ class LoginPage extends StatelessWidget{
               const SizedBox(height:20),
 
             //forgot password?
-              const Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: 25.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Forgot Password?',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: 'ABeeZee',
+                    GestureDetector(
+                      onTap: (){
+                        Get.to(
+                            ForgotPasswordScreen()
+                        );
+                      },
+                      child: Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'ABeeZee',
+                        ),
                       ),
                     ),
                   ],

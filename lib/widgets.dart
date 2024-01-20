@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'services/firebase_services/google_signin_service.dart';
 
 class CustomWidgets {
+
   static Widget buildTextField({
     required TextEditingController controller,
     required String hintText,
@@ -81,19 +82,24 @@ class CustomWidgets {
     required Function(String) onChanged,
     required Function(String?) onSaved,
     required String? Function(String?) validator,
-  }) {
-    return buildTextField(
-      controller: controller,
-      hintText: 'Password',
-      onChanged: onChanged,
-      onSaved: onSaved,
-      validator: validator,
-      obscureText: true,
-      suffixIcon: IconButton(
-        icon: Icon(Icons.visibility_off),
-        onPressed: () {},
-      ),
-    );
+    bool obscureText=true,
+    required VoidCallback toggleVisibility,
+  }){
+
+
+
+  return buildTextField(
+    controller: controller,
+    hintText: 'Password',
+    onChanged: onChanged,
+    onSaved: onSaved,
+    validator: validator,
+    obscureText:obscureText,
+    suffixIcon: IconButton(
+      icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+      onPressed: toggleVisibility,
+    ),
+  );
   }
 
   static Widget buildConfirmPasswordField({
@@ -102,17 +108,21 @@ class CustomWidgets {
     required Function(String) onChanged,
     required Function(String?) onSaved,
     required String? Function(String?) validator,
+    required bool obscureText,
+    required VoidCallback toggleVisibility,
   }) {
+
     return buildTextField(
       controller: controller,
       hintText: 'Confirm Password',
       onChanged: onChanged,
       onSaved: onSaved,
       validator: validator,
-      obscureText: true,
+      obscureText: obscureText,
       suffixIcon: IconButton(
-        icon: Icon(Icons.visibility_off),
-        onPressed: () {},
+        icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+        onPressed: toggleVisibility,
+
       ),
     );
   }

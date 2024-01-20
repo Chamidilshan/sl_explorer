@@ -11,13 +11,17 @@ class FormTest extends StatefulWidget {
   _FormTestState createState() => _FormTestState();
 }
 
-class _FormTestState extends State<FormTest> {
+  class _FormTestState extends State<FormTest> {
   String _firstName = '';
   String _familyName = '';
   String _email = '';
   String _password = '';
   String _confirmPassword = '';
   bool isLoading = false;
+  bool obscureText = true;
+  bool obscureTextPassword = true;
+  bool obscureTextConfirmPassword = true;
+
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController familyNameController = TextEditingController();
@@ -26,6 +30,8 @@ class _FormTestState extends State<FormTest> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -140,6 +146,12 @@ class _FormTestState extends State<FormTest> {
                       }
                       return null;
                     },
+                    obscureText: obscureTextPassword,
+                    toggleVisibility: () {
+                      setState(() {
+                        obscureTextPassword = !obscureTextPassword;
+                      });
+                    },
                   ),
                 ),
                 Padding(
@@ -162,6 +174,12 @@ class _FormTestState extends State<FormTest> {
                         return 'Passwords do not match';
                       }
                       return null;
+                    },
+                    obscureText: obscureTextConfirmPassword,
+                    toggleVisibility: () {
+                      setState(() {
+                        obscureTextConfirmPassword = !obscureTextConfirmPassword;
+                      });
                     },
                   ),
                 ),

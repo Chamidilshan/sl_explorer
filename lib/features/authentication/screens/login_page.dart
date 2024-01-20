@@ -7,8 +7,57 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../widgets/square_title.dart';
+import 'package:flutter/material.dart';
+
+class MyTextField extends StatefulWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final bool obscureText;
+  final FormFieldValidator<String>? validator;  // Add a validator function
+
+  MyTextField({
+    required this.controller,
+    required this.hintText,
+    required this.obscureText,
+    this.validator,  // Add validator as an optional parameter
+  });
+
+  @override
+  _MyTextFieldState createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  bool _obscureText = true;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: TextFormField(
+        controller: widget.controller,
+        obscureText: widget.obscureText && _obscureText,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          suffixIcon: widget.obscureText
+              ? IconButton(
+            icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+          )
+              : null,
+        ),
+        validator: widget.validator,  // Set the validator function
+      ),
+    );
+  }
+}
+
+
 class LoginPage extends StatelessWidget{
   LoginPage({super.key});
 
@@ -16,8 +65,7 @@ class LoginPage extends StatelessWidget{
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
-  //sign user in method
- 
+
 
   @override
   Widget build(BuildContext context){
@@ -57,12 +105,25 @@ class LoginPage extends StatelessWidget{
                   controller: emailController,
                   hintText: 'Email Address',
                   obscureText: false,
+
+                validator: (email) {
+                  if (email!.isEmpty) {
+                    return 'required';
+                  } else if (!RegExp(
+                      r'^[\w-]+(\.[\w-]+)*@[a-zA-Z\d-]+(\.[a-zA-Z\d-]+)*(\.[a-zA-Z]{2,})$')
+                      .hasMatch(email)) {
+                    return 'Enter a valid email address';
+                  }
+                  return null;
+                },
+
               ),
             //Password TextField
               MyTextField(
                 controller: passwordController,
                 hintText: 'Password',
                 obscureText: true,
+
               ),
 
               const SizedBox(height:20),

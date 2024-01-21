@@ -31,7 +31,6 @@ class FormTest extends StatefulWidget {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  bool _obscureConfirmPassword = true;
 
   @override
   Widget build(BuildContext context) {

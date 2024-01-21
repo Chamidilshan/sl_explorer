@@ -49,6 +49,7 @@ dependencies:
   flutter_svg: ^2.0.9
   lottie: ^3.0.0
   get_storage: ^2.1.1
+  csc_picker: ^0.2.7
 
 dev_dependencies:
   flutter_test:

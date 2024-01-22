@@ -48,7 +48,7 @@ class _QCountryState extends State<QCountry> {
               Padding(
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: Text(
-                  'Where are you from ?',
+                  'Where are \nyou from ?',
                   style: GoogleFonts.abel(
                     fontWeight: FontWeight.w400,
                     color: const Color(0xFF000000),

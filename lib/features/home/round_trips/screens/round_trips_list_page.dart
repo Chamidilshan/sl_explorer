@@ -50,6 +50,7 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
               collapsedBackgroundColor: Colors.white,
               trailing: Icon(Icons.keyboard_double_arrow_right_rounded),
               collapsedIconColor: logoColor,
+              iconColor: Colors.black,
               title: SizedBox(
                 height: 80.0,
                   child: Row(

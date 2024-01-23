@@ -17,30 +17,29 @@ class _QCountryState extends State<QCountry> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 30.0, top: 50.0),
-                    child: _backbutton(),
-                  ),
-                  Padding(
-                    padding:
-                    EdgeInsets.only(left: 260.0, right: 30.0, top: 50.0),
-                    child: GestureDetector(
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 50.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _backbutton(),
+                    GestureDetector(
                       onTap: () {
                         Navigator.pop(context);
                       },
                       child: const Text(
                         "SKIP",
-                        style: TextStyle(fontSize: 20.0),
+                        style:  TextStyle(fontSize: 14.0),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 60.0,
@@ -63,7 +62,7 @@ class _QCountryState extends State<QCountry> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 30.0, vertical: 20.0),
                 child: Card(
-                  color: const Color(0xFFfd8103),
+                  // color: const Color(0xFFfd8103),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.0),
                   ),
@@ -153,8 +152,8 @@ class _backbutton extends StatelessWidget {
           },
           child: Ink.image(
             image: AssetImage('assets/images/images.png'),
-            height: 40.0,
-            width: 40.0,
+            height: 32.0,
+            width: 32.0,
             fit: BoxFit.cover,
           ),
         ),

@@ -26,6 +26,7 @@ class _QGnderState extends State<QGnder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,22 +73,22 @@ class _QGnderState extends State<QGnder> {
               ],
             ),
             const SizedBox(height: 150.0,),
-            Common(
-              numberOfPages: numberOfPages,
-              currentPage: currentPage,
-              onPageChanged: (index) {
-                setState(() {
-                  currentPage = index;
-                });
-                if (currentPage == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const QCountry()),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 20.0,),
+            // Common(
+            //   numberOfPages: numberOfPages,
+            //   currentPage: currentPage,
+            //   onPageChanged: (index) {
+            //     setState(() {
+            //       currentPage = index;
+            //     });
+            //     if (currentPage == 1) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => const QCountry()),
+            //       );
+            //     }
+            //   },
+            // ),
+            // const SizedBox(height: 20.0,),
           ],
         ),
       ),
@@ -113,12 +114,12 @@ class GenderImage extends StatelessWidget {
       height: 200.0,
       width: 150.0,
       child: Material(
-        // color: const Color(0xFFfd8103),
+        color:  Colors.white,
         elevation: 8,
         borderRadius: BorderRadius.circular(28),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
               onTap: onTapCallback,
@@ -132,12 +133,14 @@ class GenderImage extends StatelessWidget {
             //   width: 150.0,
             //   fit: BoxFit.cover,
             // ),
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 20.0),
             Text(
               label,
               style: const TextStyle(fontSize: 20, color: Colors.black),
             ),
-            const SizedBox(height: 8.0),
+            SizedBox(
+              height: 5.0,
+            )
           ],
         ),
       ),

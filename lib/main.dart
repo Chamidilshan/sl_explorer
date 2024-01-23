@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-
 import 'services/firebase_services/authentication_repository.dart';
 
 Future<void> main() async{
@@ -30,12 +29,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
       ),
-      home: Scaffold(
-        body: Center(
+      home: const Scaffold(
+        body:
+        Center(
           child: CircularProgressIndicator(
             color: Color(0xFFFD8103),
           ),
         ),
+
       ),
     );
   }

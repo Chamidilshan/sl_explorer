@@ -26,17 +26,19 @@ class _QGnderState extends State<QGnder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(right: 30.0, top: 60.0),
+                  padding: EdgeInsets.only(right: 30.0, top: 20.0),
                   child: Text(
                     "SKIP",
-                    style: TextStyle(fontSize: 20.0),
+                    style: TextStyle(fontSize: 14.0),
                   ),
                 ),
               ],
@@ -45,7 +47,7 @@ class _QGnderState extends State<QGnder> {
             Padding(
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: Text(
-                'What is your gender ?',
+                'What is \nyour gender ?',
                 style: GoogleFonts.abel(
                   fontWeight: FontWeight.w400,
                   color: const Color(0xFF000000),
@@ -58,35 +60,35 @@ class _QGnderState extends State<QGnder> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GenderImage(
-                  imagePath: 'assets/images/man.png',
+                  imagePath: 'assets/images/male.png',
                   label: 'Male',
                   onTapCallback: () => handleImageTap('Male'),
                 ),
                 const SizedBox(width: 16.0),
                 GenderImage(
-                  imagePath: 'assets/images/female.png',
+                  imagePath: 'assets/images/frmale.png',
                   label: 'Female',
                   onTapCallback: () => handleImageTap('Female'),
                 ),
               ],
             ),
             const SizedBox(height: 150.0,),
-            Common(
-              numberOfPages: numberOfPages,
-              currentPage: currentPage,
-              onPageChanged: (index) {
-                setState(() {
-                  currentPage = index;
-                });
-                if (currentPage == 1) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const QCountry()),
-                  );
-                }
-              },
-            ),
-            const SizedBox(height: 20.0,),
+            // Common(
+            //   numberOfPages: numberOfPages,
+            //   currentPage: currentPage,
+            //   onPageChanged: (index) {
+            //     setState(() {
+            //       currentPage = index;
+            //     });
+            //     if (currentPage == 1) {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(builder: (context) => const QCountry()),
+            //       );
+            //     }
+            //   },
+            // ),
+            // const SizedBox(height: 20.0,),
           ],
         ),
       ),
@@ -108,32 +110,38 @@ class GenderImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      height: 200.0,
+      width: 150.0,
       child: Material(
-        color: const Color(0xFFfd8103),
+        color:  Colors.white,
         elevation: 8,
         borderRadius: BorderRadius.circular(28),
         clipBehavior: Clip.antiAliasWithSaveLayer,
-        child: InkWell(
-          splashColor: Colors.black12,
-          onTap: onTapCallback,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Ink.image(
-                image: AssetImage(imagePath),
-                height: 150.0,
-                width: 150.0,
-                fit: BoxFit.cover,
-              ),
-              const SizedBox(height: 8.0),
-              Text(
-                label,
-                style: const TextStyle(fontSize: 20, color: Colors.black),
-              ),
-              const SizedBox(height: 8.0),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            InkWell(
+              onTap: onTapCallback,
+                child: Image.asset(
+                    imagePath
+                )
+            ),
+            // Ink.image(
+            //   image: AssetImage(imagePath),
+            //   height: 150.0,
+            //   width: 150.0,
+            //   fit: BoxFit.cover,
+            // ),
+            const SizedBox(height: 20.0),
+            Text(
+              label,
+              style: const TextStyle(fontSize: 20, color: Colors.black),
+            ),
+            SizedBox(
+              height: 5.0,
+            )
+          ],
         ),
       ),
     );

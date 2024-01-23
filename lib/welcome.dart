@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:SL_Explorer/features/authentication/screens/extra_questions_page.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
+import 'package:SL_Explorer/question_gender.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -95,7 +97,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: InkWell(
                     onTap: () {
-                      Get.to(LoginPage());
+                      // Get.to(LoginPage());
+                      Get.to(ExtraQuestionsPage());
                     },
                     child: Container(
                       height: 48.0,

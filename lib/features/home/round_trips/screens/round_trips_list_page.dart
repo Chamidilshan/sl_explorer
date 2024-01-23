@@ -1,5 +1,7 @@
 import 'package:SL_Explorer/constants/utils/styles.dart';
+import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RoundTripListPage extends StatefulWidget {
@@ -48,9 +50,13 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
             child: ExpansionTile(
               backgroundColor: Colors.white,
               collapsedBackgroundColor: Colors.white,
-              trailing: Icon(Icons.keyboard_double_arrow_right_rounded),
+              trailing: IconButton(
+                  icon: Icon(Icons.keyboard_double_arrow_right_rounded),
+                onPressed: (){
+                    Get.to(LoginPage());
+                },
+              ),
               collapsedIconColor: logoColor,
-              iconColor: Colors.black,
               title: SizedBox(
                 height: 80.0,
                   child: Row(

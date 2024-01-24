@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:SL_Explorer/features/home/bottom_navigation.dart';
 
 import '../../common/exceptions/platform_exceptions.dart';
 
@@ -33,7 +34,7 @@ screenRedirect() async {
 
   if(user!=null){
     if(user.emailVerified){
-      Get.offAll(()=> const HomePage());
+      Get.offAll(()=> const bottomNavigationBar());
     }else{
       Get.offAll(()=>const EmailVerificationScreen());
     }

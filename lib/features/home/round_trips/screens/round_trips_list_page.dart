@@ -1,5 +1,6 @@
 import 'package:SL_Explorer/constants/utils/styles.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
+import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,7 +54,9 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
               trailing: IconButton(
                   icon: Icon(Icons.keyboard_double_arrow_right_rounded),
                 onPressed: (){
-                    Get.to(LoginPage());
+                    Get.to(
+                        RoundTripsDetailsPage()
+                    );
                 },
               ),
               collapsedIconColor: logoColor,

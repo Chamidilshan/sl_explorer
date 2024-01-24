@@ -193,7 +193,6 @@ class FormTest extends StatefulWidget {
                       if (_formKey.currentState!.validate()) {
 
                         _formKey.currentState!.save();
-                        print('First Name: $_firstName');
 
                         showDialog(
                             context: context,

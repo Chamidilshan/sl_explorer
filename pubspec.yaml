@@ -51,9 +51,10 @@ dependencies:
   get_storage: ^2.1.1
   csc_picker: ^0.2.7
   smooth_page_indicator: ^1.1.0
+  carousel_slider: ^4.2.1
+  dropdown_button2: ^2.3.9
   anim_search_bar: ^2.0.3
   favorite_button: ^0.0.4
-
 
 dev_dependencies:
   flutter_test:

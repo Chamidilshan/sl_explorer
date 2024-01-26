@@ -18,7 +18,7 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
     const order(),
     const gallery(),
     const services(),
-    const profile(),
+    const ProfilePage(),
   ];
   int currentIndex=0;
   void onTap(int index){

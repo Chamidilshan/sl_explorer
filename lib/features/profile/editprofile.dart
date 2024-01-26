@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:csc_picker/csc_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,8 +15,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
 
-
-
+  final GlobalKey<FormState> updateKey = GlobalKey();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -61,10 +61,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     //final _height = MediaQuery.of(context).size.height;
     final deviceStorage = GetStorage();
 
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "My Profile",
+          "Edit Profile",
           style: GoogleFonts.merriweather(
             color: Colors.black,
           ),
@@ -79,7 +80,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
         centerTitle: true,
       ),
-      body:  Form(
+      body:  _userData != null ?
+      Form(
+        key: updateKey,
         child: ListView(
           children: [
             Padding(
@@ -94,11 +97,37 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                   Container(
-                      child: Icon(Icons.edit)
+                    height: _width/2,
+                    width: _width/2,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
+                          ),
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ),
+                            ),
+                            onPressed: (){},//editImage
+                            child: const Icon(
+                                Icons.edit,
+                              size: 35,
+                            )
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
+
             Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -120,7 +149,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Name",
+                        "First Name",
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           color: Colors.grey,
@@ -128,9 +157,57 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ),
                       TextFormField(
-                        //initialValue: AutofillHints.familyName,
+                        initialValue: "${_userData!['firstName']}",
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 0,
+                            horizontal: 0,
+                          ),
+                          labelText: "Enter First Name"
+                        ),
+                        style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+            ),
+
+            Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black,
+                    width: 1.0,
+                    style: BorderStyle.solid,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey[100],
+                ),
+                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
+                //height: 60,
+                //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20.0,5.0,20.0,0.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Last Name",
+                        style: GoogleFonts.poppins(
+                          fontSize: 13,
+                          color: Colors.grey,
+                          height: 1,
+                        ),
+                      ),
+                      TextFormField(
+                        initialValue: "${_userData!['lastName']}",
                         decoration: InputDecoration(
-                          hintText: "dsdsdsd",
+                          //hintText: "dsdsdsd",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 0,
@@ -147,6 +224,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 )
             ),
+
             Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -168,7 +246,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Name",
+                        "Family Name",
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           color: Colors.grey,
@@ -176,9 +254,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ),
                       TextFormField(
-                        //initialValue: AutofillHints.familyName,
-                        decoration: InputDecoration(
-                          hintText: "dsdsdsd",
+                        initialValue: "${_userData!['familyName']}",
+                        decoration: const InputDecoration(
+                          //hintText: "dsdsdsd",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 0,
@@ -195,6 +273,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 )
             ),
+
             Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -216,7 +295,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Name",
+                        "E-mail Address",
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           color: Colors.grey,
@@ -224,9 +303,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ),
                       TextFormField(
-                        //initialValue: AutofillHints.familyName,
-                        decoration: InputDecoration(
-                          hintText: "dsdsdsd",
+                        validator: (value){
+                          if (value==null || value.isEmpty) {
+                            return "Please enter a valid E-mail address";
+                          }else {
+                            return null;
+                          }
+                        },
+                        initialValue: "${_userData!['email']}",
+                        decoration: const InputDecoration(
+                          //hintText: "dsdsdsd",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 0,
@@ -243,6 +329,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 )
             ),
+
             Container(
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -264,7 +351,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Name",
+                        "Mobile Number",
                         style: GoogleFonts.poppins(
                           fontSize: 13,
                           color: Colors.grey,
@@ -272,9 +359,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ),
                       ),
                       TextFormField(
-                        //initialValue: AutofillHints.familyName,
-                        decoration: InputDecoration(
-                          hintText: "dsdsdsd",
+                        validator: (value){},
+                        initialValue: "${_userData!['phoneNumber']}",
+                        decoration: const InputDecoration(
+                          //hintText: "dsdsdsd",
                           border: InputBorder.none,
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 0,
@@ -291,55 +379,109 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 )
             ),
+
+
             Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[100],
-                ),
                 margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
 
                 //height: 60,
                 //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20.0,5.0,20.0,0.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Name",
-                        style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          color: Colors.grey,
-                          height: 1,
-                        ),
-                      ),
-                      TextFormField(
-                        //initialValue: AutofillHints.familyName,
-                        decoration: InputDecoration(
-                          hintText: "dsdsdsd",
-                          border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 0,
-                            horizontal: 0,
-                          ),
-                        ),
-                        style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
+                child: CSCPicker(
+                  countryFilter: const [
+                    CscCountry.Germany,
+                    CscCountry.Sri_Lanka,
+                    CscCountry.United_Kingdom
+                  ],
+                  selectedItemStyle: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                   ),
+                  dropdownDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.grey[100],
+                    border: Border.all(
+                      color: Colors.black,
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    )
+                  ),
+                  disabledDropdownDecoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.grey[100],
+                    border: Border.all(
+                      color: Colors.black,
+                      style: BorderStyle.solid,
+                      width: 1.0,
+                    )
+                  ),
+                  layout: Layout.vertical,
+                  onCountryChanged: (country) {
+                    country = country;
+                  }, //currentCountry
+                  onStateChanged: (state) {},
+                  onCityChanged: (city) {},
+                  countryDropdownLabel: 'Select Country',
+                  stateDropdownLabel: 'Select State',
+                  cityDropdownLabel: 'Select City',
+                  dropdownDialogRadius: 20.0,
+                  searchBarRadius: 30.0,
                 )
             ),
 
+
+
+
+
+            Container(
+              margin: EdgeInsets.fromLTRB(_width/5, 50,_width/5,20),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                color: Color.fromRGBO(253, 129, 3, 1.0),
+              ),
+              child: TextButton(
+                style: TextButton.styleFrom(
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                ),
+                onPressed: (){
+                  if(updateKey.currentState!.validate()){
+                    print("Form Submitted");
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+
+                  children: [
+                    const Icon(
+                      Icons.save,
+                      size: 24,
+                      color: Colors.white,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
+                      child: Text(
+                        "Update",
+                        style: GoogleFonts.poppins(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+
+          ],
+        ),
+      ): const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
           ],
         ),
       ),

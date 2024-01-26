@@ -79,12 +79,12 @@ class _ProfilePageState extends State<ProfilePage>{
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "My Profile",
+          "Edit Profile",
           style: GoogleFonts.merriweather(
           ),
         ),
         backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
-        foregroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
+        foregroundColor: const Color.fromRGBO(0, 0, 0, 1.0),
         shadowColor: const Color.fromRGBO(0, 0, 0, 1.0),
         surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
         titleTextStyle: const TextStyle(

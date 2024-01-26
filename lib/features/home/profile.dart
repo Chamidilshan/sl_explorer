@@ -1,4 +1,6 @@
+import 'package:SL_Explorer/features/profile/settings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatefulWidget{
@@ -16,12 +18,17 @@ class _ProfilePageState extends State<ProfilePage>{
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: Text(
+          "My Profile",
+          style: GoogleFonts.merriweather(
+          ),
+        ),
         backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
         foregroundColor: const Color.fromRGBO(255, 255, 255, 1.0),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.w900,
-          fontSize: 28.0,
+          fontSize: 25.0,
+          letterSpacing: 1.0,
         ),
         centerTitle: true,
       ),
@@ -257,7 +264,9 @@ class _ProfilePageState extends State<ProfilePage>{
                         borderRadius: BorderRadius.zero,
                       ),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      Get.to(SettingsPage());
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,

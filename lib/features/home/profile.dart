@@ -1,3 +1,4 @@
+import 'package:SL_Explorer/features/profile/changePassword.dart';
 import 'package:SL_Explorer/features/profile/editprofile.dart';
 import 'package:SL_Explorer/features/profile/forhelp.dart';
 import 'package:SL_Explorer/features/profile/settings.dart';
@@ -79,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage>{
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Edit Profile",
+          "Profile",
           style: GoogleFonts.merriweather(
           ),
         ),
@@ -154,12 +155,14 @@ class _ProfilePageState extends State<ProfilePage>{
 
           Center(
             child: Container(
-              height: _height - 264.0,
+              height: _height - 265.0,
               //color: Colors.red,
-              padding: EdgeInsets.fromLTRB(_width/15,40,_width/15,0),
+              padding: EdgeInsets.fromLTRB(_width/15,0,_width/15,0),
               child: ListView(
+
                 children: [
                   Container(
+                    padding: EdgeInsets.fromLTRB(0,_height/12,0,0),
                     margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
                       style: TextButton.styleFrom(
@@ -210,7 +213,9 @@ class _ProfilePageState extends State<ProfilePage>{
                           borderRadius: BorderRadius.zero,
                         ),
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        Get.to(() => const ChangePasswordPage());
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,

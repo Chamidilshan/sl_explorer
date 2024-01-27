@@ -1,3 +1,4 @@
+import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -84,14 +85,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 //color: Colors.red,
                 padding: EdgeInsets.fromLTRB(_width/15,0,_width/15,0),
                 //padding: EdgeInsets.all(_width/15),
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    //MyApp.changeMode();
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +138,32 @@ class _SettingsPageState extends State<SettingsPage> {
                       borderRadius: BorderRadius.zero,
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context){
+                        return ListView(
+                          children: const [
+                            Icon(
+                              Icons.horizontal_rule,
+                              size: 50,
+                              weight: 400,
+                              color: Colors.black,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(20.0),
+                              child: SizedBox(
+                                width: 600,
+                                child: Text(
+                                  "dsdsdhgsdhsg\nffffee\neee\nererew\nrew\nrrw\nrwtw\n\nrtw\nss"
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,

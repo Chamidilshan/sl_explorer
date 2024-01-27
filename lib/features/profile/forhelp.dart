@@ -12,7 +12,7 @@ class ForHelpPage extends StatefulWidget {
   State<ForHelpPage> createState() => _ForHelpPageState();
 }
 
-checkConnection() async{
+Future<bool> checkConnection() async{
   final isConnected = await NetworkManager.instance.isConnected();
   if(isConnected){
     return true;
@@ -27,7 +27,7 @@ class _ForHelpPageState extends State<ForHelpPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     //final _height = MediaQuery.of(context).size.height;
-    final isConnected = checkConnection();
+    //bool isConnected = checkConnection();
 
     return Scaffold(
       appBar: AppBar(
@@ -63,11 +63,7 @@ class _ForHelpPageState extends State<ForHelpPage> {
                   ),
                   onPressed: ()async {
                     var url = Uri.parse("mailto:info@srilanka-explorer.de");
-                    if (await canLaunchUrl(url)) {
                       await launchUrl(url);
-                    } else {
-                      CommonLoaders.errorSnackBar(title: '', duration: 4, message: "Something went wrong");
-                    }
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,11 +105,7 @@ class _ForHelpPageState extends State<ForHelpPage> {
                   ),
                   onPressed: () async {
                     var url = Uri.parse("whatsapp://send?text=Hello%20Need%20Help!%20From%20App&phone=+94775569909");
-                    if (await canLaunchUrl(url)) {
                       await launchUrl(url);
-                    } else {
-                      CommonLoaders.errorSnackBar(title: '', duration: 4, message: "Something went wrong");
-                    }
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,16 +186,11 @@ class _ForHelpPageState extends State<ForHelpPage> {
                   ),
                   onPressed: () async {
                     var url = Uri.parse("https://www.srilanka-explorer.de/");
-                    if(isConnected){
-                      if (await canLaunchUrl(url)) {
+                    print(await checkConnection());
+                    if(await checkConnection()){
                         await launchUrl(url);
-                      } else{
-                        CommonLoaders.errorSnackBar(
-                        title: 'Cannot launch, Try manually,',
-                        duration: 4,
-                        message: "https://www.srilanka-explorer.de/");
-                      }
                     } else {
+                      //print(await checkConnection());
                         CommonLoaders.errorSnackBar(
                             title: 'No Internet Connection',
                             duration: 4,

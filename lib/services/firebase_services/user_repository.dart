@@ -27,4 +27,23 @@ class UserRepository extends GetxController{
     }
   }
 
+
+
+  Future<bool?> updateUser(UserModel user) async{
+    try{
+      await _db.collection("Users").doc(user.id).update(user.toJson());
+      //await _db.collection("Users").doc(user.id).set(user.toJson(), SetOptions(merge: true));
+      print(user.toJson());
+      return true;
+    } on FirebaseException catch(e){
+      throw CustomFirebaseException(e.code).message;
+    } on FormatException catch(e) {
+      throw const CustomFormatException();
+    } on PlatformException catch(e) {
+      throw CustomPlatformException(e.code).message;
+    }catch(e){
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
 }

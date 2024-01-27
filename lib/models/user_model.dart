@@ -10,6 +10,10 @@ class UserModel {
   String phoneNumber;
   final String password;
   String profilePicture;
+  String? country;
+  String? state;
+  String? city;
+
 
   UserModel({
     required this.id,
@@ -21,6 +25,9 @@ class UserModel {
     required this.phoneNumber,
     required this.password,
     required this.profilePicture,
+    this.country,
+    this.state,
+    this.city,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -48,6 +55,9 @@ class UserModel {
       'phoneNumber': phoneNumber,
       'password': password,
       'profilePicture': profilePicture,
+      'country': country,
+      'state': state,
+      'city': city,
     };
   }
 }

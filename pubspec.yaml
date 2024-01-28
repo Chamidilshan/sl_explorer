@@ -55,9 +55,10 @@ dependencies:
   dropdown_button2: ^2.3.9
   anim_search_bar: ^2.0.3
   favorite_button: ^0.0.4
-  #babstrap_settings_screen : ^0.1.6
-  url_launcher: ^6.2.4
-
+  url_launcher: ^6.0.9
+  carousel_slider: ^4.2.1
+  stroke_text: ^0.0.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

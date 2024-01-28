@@ -4,10 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:get/get.dart';
-import 'package:SL_Explorer/formtest.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/north_west_coast.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/south_west_coast.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/east_coast.dart';
+import 'package:badges/badges.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -83,6 +83,14 @@ class _HomePageState extends State<HomePage> {
       "cardText": "Get Married in Paradise"
     },
   ];
+
+  int notificationCount = 0;
+  void onNotificationClick() {
+    setState(() {
+      notificationCount = 0;
+    });
+    //
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,12 +174,9 @@ class _HomePageState extends State<HomePage> {
                             height: _height * 0.002,
                           ),
                         ),
-                        // Add your notification icon here
                         IconButton(
-                          onPressed: () {
-                            // Handle notification icon tap
-                          },
-                          icon: Icon(Icons.notification_add_outlined),
+                          onPressed: onNotificationClick,
+                          icon: Icon(Icons.notifications_active),
                         ),
                       ],
                     ),
@@ -247,10 +252,10 @@ class _HomePageState extends State<HomePage> {
                     _buildCardSection(
                       _width,
                       _height,
-                      'Sri Lanka & Maldives\nSri Lanka & Emirates',
+                      'Maldives & Emirates',
                       maldives_emiratesData,
                       () {
-                        Get.to(FormTest());
+                        //Get.to(FormTest());
                       },
                       context,
                     ),
@@ -427,11 +432,11 @@ class _CardsState extends State<Cards> {
       height: _height * 0.2,
       width: _width * 0.4,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0),
             spreadRadius: 3,
             blurRadius: 10,
             offset: const Offset(0, 3),

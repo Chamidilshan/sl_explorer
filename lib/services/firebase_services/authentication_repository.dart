@@ -17,7 +17,7 @@ import 'package:SL_Explorer/features/home/bottom_navigation.dart';
 
 import '../../common/exceptions/platform_exceptions.dart';
 
-import 'package:SL_Explorer/features/Temp/temp.dart';
+//import 'package:SL_Explorer/features/Temp/temp.dart';
 
 class AuthenticationRepository extends GetxController{
 
@@ -41,13 +41,13 @@ screenRedirect() async {
     }else{
       Get.offAll(()=>const EmailVerificationScreen());
     }
-  }else{
+  }/*else{
     deviceStorage.writeIfNull('IsFirstTime', true);
 
     deviceStorage.read('IsFirstTime') != true
         ? Get.offAll(() =>  LoginPage())
         : Get.offAll(const Temp());
-  }
+  }*/
 }
 
 //login

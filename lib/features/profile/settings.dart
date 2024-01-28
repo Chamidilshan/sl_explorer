@@ -1,7 +1,11 @@
+import 'package:SL_Explorer/features/profile/terms.dart';
 import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../../services/ThemeProvider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -72,11 +76,6 @@ class _SettingsPageState extends State<SettingsPage> {
                           )
                         ],
                       ),
-                      const Icon(
-                        Icons.arrow_right,
-                        size: 40.0,
-                        weight: 30.0,
-                      ),
                     ],
                   ),
                 ),
@@ -118,11 +117,13 @@ class _SettingsPageState extends State<SettingsPage> {
                           )
                         ],
                       ),
-                      const Icon(
-                        Icons.arrow_right,
-                        size: 40.0,
-                        weight: 30.0,
-                      ),
+                      Switch(
+                        value: Provider.of<ThemeProvider>(context).isDarkMode,
+                        onChanged: (value) {
+                        Provider.of<ThemeProvider>(context, listen: false)
+                            .toggleTheme();
+                        },
+                      )
                     ],
                   ),
                 ),
@@ -142,24 +143,23 @@ class _SettingsPageState extends State<SettingsPage> {
                     showModalBottomSheet(
                       context: context,
                       builder: (BuildContext context){
-                        return ListView(
-                          children: const [
-                            Icon(
-                              Icons.horizontal_rule,
-                              size: 50,
-                              weight: 400,
-                              color: Colors.black,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: SizedBox(
-                                width: 600,
-                                child: Text(
-                                  "dsdsdhgsdhsg\nffffee\neee\nererew\nrew\nrrw\nrwtw\n\nrtw\nss"
-                                ),
+                        return Container(
+                          padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                          child: ListView(
+                            children: [
+                              /*Icon(
+                                Icons.horizontal_rule,
+                                size: 50,
+                                weight: 400,
+                                color: Colors.black,
+                              ),*/
+                              Container(
+                                //width: 600,
+                                //margin: EdgeInsets.all(10),
+                                child: TermsAndConditionsWidget(),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         );
                       },
                     );
@@ -187,11 +187,11 @@ class _SettingsPageState extends State<SettingsPage> {
                           )
                         ],
                       ),
-                      const Icon(
+                      /*const Icon(
                         Icons.arrow_right,
                         size: 40.0,
                         weight: 30.0,
-                      ),
+                      ),*/
                     ],
                   ),
                 ),

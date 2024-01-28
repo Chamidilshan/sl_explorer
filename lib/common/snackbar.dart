@@ -37,7 +37,7 @@ class CommonLoaders{
         snackPosition: SnackPosition.BOTTOM,
         duration: Duration(seconds: duration),
         margin: EdgeInsets.all(10),
-        icon: Icon(Icons.check, color: Colors.white,)
+        icon: Icon(Icons.dangerous, color: Colors.white,)
     );
   }
 

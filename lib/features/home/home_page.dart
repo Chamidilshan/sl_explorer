@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Container(
           width: _width * 1,
-          height: _height * 1, 
+          height: _height * 1,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/beach.png"),

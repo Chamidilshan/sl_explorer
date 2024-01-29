@@ -17,7 +17,6 @@ import 'package:SL_Explorer/features/home/bottom_navigation.dart';
 
 import '../../common/exceptions/platform_exceptions.dart';
 
-//import 'package:SL_Explorer/features/Temp/temp.dart';
 
 class AuthenticationRepository extends GetxController{
 

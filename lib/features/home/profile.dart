@@ -2,6 +2,7 @@ import 'package:SL_Explorer/features/profile/changePassword.dart';
 import 'package:SL_Explorer/features/profile/editprofile.dart';
 import 'package:SL_Explorer/features/profile/forhelp.dart';
 import 'package:SL_Explorer/features/profile/settings.dart';
+import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -414,12 +415,17 @@ class _ProfilePageState extends State<ProfilePage>{
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
-                            child: Text(
-                              "Log Out",
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                            child: GestureDetector(
+                              onTap: (){
+                                AuthenticationRepository.instance.logOut();
+                              },
+                              child: Text(
+                                "Log Out",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           )

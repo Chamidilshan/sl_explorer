@@ -41,10 +41,13 @@ class ForgotPasswordScreen extends StatelessWidget {
               Text(
                   'Don\'t worry! It occurs. Please enter the email address linked with your account.',
                 style: GoogleFonts.poppins(
-                  fontSize: 16.0,
+                  fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                   color: Color(0xFF8391A1),
                 )
+              ),
+              SizedBox(
+                height: 20.0,
               ),
               MyTextField(
                 controller: emailController,

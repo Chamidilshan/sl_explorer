@@ -183,7 +183,7 @@ class _FormTestState extends State<FormTest> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40.0,
+                  height: 20.0,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 0.0),
@@ -194,9 +194,9 @@ class _FormTestState extends State<FormTest> {
                           setState(() {
                             isCheckboxChecked = !isCheckboxChecked;
                           });
-                          if (isCheckboxChecked) {
-                            launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
-                          }
+                          // if (isCheckboxChecked) {
+                          //   launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
+                          // }
                         },
                         child: Container(
                           width: 23.0,
@@ -210,24 +210,42 @@ class _FormTestState extends State<FormTest> {
                         ),
                       ),
                       const SizedBox(width: 8.0),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            isCheckboxChecked = !isCheckboxChecked;
-                          });
-                          if (isCheckboxChecked) {
-                            launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
-                          }
-                        },
-                        child: Text(
-                          'I have read and agree to the privacy policy.',
-                          style: TextStyle(
-                            fontWeight: isCheckboxChecked ? FontWeight.bold : FontWeight.normal,
-                            fontSize: 16,
-                            color: isCheckboxChecked ? Colors.black : Colors.red,
+                      Row(
+                        children: [
+                          Text('I have read and agree to the '),
+                          GestureDetector(
+                            onTap: (){
+                              launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
+                            },
+                            child: Text(
+                                'privacy policy.',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                  color: Colors.black
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     setState(() {
+                      //       isCheckboxChecked = !isCheckboxChecked;
+                      //     });
+                      //     // if (isCheckboxChecked) {
+                      //     //   launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
+                      //     // }
+                      //   },
+                      //   child: Text(
+                      //     'I have read and agree to the privacy policy.',
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.normal,
+                      //       fontSize: 16,
+                      //       color: Colors.black
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

@@ -118,6 +118,7 @@ class LoginPage extends StatelessWidget{
                 },
 
               ),
+              const SizedBox(height:20.0),
             //Password TextField
               MyTextField(
                 controller: passwordController,

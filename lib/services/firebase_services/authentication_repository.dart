@@ -41,13 +41,14 @@ screenRedirect() async {
     }else{
       Get.offAll(()=>const EmailVerificationScreen());
     }
-  }/*else{
+  }
+  else{
     deviceStorage.writeIfNull('IsFirstTime', true);
 
     deviceStorage.read('IsFirstTime') != true
         ? Get.offAll(() =>  LoginPage())
-        : Get.offAll(const Temp());
-  }*/
+        : Get.offAll(const WelcomePage());
+  }
 }
 
 //login

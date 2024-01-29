@@ -1,3 +1,4 @@
+import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -101,115 +102,114 @@ class _HomePageState extends State<HomePage> {
       body: SafeArea(
         child: Container(
           width: _width * 1,
-          height: _height * 1,
+          height: _height * 1, 
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/beach.png"),
               fit: BoxFit.fill,
             ),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _width * 0.01,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.menu),
-                    ),
-
-                    Row(
-                      children: [
-                        Container(
-                          width: _width * 0.04,
-                          height: _height * 0.025,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/location.png"),
-                              fit: BoxFit.fill,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _width * 0.01,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.menu),
+                      ),
+                    
+                      Row(
+                        children: [
+                          Container(
+                            width: _width * 0.04,
+                            height: _height * 0.025,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage("assets/images/location.png"),
+                                fit: BoxFit.fill,
+                              ),
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: _width * 0.02,
-                        ),
-                        Text(
-                          'Sri Lanka',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: _width * 0.035,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w400,
-                            height: _height * 0.003,
+                          SizedBox(
+                            width: _width * 0.02,
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _width * 0.04,
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Explore',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: _width * 0.04,
-                            fontFamily: 'Montserrat',
-                            fontWeight: FontWeight.w400,
-                            height: _height * 0.002,
+                          Text(
+                            'Sri Lanka',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: _width * 0.035,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              height: _height * 0.003,
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: onNotificationClick,
-                          icon: Icon(Icons.notifications_active),
-                        ),
-                      ],
-                    ),
-
-                    Text(
-                      'Sri Lanka',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _width * 0.08,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w500,
-                        height: _height * 0.001,
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: _height * 0.01,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: _width * 0.04,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _width * 0.04,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Explore',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: _width * 0.04,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w400,
+                              height: _height * 0.002,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: onNotificationClick,
+                            icon: Icon(Icons.notifications_active),
+                          ),
+                        ],
+                      ),
+                    
+                      Text(
+                        'Sri Lanka',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: _width * 0.08,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                child: const searchbar(),
-              ),
-              SizedBox(
-                height: _height * 0.01,
-              ),
-              Expanded(
-                child: ListView(
-                  children: [
-
+                SizedBox(
+                  height: _height * 0.01,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _width * 0.04,
+                  ),
+                  child: const searchbar(),
+                ),
+                SizedBox(
+                  height: _height * 0.01,
+                ),
+                // Column(
+                //   children: [
+                    
                     _buildCardSection(
                       _width,
                       _height,
@@ -230,6 +230,9 @@ class _HomePageState extends State<HomePage> {
                       roundTripData,
                       () {
                         // Navigate to Round Trips page
+                        Get.to(
+                            RoundTripListPage()
+                        );
                       },
                       context,
                     ),
@@ -273,9 +276,9 @@ class _HomePageState extends State<HomePage> {
                       context,
                     ),
                   ],
-                ),
-              ),
-            ],
+              //   ),
+              // ],
+            ),
           ),
         ),
       ),

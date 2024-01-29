@@ -98,9 +98,9 @@ class _WelcomePageState extends State<WelcomePage> {
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: InkWell(
                     onTap: () {
-                      // Get.to(LoginPage());
+                      Get.to(LoginPage());
                       // Get.to(ExtraQuestionsPage());
-                      Get.to(RoundTripListPage());
+                      // Get.to(RoundTripListPage());
                     },
                     child: Container(
                       height: 48.0,

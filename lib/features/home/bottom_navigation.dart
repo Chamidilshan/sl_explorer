@@ -26,6 +26,7 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
       currentIndex=index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

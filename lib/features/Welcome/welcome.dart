@@ -7,6 +7,9 @@ import 'package:SL_Explorer/question_gender.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../Maldives & Emirates/Maldives.dart';
+import 'package:SL_Explorer/features/home/Gallery page/Gallery page.dart';
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
@@ -53,18 +56,18 @@ class _WelcomePageState extends State<WelcomePage> {
       body: Center(
         child: Stack(
           children: [
-            PageView.builder(
-              controller: _pageController,
-              itemCount: imageUrlList.length,
-              itemBuilder: (context, index) {
-                return Image.network(
-                  imageUrlList[index],
-                  fit: BoxFit.cover,
-                  height: double.infinity,
-                  width: double.infinity,
-                );
-              },
-            ),
+            // PageView.builder(
+            //   controller: _pageController,
+            //   itemCount: imageUrlList.length,
+            //   itemBuilder: (context, index) {
+            //     return Image.network(
+            //       imageUrlList[index],
+            //       fit: BoxFit.cover,
+            //       height: double.infinity,
+            //       width: double.infinity,
+            //     );
+            //   },
+            // ),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,9 +101,11 @@ class _WelcomePageState extends State<WelcomePage> {
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: InkWell(
                     onTap: () {
-                      // Get.to(LoginPage());
+                      Get.to(LoginPage());
                       // Get.to(ExtraQuestionsPage());
-                      Get.to(RoundTripListPage());
+                      //Get.to(RoundTripListPage());
+                      //Get.to(MyApp());
+                      //Get.to(GalleryPage());
                     },
                     child: Container(
                       height: 48.0,

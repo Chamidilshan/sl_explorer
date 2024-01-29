@@ -30,7 +30,7 @@ class _FormTestState extends State<FormTest> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  bool isCheckboxChecked = false;
   @override
   Widget build(BuildContext context) {
     bool isChecked = false;
@@ -42,11 +42,11 @@ class _FormTestState extends State<FormTest> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 50.0,
                 ),
                 Padding(
-                  padding: EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
+                  padding: const EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -59,7 +59,7 @@ class _FormTestState extends State<FormTest> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Padding(
@@ -182,11 +182,57 @@ class _FormTestState extends State<FormTest> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40.0,
                 ),
-                
-                SizedBox(
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(25.0, 20.0, 25.0, 0.0),
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isCheckboxChecked = !isCheckboxChecked;
+                          });
+                          if (isCheckboxChecked) {
+                            launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
+                          }
+                        },
+                        child: Container(
+                          width: 23.0,
+                          height: 21.5,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: isCheckboxChecked ? Colors.black : Colors.red),
+                          ),
+                          child: isCheckboxChecked
+                              ? Icon(Icons.check, color: Colors.black)
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(width: 8.0),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isCheckboxChecked = !isCheckboxChecked;
+                          });
+                          if (isCheckboxChecked) {
+                            launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
+                          }
+                        },
+                        child: Text(
+                          'I have read and agree to the privacy policy.',
+                          style: TextStyle(
+                            fontWeight: isCheckboxChecked ? FontWeight.bold : FontWeight.normal,
+                            fontSize: 16,
+                            color: isCheckboxChecked ? Colors.black : Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(
                   height: 40.0,
                 ),
                 Padding(
@@ -200,7 +246,7 @@ class _FormTestState extends State<FormTest> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return Center(
+                              return const Center(
                                 child: CircularProgressIndicator(
                                   color: Color(0xFFfd8103),
                                 ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'orders/ordersDetails.dart';
 
 class OrdersPage extends StatelessWidget {
 
@@ -16,6 +19,8 @@ class OrdersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -35,19 +40,16 @@ class OrdersPage extends StatelessWidget {
         centerTitle: true,
       ),
 
-      body: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return Card(
+      body: ListView(
+        children: [
+            Card(
+              color: Colors.orangeAccent[800],
             elevation: 5,
             margin: EdgeInsets.all(10),
             child: InkWell(
               onTap: () {
                 // Navigate to the order details page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => OrderDetailsPage(
+                Get.to( () => OrderDetailsPage(
                       orderId: orderId,
                       orderDate: orderDate,
                       numAdults: numAdults,
@@ -56,88 +58,53 @@ class OrdersPage extends StatelessWidget {
                       packagePrice: packagePrice,
                       packageImage: packageImage,
                     ),
-                  ),
                 );
               },
-              child: ListTile(
-                leading: Image.network(packageImage, width: 80),
-                title: Text(packageName),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Booked on $orderDate'),
-                    Text('For $numAdults Adults'),
-                    Text('Duration: $packageDuration days'),
-                    Text('\$$packagePrice x $packageDuration'),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        packageImage,
+                        width: _width/3,
+                        height: _width/3,
+                        fit: BoxFit.fitHeight,
+                      ),
+                    ),
+                    Container(
+                      width: _width/2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(packageName,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600
+                            ),
+                          ),
+                          Text('Booked on: $orderDate'),
+                          Text('For: $numAdults Adults'),
+                          //Text('Duration: $packageDuration days'),
+                          Text('Price: \$ $packagePrice'),
+                          Text('Order ID: $orderId',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600
+                            ),),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
-                trailing: Text('Order ID: $orderId'),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        ],
+      )
     );
   }
 }
-
-class OrderDetailsPage extends StatelessWidget {
-  final String orderId;
-  final String orderDate;
-  final int numAdults;
-  final String packageName;
-  final int packageDuration;
-  final int packagePrice;
-  final String packageImage;
-
-  OrderDetailsPage({
-    required this.orderId,
-    required this.orderDate,
-    required this.numAdults,
-    required this.packageName,
-    required this.packageDuration,
-    required this.packagePrice,
-    required this.packageImage,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-        title: Text('Order Details'),
-    ),
-    body: SingleChildScrollView(
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Image.network(packageImage, width: double.infinity, height: 200),
-    Padding(
-    padding: EdgeInsets.all(10),
-    child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-    Text(
-    'Order ID: $orderId',
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-    Text(
-    'Booked on $orderDate',
-    style: TextStyle(fontSize: 16),
-    ),
-    Text(
-    'For $numAdults Adults',
-    style: TextStyle(fontSize: 16),
-    ),
-    Text(
-    '$packageName - $packageDuration days',
-    style: TextStyle(fontSize: 16),
-    ),
-    Text(
-    '\$$packagePrice x $packageDuration',
-    style: TextStyle(fontSize: 16),
-    ),
-    ],
-    )
-    )
-    ])
-    ));}}

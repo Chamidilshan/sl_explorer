@@ -427,9 +427,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Container(
                 margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
                 child: CSCPicker(
-                  currentCountry: _country,
-                  currentState: _state,
-                  currentCity: _city,
+                  currentCountry: _country == "null" ? null : _country,
+                  currentState: _state == "null" ? null : _state,
+                  currentCity: _city == "null" ? null : _city,
                   countryFilter: const [
                     CscCountry.Germany,
                     CscCountry.Sri_Lanka,

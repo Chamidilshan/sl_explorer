@@ -197,8 +197,8 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                         // Tab 1 content
                         ListView(
                           children: [
-                            Image.asset('assets/photos/photo1.jpg'),  // Replace with your actual photo
-                            SizedBox(height: 10),
+                            Image.asset('assets/images/Bentota.jpg'),  // Replace with your actual photo
+                            SizedBox(height: 30),
                             Text('Description for Tab 1'),
                           ],
                         ),
@@ -206,8 +206,8 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                         // Tab 2 content
                         ListView(
                           children: [
-                            Image.asset('assets/photos/photo2.jpg'),  // Replace with your actual photo
-                            SizedBox(height: 10),
+                            Image.asset('assets/images/Villege_tour.jpg'),  // Replace with your actual photo
+                            SizedBox(height: 30),
                             Text('Description for Tab 2'),
                           ],
                         ),
@@ -215,8 +215,8 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                         // Tab 3 content
                         ListView(
                           children: [
-                            Image.asset('assets/photos/photo3.jpg'),  // Replace with your actual photo
-                            SizedBox(height: 10),
+                            Image.asset('assets/images/Safari.jpg'),  // Replace with your actual photo
+                            SizedBox(height: 30),
                             Text('Description for Tab 3'),
                           ],
                         ),

@@ -2,6 +2,7 @@ import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -138,31 +139,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       borderRadius: BorderRadius.zero,
                     ),
                   ),
-                  onPressed: (){
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context){
-                        return ListView(
-                          children: const [
-                            Icon(
-                              Icons.horizontal_rule,
-                              size: 50,
-                              weight: 400,
-                              color: Colors.black,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.all(20.0),
-                              child: SizedBox(
-                                width: 600,
-                                child: Text(
-                                  "dsdsdhgsdhsg\nffffee\neee\nererew\nrew\nrrw\nrwtw\n\nrtw\nss"
-                                ),
-                              ),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                  onPressed:  ()async {
+                      var url = Uri.parse("https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9");
+                      await launchUrl(url);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

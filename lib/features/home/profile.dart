@@ -81,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage>{
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Profile",
+          "My Profile",
           style: GoogleFonts.merriweather(
           ),
         ),
@@ -112,44 +112,57 @@ class _ProfilePageState extends State<ProfilePage>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child:
-                    const CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                        "https://th.bing.com/th/id/OIP.bylQsr5qEADLgK6xlNGL2QHaE1?rs=1&pid=ImgDetMain",
-                      ),
-                    ),
-                  ),
                   _userData != null
-                      ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("${_userData!['firstName']}",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      ?
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child:
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(
+                                "${_userData!['profilePicture']}",
+                              ),
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${_userData!['firstName']}  ${_userData!['lastName']}",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text("${_userData!['email']}",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              _userData!['country'] != null ?
+                              Text("${_userData!['country']}",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                )
+                              )
+                                  :
+                              const Text(
+                                  ""
+                              )
+                              ]
+                          ),
+                              // Add other user details as needed
+                            ],
+                          )
+                      : Padding(
+                        padding: EdgeInsets.fromLTRB(_width/3, 0, 0, 0),
+                        child: const CircularProgressIndicator(),
                       ),
-                      Text("${_userData!['email']}",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text("Location, Germany",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                      // Add other user details as needed
-                    ],
-                  )
-                      : const CircularProgressIndicator(),
                 ],
               )
           ),

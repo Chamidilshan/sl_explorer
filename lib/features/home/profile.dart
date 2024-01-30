@@ -113,12 +113,12 @@ class _ProfilePageState extends State<ProfilePage>{
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.asset(
-                        "assets/images/tempProfile.jpg",
-                        fit: BoxFit.fill,
+                    padding: EdgeInsets.all(12.0),
+                    child:
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                        "https://th.bing.com/th/id/OIP.bylQsr5qEADLgK6xlNGL2QHaE1?rs=1&pid=ImgDetMain",
                       ),
                     ),
                   ),

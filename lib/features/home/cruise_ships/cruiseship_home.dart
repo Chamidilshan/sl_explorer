@@ -196,10 +196,28 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                       children: [
                         // Tab 1 content
                         ListView(
+                          shrinkWrap: true,
                           children: [
                             Image.asset('assets/images/Bentota.jpg'),  // Replace with your actual photo
                             SizedBox(height: 30),
-                            Text('Description for Tab 1'),
+                            Text(
+                              'Bentota & West Coast',
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.abel(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ],
                         ),
 
@@ -208,7 +226,24 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                           children: [
                             Image.asset('assets/images/Villege_tour.jpg'),  // Replace with your actual photo
                             SizedBox(height: 30),
-                            Text('Description for Tab 2'),
+                            Text(
+                              'Wadduwa Villege Tour',
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.abel(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ],
                         ),
 
@@ -217,7 +252,24 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                           children: [
                             Image.asset('assets/images/Safari.jpg'),  // Replace with your actual photo
                             SizedBox(height: 30),
-                            Text('Description for Tab 3'),
+                            Text(
+                              'Safari',
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.poppins(
+                                color: Colors.black,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            Text(
+                              'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
+                              textAlign: TextAlign.left,
+                              style: GoogleFonts.abel(
+                                color: Colors.black,
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ],
                         ),
                       ],

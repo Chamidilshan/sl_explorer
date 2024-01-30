@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:SL_Explorer/common/snackbar.dart';
 import 'package:SL_Explorer/constants/utils/pickImage.dart';
+import 'package:SL_Explorer/constants/utils/save_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -96,6 +97,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
   Future<void> _updateUserData() async {
+    if(MemoryImage(_image!) != null){
+      StoreData store = StoreData();
+      _profile = await store.saveData(file: _image!,id: "${_userData!['id']}");
+    }
     final newUser = UserModel(
         id: "${_userData!['id']}",
         firstName: _firstName ?? '',
@@ -105,7 +110,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         email: _email ?? '',
         phoneNumber: _mobile ?? '',
         password: "${_userData!['password']}",
-        profilePicture: "${_userData!['profilePicture']}",
+        profilePicture: _profile ?? "${_userData!['profilePicture']}",
         country: _country == "null" ? '' : _country,
         state: _state == "null" ? '' : _state,
         city: _city == "null" ? '' : _city,
@@ -175,6 +180,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       CircleAvatar(
                         radius: 60,
                         backgroundImage: MemoryImage(_image!),
+                      )
+                  :
+                  NetworkImage("${_userData!['profilePicture']}") != null ?
+                      CircleAvatar(
+                        radius: 60,
+                        backgroundImage: NetworkImage("${_userData!['profilePicture']}"!),
                       )
                   :
                   const CircleAvatar(
@@ -370,6 +381,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       labelText: "E-mail Address",
                     ),
+                    enabled: false,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,

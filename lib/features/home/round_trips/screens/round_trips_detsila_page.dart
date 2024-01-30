@@ -30,6 +30,8 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
   ];
 
 
+
+
   Map<String, String> dayDetails = { 
     'Day 1': "In the morning after your arrival at the airport you will be met by your German speaking SriLanka-Explorer tour guide. (Guests with an advance program in Negombo will be picked up at the hotel). We go to Pinnawela to the famous elephant orphanage. You'll have time to be close to the pachyderms, watching them feed and take a dip in the river, before checking into your hotel right on the Maha Oya River.",
     'Day 2': "Details for Day 2 In the morning after your arrival at the airport you will be met by your German speaking SriLanka-Explorer tour guide. (Guests with an advance program in Negombo will be picked up at the hotel). We go to Pinnawela to the famous elephant orphanage. You'll have time to be close to the pachyderms, watching them feed and take a dip in the river, before checking into your hotel right on the Maha Oya River.",

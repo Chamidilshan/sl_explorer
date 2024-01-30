@@ -17,7 +17,7 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
     const HomePage(),
     const order(),
     const gallery(),
-    const services(),
+    services(),
     const ProfilePage(),
   ];
   int currentIndex=0;

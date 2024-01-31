@@ -1,6 +1,8 @@
+import 'package:SL_Explorer/features/profile/changePassword.dart';
 import 'package:SL_Explorer/features/profile/editprofile.dart';
 import 'package:SL_Explorer/features/profile/forhelp.dart';
 import 'package:SL_Explorer/features/profile/settings.dart';
+import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -79,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage>{
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Edit Profile",
+          "My Profile",
           style: GoogleFonts.merriweather(
           ),
         ),
@@ -110,56 +112,71 @@ class _ProfilePageState extends State<ProfilePage>{
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: Image.asset(
-                        "assets/images/tempProfile.jpg",
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
                   _userData != null
-                      ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("${_userData!['firstName']}",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      ?
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child:
+                            CircleAvatar(
+                              radius: 50,
+                              backgroundImage: NetworkImage(
+                                "${_userData!['profilePicture']}",
+                              ),
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("${_userData!['firstName']}  ${_userData!['lastName']}",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text("${_userData!['email']}",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
+                              ),
+                              _userData!['country'] != null ?
+                              Text("${_userData!['country']}",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                )
+                              )
+                                  :
+                              const Text(
+                                  ""
+                              )
+                              ]
+                          ),
+                              // Add other user details as needed
+                            ],
+                          )
+                      : Padding(
+                        padding: EdgeInsets.fromLTRB(_width/3, 0, 0, 0),
+                        child: const CircularProgressIndicator(),
                       ),
-                      Text("${_userData!['email']}",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Text("Location, Germany",
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                      // Add other user details as needed
-                    ],
-                  )
-                      : const CircularProgressIndicator(),
                 ],
               )
           ),
 
           Center(
             child: Container(
-              height: _height - 264.0,
+              height: _height - 265.0,
               //color: Colors.red,
-              padding: EdgeInsets.fromLTRB(_width/15,40,_width/15,0),
+              padding: EdgeInsets.fromLTRB(_width/15,0,_width/15,0),
               child: ListView(
+
                 children: [
                   Container(
+                    padding: EdgeInsets.fromLTRB(0,_height/12,0,0),
                     margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
                       style: TextButton.styleFrom(
@@ -210,7 +227,9 @@ class _ProfilePageState extends State<ProfilePage>{
                           borderRadius: BorderRadius.zero,
                         ),
                       ),
-                      onPressed: (){},
+                      onPressed: (){
+                        Get.to(() => const ChangePasswordPage());
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -409,12 +428,17 @@ class _ProfilePageState extends State<ProfilePage>{
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
-                            child: Text(
-                              "Log Out",
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
+                            child: GestureDetector(
+                              onTap: (){
+                                AuthenticationRepository.instance.logOut();
+                              },
+                              child: Text(
+                                "Log Out",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           )

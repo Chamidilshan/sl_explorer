@@ -15,9 +15,9 @@ class bottomNavigationBar extends StatefulWidget {
 class _bottomNavigationBarState extends State<bottomNavigationBar> {
   List pages =[
     const HomePage(),
-    const order(),
+    OrdersPage(),
     const gallery(),
-    const services(),
+    services(),
     const ProfilePage(),
   ];
   int currentIndex=0;
@@ -26,6 +26,7 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
       currentIndex=index;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

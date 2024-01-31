@@ -55,9 +55,14 @@ dependencies:
   dropdown_button2: ^2.3.9
   anim_search_bar: ^2.0.3
   favorite_button: ^0.0.4
-  #babstrap_settings_screen : ^0.1.6
   url_launcher: ^6.2.4
-
+  stroke_text: ^0.0.2
+  badges: ^3.1.2
+  image_picker: ^1.0.7
+  provider: ^6.1.1
+  shimmer: ^3.0.0
+  http: ^1.2.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

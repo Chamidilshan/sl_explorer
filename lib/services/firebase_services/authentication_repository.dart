@@ -2,6 +2,7 @@
 import 'package:SL_Explorer/common/exceptions/firebase_auth_exceptions.dart';
 import 'package:SL_Explorer/common/exceptions/firebase_exceptions.dart';
 import 'package:SL_Explorer/common/exceptions/format_exceptions.dart';
+import 'package:SL_Explorer/features/home/profile.dart';
 import 'package:SL_Explorer/features/authentication/screens/email_verification_screen.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:SL_Explorer/features/authentication/screens/on_boarding_Screen.dart';
@@ -15,6 +16,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:SL_Explorer/features/home/bottom_navigation.dart';
 
 import '../../common/exceptions/platform_exceptions.dart';
+
+//import 'package:SL_Explorer/features/Temp/temp.dart';
 
 class AuthenticationRepository extends GetxController{
 
@@ -43,9 +46,11 @@ screenRedirect() async {
 
     deviceStorage.read('IsFirstTime') != true
         ? Get.offAll(() =>  LoginPage())
-        : Get.offAll(const WelcomePage());
+        : Get.offAll(() => WelcomePage());
   }
 }
+
+  String? get userId => _auth.currentUser?.uid;
 
 //login
 Future<UserCredential?> loginWithEmailPassword(String email, String password) async{

@@ -1,6 +1,8 @@
+import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -84,14 +86,16 @@ class _SettingsPageState extends State<SettingsPage> {
                 //color: Colors.red,
                 padding: EdgeInsets.fromLTRB(_width/15,0,_width/15,0),
                 //padding: EdgeInsets.all(_width/15),
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                 child: TextButton(
                   style: TextButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.zero,
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    //MyApp.changeMode();
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -135,7 +139,10 @@ class _SettingsPageState extends State<SettingsPage> {
                       borderRadius: BorderRadius.zero,
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed:  ()async {
+                      var url = Uri.parse("https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9");
+                      await launchUrl(url);
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,9 +1,16 @@
+import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
+import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:get/get.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/north_west_coast.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/south_west_coast.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/east_coast.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
+import 'package:badges/badges.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -80,6 +87,14 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
+  int notificationCount = 0;
+  void onNotificationClick() {
+    setState(() {
+      notificationCount = 0;
+    });
+    //
+  }
+
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
@@ -101,20 +116,22 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: _width * 0.01,
+                  horizontal: _width * 0.05,
+                  vertical: 10
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.menu),
-                    ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: const Icon(Icons.menu),
+                    // ),
+
                     Row(
                       children: [
                         Container(
                           width: _width * 0.04,
-                          height: _height * 0.03,
+                          height: _height * 0.025,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage("assets/images/location.png"),
@@ -142,23 +159,32 @@ class _HomePageState extends State<HomePage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  vertical: _height * 0.02,
                   horizontal: _width * 0.04,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Explore',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: _width * 0.04,
-                        fontFamily: 'Montserrat',
-                        fontWeight: FontWeight.w400,
-                        height: _height * 0.001,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Explore',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: _width * 0.04,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w400,
+                            height: _height * 0.002,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: onNotificationClick,
+                          icon: Icon(Icons.notifications_active),
+                        ),
+                      ],
                     ),
+
                     Text(
                       'Sri Lanka',
                       style: TextStyle(
@@ -173,26 +199,29 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               SizedBox(
-                height: _height * 0.001,
+                height: _height * 0.01,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: _width * 0.04,
+                ),
+                child: const searchbar(),
+              ),
+              SizedBox(
+                height: _height * 0.01,
               ),
               Expanded(
                 child: ListView(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: _width * 0.04,
-                      ),
-                      child: const searchbar(),
-                    ),
-                    SizedBox(
-                      height: _height * 0.01,
-                    ),
+
                     _buildCardSection(
                       _width,
                       _height,
                       'Cruise Ship',
                       cruise_shipdData,
-                      () {},
+                      () {
+                        //navigate to cruise ship page
+                      },
                       context,
                     ),
                     SizedBox(
@@ -204,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                       'Round Trips',
                       roundTripData,
                       () {
-                        // Navigate to Round Trips page
+                        Get.to(RoundTripListPage());
                       },
                       context,
                     ),
@@ -217,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                       'Day Trips',
                       dayTripData,
                       () {
-                        // Navigate to Day Trips page
+                        //Get.to(CommonListPage());
                       },
                       context,
                     ),
@@ -227,10 +256,10 @@ class _HomePageState extends State<HomePage> {
                     _buildCardSection(
                       _width,
                       _height,
-                      'Sri Lanka & Maldives\n Sri Lanka & Emirates',
+                      'Maldives & Emirates',
                       maldives_emiratesData,
                       () {
-                        // Navigate to Maldives page
+                        //Get.to(FormTest());
                       },
                       context,
                     ),
@@ -279,7 +308,7 @@ Widget _buildCardSection(
           children: [
             Text(
               sectionTitle,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF232323),
                 fontSize: 18,
                 fontFamily: 'Montserrat',
@@ -290,7 +319,7 @@ Widget _buildCardSection(
             if (sectionTitle != 'Cruise Ship')
               InkWell(
                 onTap: onSeeAllTap,
-                child: Text(
+                child: const Text(
                   'See All',
                   style: TextStyle(
                     color: Color(0xFFfd8103),
@@ -338,19 +367,15 @@ void _onCardTap(
   Map<String, String> tappedCardData = sectionData[index];
 
   if (tappedCardData['cardText'] == 'Costa Deliziosa') {
-    /*Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => order(),
-      ),
-    );*/
+   //
   } else if (tappedCardData['cardText'] == 'Mein Schiff 5') {
-    /*Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => order(),
-      ),
-    );*/
+ //
+  } else if (tappedCardData['cardText'] == 'Excursions South-West Coast') {
+    Get.to(South_West_CoastPage());
+  }else if (tappedCardData['cardText'] == 'Excursions north-west coast') {
+    Get.to(North_West_CoastPage());
+  }else if (tappedCardData['cardText'] == 'East Coast Excursions') {
+    Get.to(East_CoastPage());
   }
 }
 
@@ -411,11 +436,11 @@ class _CardsState extends State<Cards> {
       height: _height * 0.2,
       width: _width * 0.4,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withOpacity(0),
             spreadRadius: 3,
             blurRadius: 10,
             offset: const Offset(0, 3),
@@ -445,7 +470,7 @@ class _CardsState extends State<Cards> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       widget.cardText,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 14,
                         fontFamily: 'Montserrat',

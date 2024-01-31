@@ -1,9 +1,15 @@
+import 'package:SL_Explorer/common/widgets/shimmer_effect_widget.dart';
 import 'package:SL_Explorer/constants/utils/styles.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
+import 'package:SL_Explorer/features/home/round_trips/widgets/trip_card.dart';
+import 'package:SL_Explorer/models/round_trip_packages_model.dart';
+import 'package:SL_Explorer/providers/round_trips_provider.dart';
+import 'package:SL_Explorer/services/api_services/round_trips_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class RoundTripListPage extends StatefulWidget {
   const RoundTripListPage({super.key});
@@ -13,6 +19,31 @@ class RoundTripListPage extends StatefulWidget {
 }
 
 class _RoundTripListPageState extends State<RoundTripListPage> {
+
+
+  List<RoundTrip> roundTrips = [];
+  RoundTripsApiService apiService = RoundTripsApiService();
+
+  @override
+  void initState(){
+    super.initState();
+    loadRoundTripPackages();
+  }
+
+  loadRoundTripPackages() async {
+    try{
+      final roundTripProvider = Provider.of<RoundTripProvider>(context, listen: false);
+      List<RoundTrip> fetchedRoundTrips = await apiService.fetchRoundTrips();
+      roundTripProvider.setRoundTrips(fetchedRoundTrips);
+      setState(() {
+        roundTrips = fetchedRoundTrips;
+      });
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,92 +74,25 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
         ),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: 10,
+      body: roundTrips.isEmpty
+          ? ShimmerWidget(
+        height: 80.0,)
+          : ListView.builder(
+        itemCount: roundTrips.length,
         itemBuilder: (context, index) {
-          return Card(
-            color: Colors.white,
-            child: ExpansionTile(
-              backgroundColor: Colors.white,
-              collapsedBackgroundColor: Colors.white,
-              trailing: IconButton(
-                  icon: Icon(Icons.keyboard_double_arrow_right_rounded),
-                onPressed: (){
-                    Get.to(
-                        RoundTripsDetailsPage()
-                    );
-                },
-              ),
-              collapsedIconColor: logoColor,
-              title: SizedBox(
-                height: 80.0,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 2,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                                'assets/images/roundTrip.png',
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                      ),
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                              'Culuture & Nature',
-                            style: GoogleFonts.poppins(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16.0
-                            ),
-                          ),
-                          Text(
-                            '9 Days',
-                            style: GoogleFonts.poppins(
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.w400,
-                              fontSize: 14.0
-                            ),
-                          ),
-                          Text(
-                            '8 Nights',
-                            style: GoogleFonts.poppins(
-                                color: Color(0xFF666666),
-                                fontWeight: FontWeight.w400,
-                              fontSize: 14.0
-                            ),
-                          )
-                        ],
-                      )
-                    ]
-                  ),
-              ),
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, right: 24.0, left: 24.0, bottom: 8.0),
-                  child: Text(
-                      "Experience the allure of our island with diverse activities. From the untamed beaches to serene yoga sessions, tea plantation hikes, thrilling kayak adventures, and ziplining through Ella's mountains with Flying Ravana. Our Sri Lanka Young & Fun tour offers constant excitement for both the young and the young at heart.",
-                    style: GoogleFonts.poppins(
-                      color: Color(0xFF21231E),
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400
-                    ),
-                  ),
-                ),
-                // const Text("isAdmin: No")
-              ],
-            ),
-          ); 
+          return TripListCard(
+            imgLink: roundTrips[index].packageCoverImage,
+            titleText: roundTrips[index].packageName,
+            firstSubTitleText: roundTrips[index].packageTitle,
+            secondSubTitleText: roundTrips[index].packageSubTitle,
+            descriptionText: roundTrips[index].packageShortDescription,
+            roundTrips: roundTrips,
+            index: index,
+          );
         },
       )
     );
   }
 }
+
+

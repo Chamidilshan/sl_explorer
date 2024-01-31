@@ -50,12 +50,12 @@ class _CardListState extends State<CardList> {
     'Surfing Water Sport places'
   ];
   List<String> imageUrls = [
-    'https://firebasestorage.googleapis.com/v0/b/sl-explorer.appspot.com/o/services_images%2Fphoto-1414235077428-338989a2e8c0.avif?alt=media&token=a8ae5c2c-c741-4167-af64-985ddb605522',
-    'https://firebasestorage.googleapis.com/v0/b/sl-explorer.appspot.com/o/services_images%2Fphoto-1414235077428-338989a2e8c0.avif?alt=media&token=a8ae5c2c-c741-4167-af64-985ddb605522',
-    'https://firebasestorage.googleapis.com/v0/b/sl-explorer.appspot.com/o/services_images%2Fphoto-1414235077428-338989a2e8c0.avif?alt=media&token=a8ae5c2c-c741-4167-af64-985ddb605522',
-    'https://firebasestorage.googleapis.com/v0/b/sl-explorer.appspot.com/o/services_images%2Fphoto-1414235077428-338989a2e8c0.avif?alt=media&token=a8ae5c2c-c741-4167-af64-985ddb605522',
-    'https://firebasestorage.googleapis.com/v0/b/sl-explorer.appspot.com/o/services_images%2Fphoto-1414235077428-338989a2e8c0.avif?alt=media&token=a8ae5c2c-c741-4167-af64-985ddb605522',
-    'https://firebasestorage.googleapis.com/v0/b/sl-explorer.appspot.com/o/services_images%2Fphoto-1414235077428-338989a2e8c0.avif?alt=media&token=a8ae5c2c-c741-4167-af64-985ddb605522',
+    'https://images.pexels.com/photos/139398/thermometer-headache-pain-pills-139398.jpeg?auto=compress&cs=tinysrgb&w=600',
+    'https://img.freepik.com/premium-photo/photo-closeup-shot-delicious-food_829042-89.jpg',
+    'https://media.istockphoto.com/id/1286682876/photo/beauty-treatment-items-for-spa-procedures-on-white-wooden-table-massage-stones-essential-oils.jpg?s=612x612&w=0&k=20&c=Q6ENnCDbjQxkggfSLZq4WleuY0_IrMZ9MxMXRfNcsl8=',
+    'https://media.istockphoto.com/id/454937447/photo/woman-having-a-back-oil-massage.jpg?s=612x612&w=0&k=20&c=2UE1r2pNewwMDYz9uivm6-FEzFKh2RDwuoO8FV55GYY=',
+    'https://thumbs.dreamstime.com/b/concert-crowd-confetti-dancing-lights-nice-colors-picture-people-nightclub-94901606.jpg',
+    'https://wallpapercosmos.com/w/full/a/c/6/1110620-3840x2160-desktop-4k-surfing-wallpaper-image.jpg',
   ];
 
   @override
@@ -78,15 +78,15 @@ class _CardListState extends State<CardList> {
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                          flex: 2,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8.0),
-                            child: Image.network(
-                              imageUrls[index],
-                              fit: BoxFit.cover,
-                            ),
-                          )),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.network(
+                          imageUrls[index],
+                          height: 80.0,
+                          width: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                       const SizedBox(width: 10.0,),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -103,8 +103,10 @@ class _CardListState extends State<CardList> {
                       )
                     ]),
               ),
-            ));
+            )
+        );
       },
     );
   }
 }
+

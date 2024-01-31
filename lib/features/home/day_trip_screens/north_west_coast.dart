@@ -1,5 +1,4 @@
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,4 +1,4 @@
-import 'package:SL_Explorer/features/home/day_trip_screens/custom_page.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,79 +22,32 @@ class East_CoastPage extends StatelessWidget {
         durationInDays: 2,
       ),
     ];
-    return CustomPage(
-      pageTitle: 'Excursions East Coast',
-      tabTitles: ['One Day', 'Two Days', 'Three Days'],
-      tabContents: [
-        [
-          TripDetails(
-            title: 'Sigiriya & Safari',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Anuradhapura & Mihintale',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Polonnaruwa & Safari',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Village Tour & Pidurangala',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Sigiriya & Dambulla',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 2',
-          ),
-        ],
-
-        [
-          TripDetails(
-            title: 'Cultural Triangle Highlands',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Tea Plantations Kandy & Dambulla',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Anuradhapura & Wilpattu Safari',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-        ],
-
-        [
-          TripDetails(
-            title: '5 Royal Cities',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Sigiriya, Kandy & Tea Highlands',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Pinnawela, Kandy & Adams Peak',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Migratory Birds',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-        ],
+    return CommonListPage(
+      itemCountsByTab: const [2, 3, 3],
+      pageTitle: 'Excursions North-West Coast',
+      tabTitles: const [
+        'One Day',
+        'Two Days',
+        'Three Days',
       ],
+      titlesByDuration: const [
+        ['Title 1a', 'Title 1b'],
+        ['Title 2a', 'Title 2b', 'Title 2c'],
+        ['Title 3a', 'Title 3b', 'Title 3c', 'Title 3d'],
+      ],
+      descriptionsByDuration: const [
+        ['Description 1a', 'Description 1b'],
+        ['Description 2a', 'Description 2b', 'Description 2c'],
+        ['Description 3a', 'Description 3b', 'Description 3c', 'Description 3d'],
+      ],
+      imagePathsByDuration: const [
+        ['assets/images/roundTrip.png', 'assets/images/roundTrip.png'],
+        ['assets/images/roundTrip.png', 'assets/images/roundTrip.png', 'assets/images/roundTrip.png'],
+        ['assets/images/roundTrip.png', 'assets/images/roundTrip.png', 'assets/images/roundTrip.png'],
+      ],
+
+
+
       onDoubleArrowTapped: (tabIndex, cardIndex) {
         if (tabIndex == 0) {
           if (cardIndex == 0) {
@@ -115,7 +68,7 @@ class East_CoastPage extends StatelessWidget {
           PopupBuilder.showTripsPopup(context, 'Available Trips', oneDayTrips);
         },
       ),
-      additionalText: 'from/to Kalkudah & Passikudah, Trincomalee',
+      additionalText: 'from/to Negombo, Waikkal',
     );
   }
 }

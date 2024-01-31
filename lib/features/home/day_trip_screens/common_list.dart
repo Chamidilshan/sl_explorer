@@ -145,7 +145,10 @@ class _CommonListPageState extends State<CommonListPage> {
   ListView _buildListView(int tabIndex) {
     return ListView.builder(
       itemCount: widget.itemCountsByTab[tabIndex],
-      itemBuilder: (context, index) {
+      itemBuilder: (context, index)
+    {
+      if (_currentPage < widget.imagePathsByDuration.length &&
+          index < widget.imagePathsByDuration[_currentPage].length) {
         return Card(
           color: Colors.white,
           child: ExpansionTile(
@@ -162,20 +165,21 @@ class _CommonListPageState extends State<CommonListPage> {
               height: 80.0,
               child:
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Expanded(
-                    flex: 2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        widget.imagePathsByDuration[_currentPage][index],
-                        fit: BoxFit.cover,
-                      ),
-                    )),
+
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.network(
+                    widget.imagePathsByDuration[_currentPage][index],
+                    width: 100,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 SizedBox(
                   width: 10.0,
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -205,6 +209,7 @@ class _CommonListPageState extends State<CommonListPage> {
             ],
           ),
         );
+      }
       },
     );
   }

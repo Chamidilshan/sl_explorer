@@ -50,6 +50,8 @@ screenRedirect() async {
   }
 }
 
+  String? get userId => _auth.currentUser?.uid;
+
 //login
 Future<UserCredential?> loginWithEmailPassword(String email, String password) async{
  try{

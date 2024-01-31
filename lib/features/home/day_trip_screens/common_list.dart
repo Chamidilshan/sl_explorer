@@ -164,7 +164,9 @@ class _CommonListPageState extends State<CommonListPage> {
             title: SizedBox(
               height: 80.0,
               child:
-              Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
 
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
@@ -178,18 +180,21 @@ class _CommonListPageState extends State<CommonListPage> {
                 SizedBox(
                   width: 10.0,
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      widget.titlesByDuration[_currentPage][index],
-                      style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0),
-                    ),
-                  ],
+                Flexible(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.titlesByDuration[_currentPage][index],
+                        style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0),
+                      ),
+                    ],
+                  ),
                 )
               ]),
             ),

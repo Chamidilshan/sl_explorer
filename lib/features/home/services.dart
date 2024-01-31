@@ -88,18 +88,21 @@ class _CardListState extends State<CardList> {
                         ),
                       ),
                       const SizedBox(width: 10.0,),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            titles[index],
-                            style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.0),
-                          ),
-                        ],
+                      Flexible(
+                        flex: 2,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              titles[index],
+                              style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16.0),
+                            ),
+                          ],
+                        ),
                       )
                     ]),
               ),

@@ -585,39 +585,92 @@ class ServicesListTile extends StatelessWidget {
             ),
           ),
         ),
-        children: services
-            .map(
-              (service) => Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (service.description.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: RichText(
-                          text: TextSpan(
-                            text: '• ',
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                            children: [
-                              TextSpan(
-                                text: service.description,
-                                style:TextStyle(
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                        ),
-                      ),
-                  ],
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Departure 09:30 hrs +/-',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
                 ),
               ),
-            )
-            .toList(),
+              SizedBox(height: 4),
+              Text(
+                '• Pick-up directly at the ship',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              Text(
+                '• Travel by air-conditioned coach',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              Text(
+                '• English-speaking Sri Lanka Explorer Tour Guide',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              // Add more points similarly
+              SizedBox(height: 8),
+              Text(
+                'No minimum number of participants - max. 20 people',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              Text(
+                '€ 85 per adult',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              Text(
+                '€ 55 per child up to 11 years',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Ship layover: 09:00-19:00',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+              SizedBox(
+                height: 20.0,
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

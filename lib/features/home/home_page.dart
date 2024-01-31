@@ -1,4 +1,5 @@
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
+import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -115,15 +116,16 @@ class _HomePageState extends State<HomePage> {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: _width * 0.01,
+                  horizontal: _width * 0.05,
+                  vertical: 10
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.menu),
-                    ),
+                    // IconButton(
+                    //   onPressed: () {},
+                    //   icon: const Icon(Icons.menu),
+                    // ),
 
                     Row(
                       children: [
@@ -231,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                       'Round Trips',
                       roundTripData,
                       () {
-                        // Navigate to Round Trips page
+                        Get.to(RoundTripListPage());
                       },
                       context,
                     ),

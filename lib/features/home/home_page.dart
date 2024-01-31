@@ -1,3 +1,4 @@
+import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
@@ -220,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                       'Cruise Ship',
                       cruise_shipdData,
                       () {
-                        //navigate to cruise ship page
+                        // Get.to(CruiseShip());
                       },
                       context,
                     ),
@@ -367,7 +368,7 @@ void _onCardTap(
   Map<String, String> tappedCardData = sectionData[index];
 
   if (tappedCardData['cardText'] == 'Costa Deliziosa') {
-   //
+    Get.to(CruiseShip());
   } else if (tappedCardData['cardText'] == 'Mein Schiff 5') {
  //
   } else if (tappedCardData['cardText'] == 'Excursions South-West Coast') {

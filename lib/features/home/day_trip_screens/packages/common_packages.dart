@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:SL_Explorer/constants/utils/styles.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
-class CommonPage extends StatelessWidget {
+class CommonPage extends StatefulWidget {
   final String pageTitle;
   final List<String> imagePaths;
   final String pageText;
@@ -26,18 +29,43 @@ class CommonPage extends StatelessWidget {
   });
 
   @override
+  _CommonPageState createState() => _CommonPageState();
+}
+
+class _CommonPageState extends State<CommonPage> {
+  String tourType = '';
+  String? selectedValue;
+  DateTime selectedDate = DateTime.now();
+  bool isDateSelected = false;
+
+  final List<String> items = [
+    '1',
+    '2',
+    '3',
+    '4',
+  ];
+
+  @override
   Widget build(BuildContext context) {
+    String? selectedValue;
+    DateTime selectedDate = DateTime.now();
+    bool isDateSelected = false;
+
+    final List<String> items = [
+      '1',
+      '2',
+      '3',
+      '4',
+    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          pageTitle,
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w700,
-            height: MediaQuery.of(context).size.height * 0.001,
-          ),
+          widget.pageTitle,
+          style: GoogleFonts.poppins(
+        color: Colors.black,
+        fontSize: 22.0,
+        fontWeight: FontWeight.w700,
+    ),
         ),
       ),
       body: SingleChildScrollView(
@@ -48,79 +76,358 @@ class CommonPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              ImageSlider(imagePaths: imagePaths),
+              ImageSlider(imagePaths: widget.imagePaths),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Text(
-                pageText,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: MediaQuery.of(context).size.width * 0.03,
-                  fontFamily: 'Montserrat',
+                widget.pageText,
+                style: GoogleFonts.poppins(
+                  color: const Color(0xFF21231E),
                   fontWeight: FontWeight.w400,
-                  height: MediaQuery.of(context).size.height * 0.001,
+                  fontSize: 14.0,
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              DatesExpansionTile(availability: availability),
+              DatesExpansionTile(availability: widget.availability),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              ServicesListTile(services: services),
+              ServicesListTile(services:widget.services),
               SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               HotelsExpansionTile(
-                hotelName: hotelName,
-                hotelImage: hotelImage,
-                hotelDescription: hotelDescription,
+                hotelName: widget.hotelName,
+                hotelImage: widget.hotelImage,
+                hotelDescription: widget.hotelDescription,
               ),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        elevation: 0.0,
+      bottomSheet: Container(
+        color: Colors.transparent,
+        height: 80.0,
+        width: double.infinity,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                bottomBarText,
-                style: TextStyle(
-                  color: Color(0xFFfd8103),
-                  fontSize: MediaQuery.of(context).size.width * 0.035,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w500,
-                  height: MediaQuery.of(context).size.height * 0.0015,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Starting From',
+                  style: GoogleFonts.aBeeZee(
+                      color: const Color(0xFF232323),
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.0
+                  ),
+                ),Text(
+                  widget.bottomBarText,
+                  style: GoogleFonts.montserrat(
+                      color: const Color(0xFF2DD7A4),
+                      fontWeight: FontWeight.w700,
+                      fontSize: 24.0
+                  ),
                 ),
-              ),
+              ],
             ),
             ElevatedButton(
-              onPressed: () {
-                //Get.to(NorthWestBook());
+              onPressed: (){
+                showModalBottomSheet(
+                    context: context,
+                    builder: (builder){
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        width: double.infinity,
+                        color: Colors.transparent,
+                        child: Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0))),
+                            child: SingleChildScrollView(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
+                                child: Column(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: (){
+                                       // _selectDate(context);
+                                      },
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(4.0),
+                                              border: Border.all(color: Color(0xFF8C8C8C))
+
+                                          ),
+                                          height: 44.0,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(left: 20.0),
+                                                child: Text(
+                                                    isDateSelected  ?
+                                                    "${selectedDate.toLocal()}".split(' ')[0]
+                                                        : "Select a date"
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsets.only(right: 20.0),
+                                                child: Icon(
+                                                    Icons.calendar_month
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                      ),
+                                    ),
+                                    SizedBox(height: 20.0),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Select Adults:',
+                                                style: TextStyle(fontSize: 18.0),
+                                              ),
+                                              SizedBox(height: 8.0),
+                                              DropdownButtonHideUnderline(
+                                                child: DropdownButton2<String>(
+                                                  isExpanded: true,
+                                                  hint: Text(
+                                                    'Select Item',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Theme.of(context).hintColor,
+                                                    ),
+                                                  ),
+                                                  items: items
+                                                      .map((String item) => DropdownMenuItem<String>(
+                                                    value: item,
+                                                    child: Text(
+                                                      item,
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ))
+                                                      .toList(),
+                                                  value: selectedValue,
+                                                  onChanged: (String? value) {
+                                                    setState(() {
+                                                      selectedValue = value;
+                                                    });
+                                                  },
+                                                  buttonStyleData:  ButtonStyleData(
+                                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                                    height: 40,
+                                                    width: 140,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(14),
+                                                      border: Border.all(
+                                                        color: Colors.black26,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  menuItemStyleData: const MenuItemStyleData(
+                                                    height: 40,
+                                                  ),
+                                                  dropdownStyleData: DropdownStyleData(
+                                                    maxHeight: 200,
+                                                    width: 200,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(14),
+                                                    ),
+                                                    offset: const Offset(-20, 0),
+                                                    scrollbarTheme: ScrollbarThemeData(
+                                                      radius: const Radius.circular(40),
+                                                      thickness: MaterialStateProperty.all(6),
+                                                      thumbVisibility: MaterialStateProperty.all(true),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Select Childs:',
+                                                style: TextStyle(fontSize: 18.0),
+                                              ),
+                                              SizedBox(height: 8.0),
+                                              DropdownButtonHideUnderline(
+                                                child: DropdownButton2<String>(
+                                                  isExpanded: true,
+                                                  hint: Text(
+                                                    'Select Item',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Theme.of(context).hintColor,
+                                                    ),
+                                                  ),
+                                                  items: items
+                                                      .map((String item) => DropdownMenuItem<String>(
+                                                    value: item,
+                                                    child: Text(
+                                                      item,
+                                                      style: const TextStyle(
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  ))
+                                                      .toList(),
+                                                  value: selectedValue,
+                                                  onChanged: (String? value) {
+                                                    setState(() {
+                                                      selectedValue = value;
+                                                    });
+                                                  },
+                                                  buttonStyleData:  ButtonStyleData(
+                                                    padding: EdgeInsets.symmetric(horizontal: 16),
+                                                    height: 40,
+                                                    width: 140,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(14),
+                                                      border: Border.all(
+                                                        color: Colors.black26,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  menuItemStyleData: const MenuItemStyleData(
+                                                    height: 40,
+                                                  ),
+                                                  dropdownStyleData: DropdownStyleData(
+                                                    maxHeight: 200,
+                                                    width: 200,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(14),
+                                                    ),
+                                                    offset: const Offset(-20, 0),
+                                                    scrollbarTheme: ScrollbarThemeData(
+                                                      radius: const Radius.circular(40),
+                                                      thickness: MaterialStateProperty.all(6),
+                                                      thumbVisibility: MaterialStateProperty.all(true),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+
+                                        SizedBox(height: 16),
+                                        const Text(
+                                          'from/to location & hotel:',
+                                          style: TextStyle(fontSize: 18.0),
+                                        ),
+                                      ],
+                                    ),
+                                    const TextField(
+                                      decoration: InputDecoration(
+                                        hintText: 'e.g. Heritance Ahungalla',
+                                        border: OutlineInputBorder(),
+                                      ),
+                                    ),
+                                    SizedBox(height: 16.0),
+                                    const Text(
+                                      'Questions/messages/requests:',
+                                      style: TextStyle(fontSize: 18.0),
+                                    ),
+                                    const TextField(
+                                      maxLines: 5, // Set the maximum number of lines
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        hintText: 'Type here...',
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                        ),
+                      );
+                    }
+                );
               },
               style: ElevatedButton.styleFrom(
-                primary: const Color(0xFFfd8103),
-                onPrimary: Colors.white,
+                backgroundColor: logoColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0)),
+                minimumSize: const Size(100, 56.0),
               ),
               child: const Row(
-                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Book Now ',style: TextStyle(
+                  Text(
+                    'Pick A Date',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontStyle: FontStyle.italic
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_right_outlined,
                     color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w500,
-                  ),),
-                  Icon(Icons.arrow_forward),
+                    size: 26.0,
+                  )
                 ],
               ),
-            ),
-
+            )
           ],
         ),
       ),
     );
   }
 }
+
+class RoundedButton extends StatelessWidget {
+  final String text;
+  final bool isSelected;
+  final VoidCallback onPressed;
+
+  RoundedButton({
+    required this.text,
+    required this.isSelected,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          primary: isSelected ? Colors.white.withOpacity(0.75): const Color(0xFF9E9E9E).withOpacity(0.15),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        child: Text(
+          text,
+          style: const TextStyle(
+              color: Colors.black
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 
 class ImageSlider extends StatefulWidget {
   final List<String> imagePaths;
@@ -193,18 +500,13 @@ class DatesExpansionTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ExpansionTile(
-        title: Container(
-          color: const Color(0xFFfd8103),
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Available Dates',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-              ),
+        collapsedIconColor: logoColor,
+        title: SizedBox(
+          child: Text(
+            'Avaliable Dates',
+            style: GoogleFonts.poppins(
+              color: logoColor,
+              fontSize: 22.0,
             ),
           ),
         ),
@@ -273,18 +575,13 @@ class ServicesListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ExpansionTile(
-        title: Container(
-          color: const Color(0xFFfd8103),
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Services',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-              ),
+        collapsedIconColor: logoColor,
+        title: SizedBox(
+          child: Text(
+            'Facilities',
+            style: GoogleFonts.poppins(
+              color: logoColor,
+              fontSize: 22.0,
             ),
           ),
         ),
@@ -313,7 +610,7 @@ class ServicesListTile extends StatelessWidget {
                               ),
                             ],
                           ),
-                          textAlign: TextAlign.left,
+
                         ),
                       ),
                   ],
@@ -353,18 +650,13 @@ class HotelsExpansionTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ExpansionTile(
-        title: Container(
-          color: const Color(0xFFfd8103),
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Hotels',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w500,
-              ),
+        collapsedIconColor: logoColor,
+        title: SizedBox(
+          child: Text(
+            'Hotels',
+            style: GoogleFonts.poppins(
+              color: logoColor,
+              fontSize: 22.0,
             ),
           ),
         ),

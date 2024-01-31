@@ -1,12 +1,15 @@
+import 'package:SL_Explorer/common/widgets/shimmer_effect_widget.dart';
 import 'package:SL_Explorer/constants/utils/styles.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
 import 'package:SL_Explorer/features/home/round_trips/widgets/trip_card.dart';
 import 'package:SL_Explorer/models/round_trip_packages_model.dart';
+import 'package:SL_Explorer/providers/round_trips_provider.dart';
 import 'package:SL_Explorer/services/api_services/round_trips_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class RoundTripListPage extends StatefulWidget {
   const RoundTripListPage({super.key});
@@ -17,64 +20,7 @@ class RoundTripListPage extends StatefulWidget {
 
 class _RoundTripListPageState extends State<RoundTripListPage> {
 
-  // List<Map<String, String>> tripData = [
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 1",
-  //     "firstSubTitleText": "Location 1",
-  //     "secondSubTitleText": "Duration: 3 days",
-  //     "descriptionText": "Explore the beautiful landscapes of Location 1 on this exciting trip."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 2",
-  //     "firstSubTitleText": "Location 2",
-  //     "secondSubTitleText": "Duration: 4 days",
-  //     "descriptionText": "Discover the rich culture and history of Location 2 with our guided tour."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 3",
-  //     "firstSubTitleText": "Location 3",
-  //     "secondSubTitleText": "Duration: 5 days",
-  //     "descriptionText": "Experience the adventure of a lifetime in Location 3's stunning natural wonders."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 4",
-  //     "firstSubTitleText": "Location 4",
-  //     "secondSubTitleText": "Duration: 2 days",
-  //     "descriptionText": "Relax and unwind in the serene surroundings of Location 4's luxury resorts."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 5",
-  //     "firstSubTitleText": "Location 5",
-  //     "secondSubTitleText": "Duration: 6 days",
-  //     "descriptionText": "Embark on a culinary journey through the flavors of Location 5's vibrant food scene."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 6",
-  //     "firstSubTitleText": "Location 6",
-  //     "secondSubTitleText": "Duration: 4 days",
-  //     "descriptionText": "Immerse yourself in the arts and culture of Location 6's bustling city streets."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 7",
-  //     "firstSubTitleText": "Location 7",
-  //     "secondSubTitleText": "Duration: 5 days",
-  //     "descriptionText": "Experience the thrill of adventure sports in the scenic landscapes of Location 7."
-  //   },
-  //   {
-  //     "imgLink": "assets/images/roundTrip.png",
-  //     "titleText": "Trip 8",
-  //     "firstSubTitleText": "Location 8",
-  //     "secondSubTitleText": "Duration: 3 days",
-  //     "descriptionText": "Uncover the hidden gems of Location 8's off-the-beaten-path attractions."
-  //   },
-  // ];
+
   List<RoundTrip> roundTrips = [];
   RoundTripsApiService apiService = RoundTripsApiService();
 
@@ -86,7 +32,9 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
 
   loadRoundTripPackages() async {
     try{
+      final roundTripProvider = Provider.of<RoundTripProvider>(context, listen: false);
       List<RoundTrip> fetchedRoundTrips = await apiService.fetchRoundTrips();
+      roundTripProvider.setRoundTrips(fetchedRoundTrips);
       setState(() {
         roundTrips = fetchedRoundTrips;
       });
@@ -126,7 +74,10 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
         ),
         centerTitle: true,
       ),
-      body: ListView.builder(
+      body: roundTrips.isEmpty
+          ? ShimmerWidget(
+        height: 80.0,)
+          : ListView.builder(
         itemCount: roundTrips.length,
         itemBuilder: (context, index) {
           return TripListCard(
@@ -134,7 +85,9 @@ class _RoundTripListPageState extends State<RoundTripListPage> {
             titleText: roundTrips[index].packageName,
             firstSubTitleText: roundTrips[index].packageTitle,
             secondSubTitleText: roundTrips[index].packageSubTitle,
-            descriptionText: roundTrips[index].packageSubTitle
+            descriptionText: roundTrips[index].packageShortDescription,
+            roundTrips: roundTrips,
+            index: index,
           );
         },
       )

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:SL_Explorer/features/authentication/screens/extra_questions_page.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
+import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/question_gender.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +100,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   child: InkWell(
                     onTap: () {
                       Get.to(LoginPage());
-                      // Get.to(ExtraQuestionsPage());
-                      // Get.to(RoundTripListPage());
+
                     },
                     child: Container(
                       height: 48.0,

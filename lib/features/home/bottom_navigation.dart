@@ -15,7 +15,7 @@ class bottomNavigationBar extends StatefulWidget {
 class _bottomNavigationBarState extends State<bottomNavigationBar> {
   List pages =[
     const HomePage(),
-    const order(),
+    OrdersPage(),
     const gallery(),
     const services(),
     const ProfilePage(),

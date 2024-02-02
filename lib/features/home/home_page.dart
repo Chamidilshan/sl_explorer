@@ -100,7 +100,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-
+    final message = ModalRoute.of(context)!.settings.arguments;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -153,6 +153,15 @@ class _HomePageState extends State<HomePage> {
                               fontWeight: FontWeight.w400,
                               height: _height * 0.003,
                             ),
+                          ),Text(
+                            'Sri Lanka',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: _width * 0.035,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              height: _height * 0.003,
+                            ),
                           ),
                         ],
                       ),
@@ -188,6 +197,26 @@ class _HomePageState extends State<HomePage> {
                       ),
             
                       Text(
+                        'Sri Lanka',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: _width * 0.08,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                          height: _height * 0.001,
+                        ),
+                      ),
+
+                      Text(
+                        'Sri Lanka',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: _width * 0.08,
+                          fontFamily: 'Montserrat',
+                          fontWeight: FontWeight.w500,
+                          height: _height * 0.001,
+                        ),
+                      ),Text(
                         'Sri Lanka',
                         style: TextStyle(
                           color: Colors.black,

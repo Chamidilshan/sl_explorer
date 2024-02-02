@@ -373,6 +373,8 @@ void _onCardTap(
     Get.to(North_West_CoastPage());
   }else if (tappedCardData['cardText'] == 'East Coast Excursions') {
     Get.to(East_CoastPage());
+  }else if (tappedCardData['cardText'] == 'Embudu, South Male Atoll') {
+    Get.to(Maldives_Emirates());
   }
 }
 

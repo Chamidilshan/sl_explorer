@@ -18,8 +18,8 @@ class _Maldives_EmiratesState extends State<Maldives_Emirates> {
 
 // List of image URLs
   List<String> imageUrls = [
-    'https://www.travelanddestinations.com/wp-content/uploads/2021/11/Maldives-islands-and-resorts-1024x684.jpg',
-    'https://static1.evcdn.net/images/reduction/355607_w-3840_h-2160_q-70_m-crop.jpg',
+    'https://plus.unsplash.com/premium_photo-1682706449101-3116dc0325f4?q=80&w=1769&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?q=80&w=1796&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     'https://cf.bstatic.com/xdata/images/hotel/max1024x768/465571045.jpg?k=02196325840def7cafaa7e4433e5a101dd117244001194c539ff9281d3b7b0a2&o=&hp=1'
     // Add more image URLs as needed
   ];
@@ -121,15 +121,111 @@ class _Maldives_EmiratesState extends State<Maldives_Emirates> {
 
               ),
               SizedBox(height: 16.0),
-              const Text(
-                'Facilities',
-                style: TextStyle(
-                  fontSize: 23.0, // Adjust the font size as needed
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, // Customize the color
-
+          Container(
+            margin: const EdgeInsets.symmetric(vertical: 8.0),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+            child: ExpansionTile(
+              collapsedIconColor: logoColor,
+              title: SizedBox(
+                child: Text(
+                  'Facilities',
+                  style: GoogleFonts.poppins(
+                    color: logoColor,
+                    fontSize: 22.0,
+                  ),
                 ),
               ),
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Departure 09:30 hrs +/-',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      '• Pick-up directly at the ship',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    Text(
+                      '• Travel by air-conditioned coach',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    Text(
+                      '• English-speaking Sri Lanka Explorer Tour Guide',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    // Add more points similarly
+                    SizedBox(height: 8),
+                    Text(
+                      'No minimum number of participants - max. 20 people',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    Text(
+                      '€ 85 per adult',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    Text(
+                      '€ 55 per child up to 11 years',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      'Ship layover: 09:00-19:00',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: 'AbhayaLibreMedium',
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF3A544F),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    )
+                  ],
+                ),
+              ],
+            ),
+          )
               // Your other widgets/content here
             ],
           ),

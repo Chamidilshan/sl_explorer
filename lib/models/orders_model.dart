@@ -22,6 +22,19 @@ class OrderRequest {
       'option': option,
     };
   }
+
+  factory OrderRequest.fromJson(Map<String, dynamic> json) {
+    return OrderRequest(
+    customerId: json['customerId'],
+    package: "kjkjfdfdjkfidfsjd",//json['packageId.roundTrip'],
+    orderDate: json['orderDate'],
+    noOfPeople: 3,//json['noOfPeople'],
+    option: "option",//json['option'],
+    );
+  }
+
+
+
 }
 
 // class Package {

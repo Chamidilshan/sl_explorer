@@ -1,21 +1,95 @@
+import 'package:SL_Explorer/common/widgets/Numbered_shimmer_effect.dart';
+import 'package:SL_Explorer/features/home/orders/widgets/order_cart.dart';
+import 'package:SL_Explorer/features/home/round_trips/widgets/trip_card.dart';
+import 'package:SL_Explorer/models/orders_model.dart';
+import 'package:SL_Explorer/providers/orders_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:provider/provider.dart';
+import '../../common/widgets/shimmer_effect_widget.dart';
+import '../../models/round_trip_packages_model.dart';
+import '../../providers/orders_provider.dart';
+import '../../providers/round_trips_provider.dart';
+import '../../services/api_services/orders_api_service.dart';
+import '../../services/api_services/round_trips_service.dart';
 import 'orders/ordersDetails.dart';
 
-class OrdersPage extends StatelessWidget {
+class OrdersPage extends StatefulWidget {
 
+  @override
+  State<OrdersPage> createState() => _OrdersPageState();
+}
+
+class _OrdersPageState extends State<OrdersPage> {
   //final String getUrl = ""
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  List<OrderRequest> orders = [];
+  OrderApiService apiService = OrderApiService();
+  User? _user;
 
-  final String orderId = '2351155454';
-  final String orderDate = '21-04-2024';
-  final int numAdults = 2;
-  final int numChildren = 1;
-  final String packageName = 'Sri Lanka Deluxe';
-  final int packageDuration = 8;
-  final int packagePrice = 375;
-  final String packageImage = 'https://cdn.tourradar.com/s3/tour/1500x800/119449_5e3cdbba84872.jpg';
+  @override
+  void initState(){
+    super.initState();
+    _getCurrentUser();
+    //print(_user!.uid);
+    loadOrders();
+    //load packages
+    loadRoundTripPackages();
+  }
+
+
+  Future<void> _getCurrentUser() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      setState(() {
+        _user = user;
+      });
+    }
+  }
+
+  loadOrders() async {
+    try{
+      final orderProvider = Provider.of<OrderProvider>(context, listen: false);
+      List<OrderRequest> fetchedOrders = await apiService.fetchOrders(_user!.uid);
+      orderProvider.setOrders(fetchedOrders);
+
+      // print("\n\n\n\n\n");
+      // print(fetchedOrders[0].orderDate);
+      // print(fetchedOrders[0].package);
+      // print(fetchedOrders[0].noOfPeople);
+
+      setState(() {
+        orders = fetchedOrders;
+      });
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+
+
+
+  List<RoundTrip> roundTrips = [];
+  RoundTripsApiService packApiService = RoundTripsApiService();
+
+  loadRoundTripPackages() async {
+    try{
+      final roundTripProvider = Provider.of<RoundTripProvider>(context, listen: false);
+      List<RoundTrip> fetchedRoundTrips = await packApiService.fetchRoundTrips();
+      roundTripProvider.setRoundTrips(fetchedRoundTrips);
+      setState(() {
+        roundTrips = fetchedRoundTrips;
+      });
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,67 +116,86 @@ class OrdersPage extends StatelessWidget {
 
       body: ListView(
         children: [
-            Card(
-              color: Colors.orangeAccent[800],
-            elevation: 5,
-            margin: EdgeInsets.all(10),
-            child: InkWell(
-              onTap: () {
-                // Navigate to the order details page
-                Get.to( () => OrderDetailsPage(
-                      orderId: orderId,
-                      orderDate: orderDate,
-                      numAdults: numAdults,
-                      packageName: packageName,
-                      packageDuration: packageDuration,
-                      packagePrice: packagePrice,
-                      packageImage: packageImage,
-                    ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.network(
-                        packageImage,
-                        width: _width/3,
-                        height: _width/3,
-                        fit: BoxFit.fitHeight,
-                      ),
-                    ),
-                    Container(
-                      width: _width/2,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(packageName,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600
-                            ),
-                          ),
-                          Text('Booked on: $orderDate'),
-                          Text('For: $numAdults Adults'),
-                          //Text('Duration: $packageDuration days'),
-                          Text('Price: \$ $packagePrice'),
-                          Text('Order ID: $orderId',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600
-                            ),),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+
+
+
+          orders.isEmpty
+          ? SizedBox(
+            height: 200 * 1,//count
+            child: NumberedShimmerWidgets(
+            height: 180.0, count: 1,),
+          )
+          :SizedBox(
+            height: orders.length * 200,
+            child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),//to top scrolling
+                itemCount: orders.length,
+                itemBuilder: (context, index){
+                  return OrderCard(
+                    order: orders[index],
+                    index: 0,
+                  );
+                }
             ),
           ),
+
+
+
+
+          Container(
+            //height: double.infinity,
+            margin: EdgeInsets.all(10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+
+                Row(
+                  children: [
+                    Text(
+                      "Recommended Packages",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.deepOrangeAccent,
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_right,
+                      size: 30,
+                    )
+                  ],
+                ),
+
+
+
+                roundTrips.isEmpty
+                    ? SizedBox(
+                      height: 80 * 5,
+                      child: ShimmerWidget(height: 100.0,),
+                    )
+                    : SizedBox(
+                      height: roundTrips.length * 200,
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: roundTrips.length,
+                        itemBuilder: (context, index) {
+                      return TripListCard(
+                        imgLink: roundTrips[index].packageCoverImage,
+                        titleText: roundTrips[index].packageName,
+                        firstSubTitleText: roundTrips[index].packageTitle,
+                        secondSubTitleText: roundTrips[index].packageSubTitle,
+                        descriptionText: roundTrips[index].packageShortDescription,
+                        roundTrips: roundTrips,
+                        index: index,
+                      );
+                                        },
+                                      ),
+                    )
+              ],
+            ),
+          )
         ],
       )
     );

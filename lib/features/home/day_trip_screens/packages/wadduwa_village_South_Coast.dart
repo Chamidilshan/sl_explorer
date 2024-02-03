@@ -15,20 +15,20 @@ class Wadduwa_South_CoastP1 extends StatelessWidget {
       Service(description: 'Minimum participants: 2 people/max. 8 people'),
     ];
     List<String> imagePaths = [
-      'assets/images/galle_fort.jpg',
-      'assets/images/galle_fort.jpg',
+      'assets/images/wadduwa.jpeg',
+      'assets/images/wadduwa2.jpg',
     ];
 
     return CommonPage(
-      pageTitle: 'Cycling Tour Wadduwa & Kalutara ',
+      pageTitle: 'Wadduwa Village Tour ',
       imagePaths: imagePaths,
       pageText: 'Explore inland villages via TucTuc after breakfast at 9:30 a.m. Discover quaint houses, local shops, and visit a bakery, coconut oil mill, rope factory, and broom maker.\n\nPass by scenic rice fields, lakes, and ponds with water buffaloes. Visit a village temple and enjoy a canoe ride amidst bird sightings. Conclude with a delightful lunch featuring homemade rotis or a flavorful rice and curry by Renuka',
-      availability: [false, false, true, false, false],
+      availability: [true, false, true, false, false],
       services: myServices,
-      hotelName: 'Hotel 1',
-      hotelImage: 'assets/images/galle_fort.jpg',
-      hotelDescription: 'Description for Hotel 1',
-      bottomBarText: 'From\n€35/person',
+      hotelName: 'Jungle Beach Camp',
+      hotelImage: 'assets/images/Hotel1.jpg',
+      hotelDescription: 'Jungle Beach Camp: Best glamping by the sandy shores of Sri Lanka, featuring a beach bar, yoga shala, and Ayurvedic treatments',
+      bottomBarText: '€35/person',
     );
   }
 }

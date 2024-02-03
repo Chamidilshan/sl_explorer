@@ -1,5 +1,8 @@
 import 'package:SL_Explorer/constants/utils/styles.dart';
+import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
+import 'package:SL_Explorer/models/round_trip_packages_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TripListCard extends StatelessWidget {
@@ -8,6 +11,8 @@ class TripListCard extends StatelessWidget {
   final String firstSubTitleText;
   final String secondSubTitleText;
   final String descriptionText;
+  final List<RoundTrip> roundTrips;
+  final int index;
   const TripListCard({
     super.key,
     required this.imgLink,
@@ -15,6 +20,8 @@ class TripListCard extends StatelessWidget {
     required this.firstSubTitleText,
     required this.secondSubTitleText,
     required this.descriptionText,
+    required this.roundTrips,
+    required this.index,
   });
 
   @override
@@ -27,9 +34,9 @@ class TripListCard extends StatelessWidget {
         trailing: IconButton(
           icon: Icon(Icons.keyboard_double_arrow_right_rounded),
           onPressed: (){
-            // Get.to(
-            //     RoundTripsDetailsPage()
-            // );
+            Get.to(
+                RoundTripsDetailsPage(roundTrip: roundTrips[index],)
+            );
           },
         ),
         collapsedIconColor: logoColor,
@@ -42,7 +49,7 @@ class TripListCard extends StatelessWidget {
                     flex: 2,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
-                      child: Image.asset(
+                      child: Image.network(
                         imgLink,
                         fit: BoxFit.cover,
                       ),

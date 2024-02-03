@@ -1,4 +1,4 @@
-import 'package:SL_Explorer/features/home/day_trip_screens/custom_page.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -22,89 +22,32 @@ class North_West_CoastPage extends StatelessWidget {
         durationInDays: 2,
       ),
     ];
-    return CustomPage(
+    return CommonListPage(
+      itemCountsByTab: const [2, 3, 3],
       pageTitle: 'Excursions North-West Coast',
-      tabTitles: ['One Day', 'Two Days', 'Three Days'],
-      tabContents: [
-        [
-          TripDetails(
-            title: 'Kelaniya & Negombo',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Colombo Hustle & Bustle',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Kandy & Pinnawela',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Wilpattu NP Safari',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: '''Adam's Peak''',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 2',
-          ),
-          TripDetails(
-            title: 'Sinharaja Rainforest',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-        ],
-
-        [
-          TripDetails(
-            title: 'Pinnawela,Kandy & Highlands',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Cultural Triangle with Safari',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Culture Triangle Reloaded',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Pure Nature',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Wilpattu & Anuradhapura',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-        ],
-
-        [
-          TripDetails(
-            title: 'Migratory Birds',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Sigiriya, Kandy & Tea Highlands',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-          TripDetails(
-            title: 'Pinnawela, Kandy & Adams Peak',
-            imagePath: 'assets/images/galle_fort.jpg',
-            description: 'Description 1',
-          ),
-        ],
+      tabTitles: const [
+        'One Day',
+        'Two Days',
+        'Three Days',
       ],
+      titlesByDuration: const [
+        ['Title 1a', 'Title 1b'],
+        ['Title 2a', 'Title 2b', 'Title 2c'],
+        ['Title 3a', 'Title 3b', 'Title 3c', 'Title 3d'],
+      ],
+      descriptionsByDuration: const [
+        ['Description 1a', 'Description 1b'],
+        ['Description 2a', 'Description 2b', 'Description 2c'],
+        ['Description 3a', 'Description 3b', 'Description 3c', 'Description 3d'],
+      ],
+      imagePathsByDuration: const [
+        ['assets/images/roundTrip.png', 'assets/images/roundTrip.png'],
+        ['assets/images/roundTrip.png', 'assets/images/roundTrip.png', 'assets/images/roundTrip.png'],
+        ['assets/images/roundTrip.png', 'assets/images/roundTrip.png', 'assets/images/roundTrip.png'],
+      ],
+
+
+
       onDoubleArrowTapped: (tabIndex, cardIndex) {
         if (tabIndex == 0) {
           if (cardIndex == 0) {

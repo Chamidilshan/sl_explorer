@@ -146,7 +146,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         key: updateKey,
         child: ListView(
           children: [
-
             Container(
                 decoration: BoxDecoration(
                   border: Border.all(

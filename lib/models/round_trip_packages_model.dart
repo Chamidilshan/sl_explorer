@@ -12,6 +12,7 @@ class RoundTrip {
   final int packageTotalSeats;
   final List<Itenary> itenary;
   final List<Hotel> hotels;
+  final Prices prices;
 
   RoundTrip({
     required this.id,
@@ -25,6 +26,7 @@ class RoundTrip {
     required this.packageTotalSeats,
     required this.itenary,
     required this.hotels,
+    required this.prices
   });
 
   factory RoundTrip.fromJson(Map<String, dynamic> json) {
@@ -40,6 +42,7 @@ class RoundTrip {
       packageTotalSeats: json['packageTotalSeats'],
       itenary: List<Itenary>.from(json['itenary'].map((x) => Itenary.fromJson(x))),
       hotels: List<Hotel>.from(json['hotels'].map((x) => Hotel.fromJson(x))),
+      prices: Prices.fromJson(json['prices']),
     );
   }
 }
@@ -109,6 +112,63 @@ class HotelDetails {
       hotelName: json['hotelName'],
       hotelDistrict: json['hotelDistrict'],
       hotelImage: json['hotelImage'],
+    );
+  }
+}
+
+class Prices {
+  final GroupPrices group;
+  final PrivatePrices private;
+
+  Prices({
+    required this.group,
+    required this.private,
+  });
+
+  factory Prices.fromJson(Map<String, dynamic> json) {
+    return Prices(
+      group: GroupPrices.fromJson(json['group']),
+      private: PrivatePrices.fromJson(json['private']),
+    );
+  }
+}
+
+class GroupPrices {
+  final int single;
+  final int double;
+  final int triple;
+
+  GroupPrices({
+    required this.single,
+    required this.double,
+    required this.triple,
+  });
+
+  factory GroupPrices.fromJson(Map<String, dynamic> json) {
+    return GroupPrices(
+      single: json['single'],
+      double: json['double'],
+      triple: json['triple'],
+    );
+  }
+}
+
+class PrivatePrices {
+  final int single;
+  final int double;
+  final int triple;
+
+  PrivatePrices({
+    required this.single,
+    required this.double,
+    required this.triple,
+  });
+
+  factory PrivatePrices.fromJson(Map<String, dynamic> json) {
+    return PrivatePrices(
+      single: json['single'],
+      double: json['double'],
+      triple: json['triple'],
     );
   }
 }

@@ -1,13 +1,17 @@
 import 'dart:convert';
-
+import 'package:intl/intl.dart';
 import 'package:SL_Explorer/features/home/bottom_navigation.dart';
 import 'package:SL_Explorer/features/home/home_page.dart';
+import 'package:SL_Explorer/models/notification_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
+final uuid = Uuid();
 
 Future<void> handleBackgroundMessage(RemoteMessage message)async{
 
@@ -28,7 +32,7 @@ class FirebaseNotificationApi{
 
   void handleMessage(RemoteMessage? message){
     if(message==null) return;
-    Get.to(HomePage());
+    Get.to(HomePage(message: message,));
   }
 
   Future initLocalNotifications() async{
@@ -81,6 +85,18 @@ class FirebaseNotificationApi{
           ),
         payload: jsonEncode(message.toMap())
       );
+
+      final newNotification = NotificationModel(
+          title: notification.title ?? '',
+          body: notification.body ?? '',
+          imgLink: notification.android!.imageUrl.toString() ?? '',
+          date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+          time: DateFormat('HH:mm').format(DateTime.now()),
+      );
+      
+      NotificationService.saveNotification(newNotification);
+
+
     });
 
   }
@@ -92,4 +108,36 @@ class FirebaseNotificationApi{
     initPushNotifications();
     initLocalNotifications();
   }
+}
+
+
+class NotificationService {
+  static const _key = 'notifications';
+
+  static Future<void> saveNotification(NotificationModel notification) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> notifications = prefs.getStringList(_key) ?? [];
+    notifications.add(jsonEncode(notification.toJson()));
+    await prefs.setStringList(_key, notifications);
+  }
+
+  static Future<List<NotificationModel>> getNotifications() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> notifications = prefs.getStringList(_key) ?? [];
+    return notifications.map((json) =>
+        NotificationModel.fromJson(jsonDecode(json))).toList();
+  }
+
+  static Future<void> deleteNotification(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<String> notifications = prefs.getStringList(_key) ?? [];
+
+    notifications.removeWhere((json) {
+      final decoded = jsonDecode(json);
+      return decoded['id'] == id;
+    });
+
+    await prefs.setStringList(_key, notifications);
+  }
+
 }

@@ -4,6 +4,7 @@ import 'package:SL_Explorer/features/authentication/screens/email_verification_s
 import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/firebase_options.dart';
 import 'package:SL_Explorer/formtest.dart';
+import 'package:SL_Explorer/providers/orders_provider.dart';
 import 'package:SL_Explorer/providers/round_trips_provider.dart';
 import 'package:SL_Explorer/services/firebase_services/notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,8 +26,11 @@ Future<void> main() async{
   await FirebaseNotificationApi().initNotifications();
   await FirebaseMessaging.instance.subscribeToTopic('ALL');
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => RoundTripProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => RoundTripProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
+      ],
       child: MyApp(),
     ),
   );

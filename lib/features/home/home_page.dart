@@ -1,7 +1,9 @@
 import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
+import 'package:SL_Explorer/features/home/widgets/notifications_drawer.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
@@ -14,7 +16,10 @@ import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:badges/badges.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final RemoteMessage? message;
+  const HomePage({
+    super.key,
+    this.message});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -100,12 +105,29 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    final message = ModalRoute.of(context)!.settings.arguments;
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          width: _width * 1,
-          height: _height * 1,
+    return SafeArea(
+      child: Scaffold(
+        endDrawer: Drawer(
+          child: NotificationDrawer(),
+        ),
+        appBar: AppBar(
+          actions: [
+            Builder(
+              builder: (context) => IconButton(
+                icon: Icon(
+                    Icons.notifications,
+                  color: Colors.black,
+                ),
+                onPressed: () => Scaffold.of(context).openEndDrawer(),
+                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+              ),
+            ),
+          ],
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+        ),
+        extendBodyBehindAppBar: true,
+        body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/beach.png"),
@@ -118,59 +140,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: _width * 0.05,
-                    vertical: 10
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // IconButton(
-                      //   onPressed: () {},
-                      //   icon: const Icon(Icons.menu),
-                      // ),
-            
-                      Row(
-                        children: [
-                          Container(
-                            width: _width * 0.04,
-                            height: _height * 0.025,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/location.png"),
-                                fit: BoxFit.fill,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: _width * 0.02,
-                          ),
-                          Text(
-                            'Sri Lanka',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: _width * 0.035,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: _height * 0.003,
-                            ),
-                          ),Text(
-                            'Sri Lanka',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: _width * 0.035,
-                              fontFamily: 'Inter',
-                              fontWeight: FontWeight.w400,
-                              height: _height * 0.003,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
                     horizontal: _width * 0.04,
+                    vertical: _height * 0.04
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -189,43 +160,72 @@ class _HomePageState extends State<HomePage> {
                               height: _height * 0.002,
                             ),
                           ),
-                          IconButton(
-                            onPressed: onNotificationClick,
-                            icon: Icon(Icons.notifications_active),
-                          ),
                         ],
                       ),
-            
-                      Text(
-                        'Sri Lanka',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: _width * 0.08,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          height: _height * 0.001,
-                        ),
-                      ),
 
-                      Text(
-                        'Sri Lanka',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: _width * 0.08,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          height: _height * 0.001,
-                        ),
-                      ),Text(
-                        'Sri Lanka',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: _width * 0.08,
-                          fontFamily: 'Montserrat',
-                          fontWeight: FontWeight.w500,
-                          height: _height * 0.001,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Sri Lanka',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: _width * 0.08,
+                              fontFamily: 'Montserrat',
+                              fontWeight: FontWeight.w500,
+                              height: _height * 0.001,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                width: _width * 0.04,
+                                height: _height * 0.025,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/images/location.png"),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: _width * 0.02,
+                              ),
+                              Text(
+                                'Sri Lanka',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
+                      if(widget.message?.notification?.title != null)
+                        Text(
+                          widget.message?.notification?.title ?? '',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: _width * 0.08,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w500,
+                            height: _height * 0.001,
+                          ),
+                        ),
+                      if(widget.message?.notification?.title != null)
+                        Text(
+                          widget.message?.notification?.body ?? '',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: _width * 0.08,
+                            fontFamily: 'Montserrat',
+                            fontWeight: FontWeight.w500,
+                            height: _height * 0.001,
+                          ),
+                        ),
                     ],
                   ),
                 ),
@@ -322,8 +322,8 @@ Widget _buildCardSection(
   bool showSeeAll = false,
 }) {
   return Padding(
-    padding: EdgeInsets.symmetric(
-      horizontal: _width * 0.04,
+    padding: EdgeInsets.only(
+      // horizontal: _width * 0.04,
     ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,14 +331,17 @@ Widget _buildCardSection(
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              sectionTitle,
-              style: const TextStyle(
-                color: Color(0xFF232323),
-                fontSize: 18,
-                fontFamily: 'Montserrat',
-                fontWeight: FontWeight.w600,
-                height: 2,
+            Padding(
+              padding: const EdgeInsets.only(left: 24.0),
+              child: Text(
+                sectionTitle,
+                style: const TextStyle(
+                  color: Color(0xFF232323),
+                  fontSize: 18,
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w600,
+                  height: 2,
+                ),
               ),
             ),
             if (sectionTitle != 'Cruise Ship')
@@ -367,7 +370,7 @@ Widget _buildCardSection(
             itemBuilder: (context, index) {
               if (index < sectionData.length) {
                 return Padding(
-                  padding: EdgeInsets.only(right: _width * 0.02),
+                  padding: EdgeInsets.only(left:_width * 0.02, right: _width * 0.02),
                   child: InkWell(
                     onTap: () {
                       _onCardTap(context, index, sectionData);

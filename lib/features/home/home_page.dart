@@ -1,3 +1,4 @@
+import 'package:SL_Explorer/common/user_location.dart';
 import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
@@ -14,6 +15,7 @@ import 'package:SL_Explorer/features/home/day_trip_screens/south_west_coast.dart
 import 'package:SL_Explorer/features/home/day_trip_screens/east_coast.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:badges/badges.dart';
+import 'package:location/location.dart';
 
 class HomePage extends StatefulWidget {
   final RemoteMessage? message;
@@ -101,6 +103,49 @@ class _HomePageState extends State<HomePage> {
     //
   }
 
+  Future<void> locationService() async{
+    Location location = new Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionLocation;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if(!_serviceEnabled){
+      _serviceEnabled = await location.requestService();
+      if(!_serviceEnabled){
+        return;
+      }
+    }
+    _permissionLocation = await location.hasPermission();
+    if(_permissionLocation == PermissionStatus.denied){
+      _permissionLocation = await location.requestPermission();
+      if(_permissionLocation != PermissionStatus.granted){
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    print(_locationData.latitude);
+    print(_locationData.longitude);
+
+    setState(() {
+      UserLocation.lat = _locationData.latitude!;
+      UserLocation.long = _locationData.longitude!;
+    });
+
+    UserLocation().getLocations();
+     print('locayion is ${UserLocation.currentLocation}');
+
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    locationService();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
@@ -179,7 +224,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             children: [
                               Container(
-                                width: _width * 0.04,
+                                width: _width * 0.04, 
                                 height: _height * 0.025,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
@@ -192,7 +237,7 @@ class _HomePageState extends State<HomePage> {
                                 width: _width * 0.02,
                               ),
                               Text(
-                                'Sri Lanka',
+                                UserLocation.currentLocation,
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 16.0,

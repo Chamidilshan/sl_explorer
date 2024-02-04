@@ -1,6 +1,7 @@
+import 'package:SL_Explorer/features/home/orders/widgets/remainingDays.dart';
+import 'package:SL_Explorer/models/orders_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 class OrderDetailsPage extends StatelessWidget {
   // final String orderId;
   // final String orderDate;
@@ -19,6 +20,12 @@ class OrderDetailsPage extends StatelessWidget {
   //   required this.packagePrice,
   //   required this.packageImage,
   // });
+
+  final Order order;
+
+  OrderDetailsPage({
+    required this.order
+});
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +85,22 @@ class OrderDetailsPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
+                      order.status == "Invoice" || order.status == "Confirmed"
+                      ?
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.orangeAccent[400],
+                        child: Icon(
+                          Icons.check,
+                          size: 25,
+                          color: Colors.white,
+                          weight: 700,
+                        ),
+                      )
+                      :
                       CircleAvatar(
                         radius: 15,
                         backgroundColor: Colors.grey[200],
-                        // child: Icon(
-                        //   Icons.check,
-                        //   size: 25,
-                        //   color: Colors.white,
-                        //   weight: 700,
-                        // ),
-                      
                         child: Text(
                           "2",
                           style: TextStyle(
@@ -97,6 +110,7 @@ class OrderDetailsPage extends StatelessWidget {
                           ),
                         ),
                       ),
+
                       Text("  Invoice  ")
                     ],
                   ),
@@ -110,15 +124,11 @@ class OrderDetailsPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
+                      order.status != "Confirmed"
+                      ?
                       CircleAvatar(
                         radius: 15,
                         backgroundColor: Colors.grey[200],
-                        // child: Icon(
-                        //   Icons.check,
-                        //   size: 25,
-                        //   color: Colors.white,
-                        //   weight: 700,
-                        //
                         child: Text(
                           "3",
                           style: TextStyle(
@@ -127,6 +137,17 @@ class OrderDetailsPage extends StatelessWidget {
                             color: Colors.orange,
                           ),
                         ),
+                      )
+                      :
+                      CircleAvatar(
+                        radius: 15,
+                        backgroundColor: Colors.orangeAccent[400],
+                        child: Icon(
+                          Icons.check,
+                          size: 25,
+                          color: Colors.white,
+                          weight: 700,
+                        )
                       ),
                       Text("Confirmed")
                     ],
@@ -134,6 +155,93 @@ class OrderDetailsPage extends StatelessWidget {
                 ],
               ),
             ),
+
+
+
+
+            order.status == "Confirmed"
+            ?
+            Container(
+              //height: 300,
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      offset: Offset(1, 1), // Adjust the offset to control the shadow direction
+                      blurRadius: 30, // Adjust the blur radius for a softer or sharper shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            radius: 12,
+                            backgroundColor: Colors.orangeAccent[400],
+                            child: Icon(
+                              Icons.check,
+                              size: 15,
+                              color: Colors.white,
+                              weight: 700,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(25, 0, 10, 0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Order Confirmed",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    Text(
+                                      "   (on ${order.orderDate.year}-${order.orderDate.month}-${order.orderDate.day})",
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 15
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+
+                      Builder(
+                          builder: (context){
+                            return RemainingDaysWidget(
+                                startDate: order.orderDate,
+                                endDate: order.tripDate,
+                            );
+                          }
+                      )
+
+                    ],
+                  ),
+                )
+            )
+            :
+            Text(""),
+
 
 
 
@@ -169,33 +277,49 @@ class OrderDetailsPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 25
-                      ),
+                      padding: const EdgeInsets.fromLTRB(25, 0, 10, 0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Order Received",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                            ),
+                          Row(
+                            children: [
+                              Text(
+                                "Order Received",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                  "   (on ${order.orderDate.year}-${order.orderDate.month}-${order.orderDate.day})",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15
+                                ),
+                              )
+                            ],
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(
                               vertical: 10,
                             ),
                             child: Text(
-                              "21-01-2024 19:20 pm\nSri Lanka Deluxe for 21-04-2024\n2 Adults",
+                                  "Pack:"
+                                  "  ${order.packageId.roundTrip!.packageName}\n"
+                                  "Trip:"
+                                  "  ${order.tripDate}\n"
+                                  "People: ${order.noOfPeople.adults}-Adults and ${order.noOfPeople.children}-Children",
+                              style: GoogleFonts.poppins(
+
+                              ),
                             ),
                           ),
                           Text(
-                            "Order ID: 215dsdsdd45642165",
+                            "${order.orderId}",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: Colors.orange[700]
+                              color: Colors.deepOrange[700]
                             ),
                           ),
                         ],
@@ -209,33 +333,9 @@ class OrderDetailsPage extends StatelessWidget {
 
 
 
-            // Container(
-            //   //height: 300,
-            //   margin: EdgeInsets.all(15),
-            //   decoration: BoxDecoration(
-            //     color: Colors.white,
-            //     borderRadius: BorderRadius.circular(12.0),
-            //     boxShadow: [
-            //       BoxShadow(
-            //         color: Colors.grey.shade400,
-            //         offset: Offset(1, 1), // Adjust the offset to control the shadow direction
-            //         blurRadius: 30, // Adjust the blur radius for a softer or sharper shadow
-            //       ),
-            //     ],
-            //   ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(20.0),
-            //     child: Center(
-            //       child: Text(
-            //         "No Invoice yet"
-            //       ),
-            //     ),
-            //   )
-            // )
 
-
-
-
+            order.status == "Invoice" || order.status == "Confirmed"
+            ?
             Container(
               //height: 300,
                 margin: EdgeInsets.all(15),
@@ -285,7 +385,7 @@ class OrderDetailsPage extends StatelessWidget {
 
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                          vertical: 20
+                            vertical: 20
                         ),
                         child: SizedBox(
                           //height: 110,
@@ -293,11 +393,13 @@ class OrderDetailsPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               ClipRRect(
-                                child: Image.asset(
-                                  "assets/images/Villege_tour.jpg",
-                                  fit: BoxFit.fill,
+                                child: Image.network(
+                                  order.packageId.roundTrip!.packageCoverImage,
+                                  fit: BoxFit.cover,
+                                  colorBlendMode: BlendMode.softLight,
                                   height: 100,
                                   width: 100,
+                                  color: Colors.white,
                                 ),
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -307,7 +409,8 @@ class OrderDetailsPage extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Sri Lanka Deluxe",
+                                    Text(
+                                      order.packageId.roundTrip!.packageName,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 20,
@@ -315,15 +418,30 @@ class OrderDetailsPage extends StatelessWidget {
                                     ),
                                     Row(
                                       children: [
-                                        Icon(Icons.time_to_leave),
-                                        Text(" data 8-days | 7-nights")
+                                        Icon(
+                                            Icons.people,
+                                          size: 15,
+                                          color: Colors.grey,
+                                        ),
+                                        Text("    ${order.noOfPeople.adults}-Adults | ${order.noOfPeople.children}-Children",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
                                       ],
                                     ),
-                                    Text("3-Adults | 2-Nights"),
-                                    Text("some order data",
-                                      style: TextStyle(
+                                    Row(
+                                      children: [
+                                        Icon(Icons.date_range,
+                                        size: 15,
                                         color: Colors.grey,
-                                      ),
+                                        ),
+                                        Text("    ${order.tripDate.year}-${order.tripDate.month}-${order.tripDate.day}",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
@@ -335,64 +453,101 @@ class OrderDetailsPage extends StatelessWidget {
 
                       Padding(
                         padding: EdgeInsets.all(15),
+                        child: SizedBox(
+                          height: order.options!.length * 20,
+                          child: ListView.separated(
+                            itemCount: order.options!.length,
+                            separatorBuilder: (BuildContext context, int index) => Divider(),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("${order.options![index].name}",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  Text("${order.options![index].amount}",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: EdgeInsets.all(15),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
+                            Text(
+                              "jhjh"
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20
+                              ),
+                              height: 55,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                //color: Colors.orange,
+                                border: Border.all(
+                                  color: Colors.grey,
+                                  width: 0.5,
+                                  style: BorderStyle.solid
+                                )
+                              ),
+                              child: TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: "Reference Number",
+                                  border: InputBorder.none,
+                                ),
+
+                              ),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("dsdsdsnd dsdd"),
-                                Text("\$ 129")
-                              ],
-                            ),
+                            ElevatedButton(
+                                onPressed: (){},
+                                child: Text(
+                                  "Submit",
+                                )
+                            )
                           ],
                         ),
                       )
+
                     ],
                   ),
                 )
+            )
+            :
+            Container(
+              //height: 300,
+                margin: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.shade400,
+                      offset: Offset(1, 1),
+                      blurRadius: 30,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Text(
+                        "No Invoice yet"
+                    ),
+                  ),
+                )
             ),
+
 
 
           ],

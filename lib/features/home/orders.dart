@@ -110,7 +110,7 @@ class _OrdersPageState extends State<OrdersPage> {
         surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.w900,
-          fontSize: 25.0,
+          fontSize: 20.0,
           letterSpacing: 1.0,
         ),
         centerTitle: true,

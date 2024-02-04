@@ -484,7 +484,11 @@ class OrderDetailsPage extends StatelessWidget {
                         child: Column(
                           children: [
                             Text(
-                              "jhjh"
+                              "Pay your advance and upload the payment reference number here."
+                                  "Don’t forget to put your order number as a reference in the payment.",
+                              style: GoogleFonts.poppins(
+                                color: Colors.grey[700],
+                              ),
                             ),
                             Container(
                               margin: EdgeInsets.all(10),

@@ -52,14 +52,14 @@ class OrderApiService {
     }
   }
 
-  Future<List<OrderRequest>> fetchOrders(String _uid) async {
+  Future<List<Order>> fetchOrders(String _uid) async {
     final response = await http.get(Uri.parse('$apiUrl/$_uid'));
     print(response.statusCode);
     print(response.body);
 
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => OrderRequest.fromJson(json)).toList();
+      return data.map((json) => Order.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load round trips');
     }

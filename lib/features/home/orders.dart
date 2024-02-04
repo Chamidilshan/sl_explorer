@@ -25,7 +25,8 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> {
   //final String getUrl = ""
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<OrderRequest> orders = [];
+  late List<Order> orders;
+  bool retrieved = false;
   OrderApiService apiService = OrderApiService();
   User? _user;
 
@@ -52,7 +53,7 @@ class _OrdersPageState extends State<OrdersPage> {
   loadOrders() async {
     try{
       final orderProvider = Provider.of<OrderProvider>(context, listen: false);
-      List<OrderRequest> fetchedOrders = await apiService.fetchOrders(_user!.uid);
+      List<Order> fetchedOrders = await apiService.fetchOrders(_user!.uid);
       orderProvider.setOrders(fetchedOrders);
 
       // print("\n\n\n\n\n");
@@ -62,6 +63,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
       setState(() {
         orders = fetchedOrders;
+        retrieved = true;
       });
     }catch(e){
       print(e.toString());
@@ -119,11 +121,17 @@ class _OrdersPageState extends State<OrdersPage> {
 
 
 
-          orders.isEmpty
+          retrieved == false
           ? SizedBox(
             height: 200 * 1,//count
             child: NumberedShimmerWidgets(
             height: 180.0, count: 1,),
+          )
+          :
+          orders.isEmpty
+          ?Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Center(child: Text("No Orders Yet")),
           )
           :SizedBox(
             height: orders.length * 200,
@@ -133,7 +141,7 @@ class _OrdersPageState extends State<OrdersPage> {
                 itemBuilder: (context, index){
                   return OrderCard(
                     order: orders[index],
-                    index: 0,
+                    index: index,
                   );
                 }
             ),
@@ -144,7 +152,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
           Container(
             //height: double.infinity,
-            margin: EdgeInsets.all(10),
+            margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,16 +161,23 @@ class _OrdersPageState extends State<OrdersPage> {
 
                 Row(
                   children: [
-                    Text(
-                      "Recommended Packages",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.deepOrangeAccent,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 20,
+                        horizontal: 10
+                      ),
+                      child: Text(
+                        "More to Explore",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.deepOrangeAccent,
+                        ),
                       ),
                     ),
                     Icon(
                       Icons.arrow_right,
+                      color: Colors.deepOrangeAccent,
                       size: 30,
                     )
                   ],

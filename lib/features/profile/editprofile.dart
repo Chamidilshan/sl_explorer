@@ -1,4 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:SL_Explorer/common/snackbar.dart';
+import 'package:SL_Explorer/constants/utils/pickImage.dart';
+import 'package:SL_Explorer/constants/utils/save_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +12,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:SL_Explorer/services/firebase_services/user_repository.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../models/user_model.dart';
 
@@ -92,6 +97,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
   Future<void> _updateUserData() async {
+    if(MemoryImage(_image!) != null){
+      StoreData store = StoreData();
+      _profile = await store.saveData(file: _image!,id: "${_userData!['id']}");
+    }
     final newUser = UserModel(
         id: "${_userData!['id']}",
         firstName: _firstName ?? '',
@@ -101,7 +110,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         email: _email ?? '',
         phoneNumber: _mobile ?? '',
         password: "${_userData!['password']}",
-        profilePicture: "${_userData!['profilePicture']}",
+        profilePicture: _profile ?? "${_userData!['profilePicture']}",
         country: _country == "null" ? '' : _country,
         state: _state == "null" ? '' : _state,
         city: _city == "null" ? '' : _city,
@@ -122,7 +131,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
 
-
+  Uint8List? _image;
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
 
 
 
@@ -138,15 +153,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
         title: Text(
           "Edit Profile",
           style: GoogleFonts.merriweather(
-            color: Colors.black,
+            //color: Colors.black,
           ),
         ),
-        foregroundColor: const Color.fromRGBO(0, 0, 0, 1.0),
+        foregroundColor: Colors.white,
         shadowColor: const Color.fromRGBO(0, 0, 0, 1.0),
         surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
+        backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.w900,
-          fontSize: 22.0,
+          fontSize: 20.0,
           letterSpacing: 1.0,
         ),
         centerTitle: true,
@@ -157,46 +173,51 @@ class _EditProfilePageState extends State<EditProfilePage> {
         key: updateKey,
         child: ListView(
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(_width/4,20,_width/4,0),
-              child: Stack(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(20.0),
-                    child: Image.asset(
-                      "assets/images/tempProfile.jpg",
-                      fit: BoxFit.contain,
+            Center(
+              //padding: EdgeInsets.fromLTRB(_width/4,20,_width/4,0),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                child: Stack(
+                  children: [
+                    _image != null ?
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                    :
+                    NetworkImage("${_userData!['profilePicture']}") != null ?
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage("${_userData!['profilePicture']}"!),
+                        )
+                    :
+                    const CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(
+                          "https://th.bing.com/th/id/OIP.bylQsr5qEADLgK6xlNGL2QHaE1?rs=1&pid=ImgDetMain",
+                      ),
                     ),
-                  ),
-                  Container(
-                    height: _width/2,
-                    width: _width/2,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Container(
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
-                          ),
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ),
-                            ),
-                            onPressed: (){},//editImage
-                            child: const Icon(
-                                Icons.edit,
-                              size: 35,
-                            )
-                          ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
                         ),
-                      ],
+                        child: IconButton(
+                          icon: const Icon(
+                              Icons.add_a_photo,
+                            size: 30,
+                          ),
+                          onPressed: selectImage,
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 
@@ -364,6 +385,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       labelText: "E-mail Address",
                     ),
+                    enabled: false,
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600,
                       color: Colors.black,
@@ -421,9 +443,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Container(
                 margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
                 child: CSCPicker(
-                  currentCountry: _country,
-                  currentState: _state,
-                  currentCity: _city,
+                  currentCountry: _country == "null" ? null : _country,
+                  currentState: _state == "null" ? null : _state,
+                  currentCity: _city == "null" ? null : _city,
                   countryFilter: const [
                     CscCountry.Germany,
                     CscCountry.Sri_Lanka,

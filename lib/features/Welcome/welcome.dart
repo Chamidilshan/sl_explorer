@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:SL_Explorer/features/authentication/screens/extra_questions_page.dart';
 import 'package:SL_Explorer/features/authentication/screens/login_page.dart';
+import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/question_gender.dart';
 import 'package:flutter/material.dart';
@@ -20,12 +21,12 @@ class _WelcomePageState extends State<WelcomePage> {
   int currentImageIndex = 0;
 
   List<String> imageUrlList = [
-    'https://images.unsplash.com/photo-1522310570852-0b661319089c?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1592905169881-eff95fe441ed?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1701544857566-dd1d044b9dea?q=80&w=1500&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1574611122955-5baa61496637?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    'https://images.unsplash.com/photo-1586963306223-51f28ba54028?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-  ];
+      "assets/images/image1.jpg",
+      "assets/images/image2.jpg",
+      "assets/images/image2.jpg",
+    "assets/images/image4.jpg",
+    "assets/images/image5.jpg",
+     ];
 
   @override
   void initState() {
@@ -57,7 +58,7 @@ class _WelcomePageState extends State<WelcomePage> {
               controller: _pageController,
               itemCount: imageUrlList.length,
               itemBuilder: (context, index) {
-                return Image.network(
+                return Image.asset(
                   imageUrlList[index],
                   fit: BoxFit.cover,
                   height: double.infinity,
@@ -98,9 +99,8 @@ class _WelcomePageState extends State<WelcomePage> {
                   padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                   child: InkWell(
                     onTap: () {
-                      // Get.to(LoginPage());
-                      // Get.to(ExtraQuestionsPage());
-                      Get.to(RoundTripListPage());
+                      Get.to(LoginPage());
+
                     },
                     child: Container(
                       height: 48.0,

@@ -55,13 +55,30 @@ dependencies:
   dropdown_button2: ^2.3.9
   anim_search_bar: ^2.0.3
   favorite_button: ^0.0.4
-  #babstrap_settings_screen : ^0.1.6
   url_launcher: ^6.2.4
-
+  stroke_text: ^0.0.2
+  badges: ^3.1.2
+  image_picker: ^1.0.7
+  provider: ^6.1.1
+  shimmer: ^3.0.0
+  http: ^1.2.0
+  firebase_messaging: ^14.7.13
+  flutter_local_notifications: ^16.3.2
+  hive: ^2.2.3
+  shared_preferences: ^2.2.2
+  uuid: ^4.3.3
+  geocoding: ^2.1.1
+  location: ^5.0.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/project-logo.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

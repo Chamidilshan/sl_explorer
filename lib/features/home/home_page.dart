@@ -1,6 +1,7 @@
 import 'package:SL_Explorer/common/user_location.dart';
 import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
+import 'package:SL_Explorer/features/home/profile.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/features/home/widgets/notifications_drawer.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
@@ -155,12 +156,25 @@ class _HomePageState extends State<HomePage> {
         endDrawer: Drawer(
           child: NotificationDrawer(),
         ),
+        drawer: Drawer(
+          child: ProfilePage(),
+        ),
         appBar: AppBar(
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              tooltip: "Open Menu",
+            ),
+          ),
           actions: [
             Builder(
               builder: (context) => IconButton(
                 icon: Icon(
-                    Icons.notifications,
+                  Icons.notifications,
                   color: Colors.black,
                 ),
                 onPressed: () => Scaffold.of(context).openEndDrawer(),
@@ -186,7 +200,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     horizontal: _width * 0.04,
-                    vertical: _height * 0.04
+                    vertical: _height * 0.06
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,11 +240,14 @@ class _HomePageState extends State<HomePage> {
                               Container(
                                 width: _width * 0.04, 
                                 height: _height * 0.025,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage("assets/images/location.png"),
-                                    fit: BoxFit.fill,
-                                  ),
+                                // decoration: const BoxDecoration(
+                                //   image: DecorationImage(
+                                //     image: AssetImage("assets/images/location.png"),
+                                //     fit: BoxFit.fill,
+                                //   ),
+                                // ),
+                                child: Icon(
+                                  Icons.location_city
                                 ),
                               ),
                               SizedBox(

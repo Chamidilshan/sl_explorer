@@ -34,14 +34,14 @@ class _ForHelpPageState extends State<ForHelpPage> {
         title: Text(
           "For Help",
           style: GoogleFonts.merriweather(
-            color: Colors.black,
+            //color: Colors.black,
             fontWeight: FontWeight.w900,
-            fontSize: 25.0,
+            fontSize: 20.0,
             letterSpacing: 1.0,
           ),
         ),
         //backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
-        foregroundColor: Colors.black,
+        //foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: Column(

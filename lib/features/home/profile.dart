@@ -1,7 +1,10 @@
+import 'package:SL_Explorer/features/profile/cart.dart';
 import 'package:SL_Explorer/features/profile/changePassword.dart';
 import 'package:SL_Explorer/features/profile/editprofile.dart';
 import 'package:SL_Explorer/features/profile/forhelp.dart';
+import 'package:SL_Explorer/features/profile/paymentMethods.dart';
 import 'package:SL_Explorer/features/profile/settings.dart';
+import 'package:SL_Explorer/features/profile/wishlist.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -79,90 +82,80 @@ class _ProfilePageState extends State<ProfilePage>{
     final deviceStorage = GetStorage();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "My Profile",
-          style: GoogleFonts.merriweather(
-          ),
-        ),
-        backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
-        foregroundColor: const Color.fromRGBO(0, 0, 0, 1.0),
-        shadowColor: const Color.fromRGBO(0, 0, 0, 1.0),
-        surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
-        titleTextStyle: const TextStyle(
-          fontWeight: FontWeight.w900,
-          fontSize: 25.0,
-          letterSpacing: 1.0,
-        ),
-        centerTitle: true,
-      ),
-      body:  Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      // appBar: AppBar(
+      //   title: Text(
+      //     "My Profile",
+      //     style: GoogleFonts.merriweather(
+      //     ),
+      //   ),
+      //   backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
+      //   foregroundColor: const Color.fromRGBO(0, 0, 0, 1.0),
+      //   shadowColor: const Color.fromRGBO(0, 0, 0, 1.0),
+      //   surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
+      //   titleTextStyle: const TextStyle(
+      //     fontWeight: FontWeight.w900,
+      //     fontSize: 25.0,
+      //     letterSpacing: 1.0,
+      //   ),
+      //   centerTitle: true,
+      // ),
+      body:  ListView(
+        //mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
-              width: _width,
-              height: 120.0,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30),
-                ),
-                color: Color.fromRGBO(253, 129, 3, 1.0),
+              //width: _width,
+              height: 200.0,
+              padding: EdgeInsets.symmetric(
+                vertical: 10
               ),
+              color: Color.fromRGBO(253, 129, 3, 1.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _userData != null
                       ?
-                      Row(
+                  Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(12.0),
-                            child:
-                            CircleAvatar(
-                              radius: 50,
-                              backgroundImage: NetworkImage(
-                                "${_userData!['profilePicture']}",
-                              ),
+                          padding: EdgeInsets.all(5.0),
+                          child:
+                          CircleAvatar(
+                            radius: 45,
+                            backgroundImage: NetworkImage(
+                              "${_userData!['profilePicture']}",
                             ),
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("${_userData!['firstName']}  ${_userData!['lastName']}",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text("${_userData!['email']}",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              _userData!['country'] != null ?
-                              Text("${_userData!['country']}",
-                                style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                )
-                              )
-                                  :
-                              const Text(
-                                  ""
-                              )
-                              ]
+                        ),
+                          Text("${_userData!['firstName']}  ${_userData!['lastName']}",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                              // Add other user details as needed
-                            ],
+                          Text("${_userData!['email']}",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                          _userData!['country'] != null ?
+                          Text("${_userData!['country']}",
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
+                              fontSize: 16,
+                            )
                           )
-                      : Padding(
-                        padding: EdgeInsets.fromLTRB(_width/3, 0, 0, 0),
-                        child: const CircularProgressIndicator(),
-                      ),
+                              :
+                          const Text(
+                              ""
+                          )
+                          ]
+                      )
+                      :
+                  const CircularProgressIndicator(),
                 ],
               )
           ),
@@ -171,13 +164,13 @@ class _ProfilePageState extends State<ProfilePage>{
             child: Container(
               height: _height - 265.0,
               //color: Colors.red,
-              padding: EdgeInsets.fromLTRB(_width/15,0,_width/15,0),
+              padding: EdgeInsets.all(25),
               child: ListView(
 
                 children: [
+
                   Container(
-                    padding: EdgeInsets.fromLTRB(0,_height/12,0,0),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -196,31 +189,34 @@ class _ProfilePageState extends State<ProfilePage>{
                             children: [
                               const Icon(
                                 Icons.edit,
-                                size: 30,
+                                size: 20,
+                                color: Colors.black,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                                 child: Text(
                                   "Edit Profile",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Colors.black,
                                   ),
                                 ),
                               )
                             ],
                           ),
-                          const Icon(
-                            Icons.arrow_right,
-                            size: 30.0,
-                            weight: 30.0,
-                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   color: Colors.black,
+                          //   weight: 30.0,
+                          // ),
                         ],
                       ),
                     ),
                   ),
+
                   Container(
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    //margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -239,31 +235,34 @@ class _ProfilePageState extends State<ProfilePage>{
                             children: [
                               const Icon(
                                 Icons.key,
-                                size: 30,
+                                size: 20,
+                                color: Colors.black,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                                 child: Text(
                                   "Change Password",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Colors.black,
                                   ),
                                 ),
                               )
                             ],
                           ),
-                          const Icon(
-                            Icons.arrow_right,
-                            size: 30.0,
-                            weight: 30.0,
-                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   color: Colors.black,
+                          //   weight: 30.0,
+                          // ),
                         ],
                       ),
                     ),
                   ),
+
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    //margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -271,7 +270,99 @@ class _ProfilePageState extends State<ProfilePage>{
                         ),
                       ),
                       onPressed: (){
-                        Get.to(() => ProfilePage());
+                        Get.to(() => const WishlistPage());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.favorite,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
+                                child: Text(
+                                  "Wishlist",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   color: Colors.black,
+                          //   weight: 30.0,
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Container(
+                    //margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
+                      onPressed: (){
+                        Get.to(() => const CartPage());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.shopping_cart,
+                                size: 20,
+                                color: Colors.black,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
+                                child: Text(
+                                  "Cart",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   color: Colors.black,
+                          //   weight: 30.0,
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  Container(
+                    //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero,
+                        ),
+                      ),
+                      onPressed: (){
+                        Get.to(() => PaymentMethodsPage());
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -282,33 +373,34 @@ class _ProfilePageState extends State<ProfilePage>{
                             children: [
                               const Icon(
                                 Icons.credit_card,
-                                size: 30,
+                                size: 20,
+                                color: Colors.black,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                                 child: Text(
                                   "Payment Methods",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Colors.black,
                                   ),
                                 ),
                               )
                             ],
                           ),
-                          const Icon(
-                            Icons.arrow_right,
-                            size: 30.0,
-                            weight: 30.0,
-                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   color: Colors.black,
+                          //   weight: 30.0,
+                          // ),
                         ],
                       ),
                     ),
                   ),
+                  
                   Container(
-                    decoration: const BoxDecoration(
-                    ),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -327,34 +419,34 @@ class _ProfilePageState extends State<ProfilePage>{
                             children: [
                               const Icon(
                                 Icons.settings,
-                                size: 30,
+                                size: 20,
+                                color: Colors.black,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                                 child: Text(
                                   "Settings",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Colors.black,
                                   ),
                                 ),
                               )
                             ],
                           ),
-                          const Icon(
-                            Icons.arrow_right,
-                            size: 30.0,
-                            weight: 30.0,
-                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   color: Colors.black,
+                          //   weight: 30.0,
+                          // ),
                         ],
                       ),
                     ),
                   ),
+                  
                   Container(
-                    decoration: const BoxDecoration(
-
-                    ),
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                    //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -373,25 +465,26 @@ class _ProfilePageState extends State<ProfilePage>{
                             children: [
                               const Icon(
                                 Icons.headphones,
-                                size: 30,
+                                size: 20,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                                 child: Text(
                                   "For Help",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
+                                    fontSize: 16,
                                     color: Colors.black,
                                   ),
                                 ),
                               )
                             ],
                           ),
-                          const Icon(
-                            Icons.arrow_right,
-                            size: 30.0,
-                            weight: 30.0,
-                          ),
+                          // const Icon(
+                          //   Icons.arrow_right,
+                          //   size: 25.0,
+                          //   weight: 30.0,
+                          //   color: Colors.black,
+                          // ),
                         ],
                       ),
                     ),
@@ -404,7 +497,7 @@ class _ProfilePageState extends State<ProfilePage>{
 
 
                   Container(
-                    margin: EdgeInsets.fromLTRB(_width/8, 50,_width/8,20),
+                    margin: EdgeInsets.fromLTRB(_width/8, 40,_width/8,20),
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                       color: Color.fromRGBO(253, 129, 3, 1.0),
@@ -423,7 +516,7 @@ class _ProfilePageState extends State<ProfilePage>{
                         children: [
                           const Icon(
                             Icons.logout,
-                            size: 24,
+                            size: 22,
                             color: Colors.white,
                           ),
                           Padding(
@@ -435,7 +528,7 @@ class _ProfilePageState extends State<ProfilePage>{
                               child: Text(
                                 "Log Out",
                                 style: GoogleFonts.poppins(
-                                  fontSize: 22,
+                                  fontSize: 18,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),

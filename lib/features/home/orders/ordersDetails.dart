@@ -1,31 +1,51 @@
 import 'package:SL_Explorer/features/home/orders/widgets/remainingDays.dart';
 import 'package:SL_Explorer/models/orders_model.dart';
+import 'package:SL_Explorer/services/api_services/orders_api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-class OrderDetailsPage extends StatelessWidget {
-  // final String orderId;
-  // final String orderDate;
-  // final int numAdults;
-  // final String packageName;
-  // final int packageDuration;
-  // final int packagePrice;
-  // final String packageImage;
-  //
-  // OrderDetailsPage({
-  //   required this.orderId,
-  //   required this.orderDate,
-  //   required this.numAdults,
-  //   required this.packageName,
-  //   required this.packageDuration,
-  //   required this.packagePrice,
-  //   required this.packageImage,
-  // });
 
+import '../../../common/snackbar.dart';
+import '../round_trips/screens/round_trips_list_page.dart';
+class OrderDetailsPage extends StatefulWidget {
   final Order order;
 
   OrderDetailsPage({
     required this.order
-});
+  });
+
+  @override
+  State<OrderDetailsPage> createState() => _OrderDetailsPageState();
+}
+
+class _OrderDetailsPageState extends State<OrderDetailsPage> {
+  final GlobalKey<FormState> updateKey = GlobalKey();
+
+
+  String? reference;
+
+  _updateUserData() async {
+    try {
+      OrderApiService service = OrderApiService();
+      bool postOrderReference = await service.postOrderReference(widget.order.orderId, reference!);
+      if(postOrderReference){
+        CommonLoaders.successSnackBar(
+            title: "Details Updated",
+            duration: 3,
+            message: "Details updated successfully");
+      }else{
+        CommonLoaders.errorSnackBar(
+            title: "Update Failed",
+            duration: 3,
+            message: "Something went wrong!");
+      }
+    } on Exception catch (e) {
+      CommonLoaders.errorSnackBar(
+          title: "Update Failed",
+          duration: 3,
+          message: e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +105,7 @@ class OrderDetailsPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      order.status == "Invoice" || order.status == "Confirmed"
+                      widget.order.status == "Invoice" || widget.order.status == "Confirmed"
                       ?
                       CircleAvatar(
                         radius: 15,
@@ -124,7 +144,7 @@ class OrderDetailsPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
-                      order.status != "Confirmed"
+                      widget.order.status != "Confirmed"
                       ?
                       CircleAvatar(
                         radius: 15,
@@ -159,7 +179,7 @@ class OrderDetailsPage extends StatelessWidget {
 
 
 
-            order.status == "Confirmed"
+            widget.order.status == "Confirmed"
             ?
             Container(
               //height: 300,
@@ -208,7 +228,7 @@ class OrderDetailsPage extends StatelessWidget {
                                       ),
                                     ),
                                     Text(
-                                      "   (on ${order.orderDate.year}-${order.orderDate.month}-${order.orderDate.day})",
+                                      "   (on ${widget.order.orderDate.year}-${widget.order.orderDate.month}-${widget.order.orderDate.day})",
                                       style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 15
@@ -229,8 +249,8 @@ class OrderDetailsPage extends StatelessWidget {
                       Builder(
                           builder: (context){
                             return RemainingDaysWidget(
-                                startDate: order.orderDate,
-                                endDate: order.tripDate,
+                                startDate: widget.order.orderDate,
+                                endDate: widget.order.tripDate,
                             );
                           }
                       )
@@ -261,71 +281,76 @@ class OrderDetailsPage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 12,
-                      backgroundColor: Colors.orangeAccent[400],
-                      child: Icon(
-                        Icons.check,
-                        size: 15,
-                        color: Colors.white,
-                        weight: 700,
+              child: GestureDetector(
+                onTap: (){
+                  Get.to(() => RoundTripListPage());
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 12,
+                        backgroundColor: Colors.orangeAccent[400],
+                        child: Icon(
+                          Icons.check,
+                          size: 15,
+                          color: Colors.white,
+                          weight: 700,
+                        ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(25, 0, 10, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Order Received",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(25, 0, 10, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Order Received",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                  "   (on ${order.orderDate.year}-${order.orderDate.month}-${order.orderDate.day})",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 15
-                                ),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
+                                Text(
+                                    "   (on ${widget.order.orderDate.year}-${widget.order.orderDate.month}-${widget.order.orderDate.day})",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 15
+                                  ),
+                                )
+                              ],
                             ),
-                            child: Text(
-                                  "Pack:"
-                                  "  ${order.packageId.roundTrip!.packageName}\n"
-                                  "Trip:"
-                                  "  ${order.tripDate}\n"
-                                  "People: ${order.noOfPeople.adults}-Adults and ${order.noOfPeople.children}-Children",
-                              style: GoogleFonts.poppins(
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              child: Text(
+                                    "Pack:"
+                                    "  ${widget.order.packageId.roundTrip!.packageName}\n"
+                                    "Trip:"
+                                    "  ${widget.order.tripDate}\n"
+                                    "People: ${widget.order.noOfPeople.adults}-Adults and ${widget.order.noOfPeople.children}-Children",
+                                style: GoogleFonts.poppins(
 
+                                ),
                               ),
                             ),
-                          ),
-                          Text(
-                            "${order.orderId}",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.deepOrange[700]
+                            Text(
+                              "${widget.order.orderId}",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.deepOrange[700]
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ),
@@ -334,7 +359,7 @@ class OrderDetailsPage extends StatelessWidget {
 
 
 
-            order.status == "Invoice" || order.status == "Confirmed"
+            widget.order.status == "Invoice" || widget.order.status == "Confirmed"
             ?
             Container(
               //height: 300,
@@ -387,14 +412,16 @@ class OrderDetailsPage extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             vertical: 20
                         ),
-                        child: SizedBox(
-                          //height: 110,
+                        child: GestureDetector(
+                          onTap: (){
+                            Get.to(() => RoundTripListPage());
+                          },
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               ClipRRect(
                                 child: Image.network(
-                                  order.packageId.roundTrip!.packageCoverImage,
+                                  widget.order.packageId.roundTrip!.packageCoverImage,
                                   fit: BoxFit.cover,
                                   colorBlendMode: BlendMode.softLight,
                                   height: 100,
@@ -410,7 +437,7 @@ class OrderDetailsPage extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      order.packageId.roundTrip!.packageName,
+                                      widget.order.packageId.roundTrip!.packageName,
                                       style: TextStyle(
                                         fontWeight: FontWeight.w800,
                                         fontSize: 20,
@@ -423,7 +450,7 @@ class OrderDetailsPage extends StatelessWidget {
                                           size: 15,
                                           color: Colors.grey,
                                         ),
-                                        Text("    ${order.noOfPeople.adults}-Adults | ${order.noOfPeople.children}-Children",
+                                        Text("    ${widget.order.noOfPeople.adults}-Adults | ${widget.order.noOfPeople.children}-Children",
                                           style: TextStyle(
                                             color: Colors.grey,
                                           ),
@@ -436,7 +463,7 @@ class OrderDetailsPage extends StatelessWidget {
                                         size: 15,
                                         color: Colors.grey,
                                         ),
-                                        Text("    ${order.tripDate.year}-${order.tripDate.month}-${order.tripDate.day}",
+                                        Text("    ${widget.order.tripDate.year}-${widget.order.tripDate.month}-${widget.order.tripDate.day}",
                                           style: TextStyle(
                                             color: Colors.grey,
                                           ),
@@ -454,20 +481,20 @@ class OrderDetailsPage extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.all(15),
                         child: SizedBox(
-                          height: order.options!.length * 20,
+                          height: widget.order.options!.length * 20,
                           child: ListView.separated(
-                            itemCount: order.options!.length,
+                            itemCount: widget.order.options!.length,
                             separatorBuilder: (BuildContext context, int index) => Divider(),
                             itemBuilder: (BuildContext context, int index) {
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text("${order.options![index].name}",
+                                  Text("${widget.order.options![index].name}",
                                     style: TextStyle(
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  Text("${order.options![index].amount}",
+                                  Text("${widget.order.options![index].amount}",
                                     style: TextStyle(
                                       color: Colors.grey,
                                     ),
@@ -479,6 +506,9 @@ class OrderDetailsPage extends StatelessWidget {
                         ),
                       ),
 
+
+                      widget.order.status == "Invoice"
+                          ?
                       Padding(
                         padding: EdgeInsets.all(15),
                         child: Column(
@@ -486,6 +516,7 @@ class OrderDetailsPage extends StatelessWidget {
                             Text(
                               "Pay your advance and upload the payment reference number here."
                                   "Don’t forget to put your order number as a reference in the payment.",
+                              textAlign: TextAlign.center,
                               style: GoogleFonts.poppins(
                                 color: Colors.grey[700],
                               ),
@@ -493,9 +524,10 @@ class OrderDetailsPage extends StatelessWidget {
                             Container(
                               margin: EdgeInsets.all(10),
                               padding: EdgeInsets.symmetric(
-                                horizontal: 20
+                                horizontal: 20,
+                                vertical: 10
                               ),
-                              height: 55,
+                              //height: 120,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
                                 //color: Colors.orange,
@@ -505,24 +537,55 @@ class OrderDetailsPage extends StatelessWidget {
                                   style: BorderStyle.solid
                                 )
                               ),
-                              child: TextFormField(
-                                decoration: const InputDecoration(
-                                  labelText: "Reference Number",
-                                  border: InputBorder.none,
+                              child:
+                              Form(
+                                key: updateKey,
+                                child: Column(
+                                  children: [
+                                    TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Please enter the reference number";
+                                        } else {
+                                          reference = value;
+                                          return null;
+                                        }
+                                      },
+                                      initialValue: widget.order.advance?.reference.toString() ?? null,
+                                      decoration: InputDecoration(
+                                        labelText: "Reference Number",
+                                        contentPadding: EdgeInsets.all(0)
+                                        //border: InputBorder.none,
+                                      ),
+                                    ),
+                                    //Text(""),
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        if (updateKey.currentState?.validate() ?? false) {
+                                          //print("update key click event success");
+                                          _updateUserData();
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.orange,
+                                      ),
+                                      child: Text(
+                                        "Update",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-
-                              ),
-                            ),
-                            ElevatedButton(
-                                onPressed: (){},
-                                child: Text(
-                                  "Submit",
-                                )
+                              )
                             )
                           ],
                         ),
                       )
-
+                          :
+                      Text("")
                     ],
                   ),
                 )

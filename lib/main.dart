@@ -15,16 +15,11 @@ import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'services/firebase_services/authentication_repository.dart';
 
-Brightness mode = Brightness.light;
+//Brightness mode = Brightness.light;
 
-
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-      (FirebaseApp value)=> Get.put(AuthenticationRepository())
-  );
-  await FirebaseNotificationApi().initNotifications();
-  await FirebaseMessaging.instance.subscribeToTopic('ALL');
+  await initializeServices();
   runApp(
     MultiProvider(
       providers: [
@@ -36,19 +31,47 @@ Future<void> main() async{
   );
 }
 
+Future<void> initializeServices() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
+          (FirebaseApp value)=> Get.put(AuthenticationRepository())
+  );
+  await FirebaseNotificationApi().initNotifications();
+  await FirebaseMessaging.instance.subscribeToTopic('ALL');
+}
+
+
+// Future<void> main() async{
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         ChangeNotifierProvider(create: (context) => RoundTripProvider()),
+//         ChangeNotifierProvider(create: (context) => OrderProvider()),
+//       ],
+//       child: MyApp(),
+//     ),
+//   );
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
+//           (FirebaseApp value)=> Get.put(AuthenticationRepository())
+//   );
+//   await FirebaseNotificationApi().initNotifications();
+//   await FirebaseMessaging.instance.subscribeToTopic('ALL');
+//
+// }
+
 class MyApp extends StatelessWidget {
 
   MyApp({super.key});
 
-  static void changeMode(){
-
-    if(mode == Brightness.dark){
-      mode = Brightness.light;
-    }else{
-      mode = Brightness.dark;
-    }
-    CommonLoaders.successSnackBar(title: "Restart The App", duration: 4, message: "Restart the application");
-  }
+  // static void changeMode(){
+  //
+  //   if(mode == Brightness.dark){
+  //     mode = Brightness.light;
+  //   }else{
+  //     mode = Brightness.dark;
+  //   }
+  //   CommonLoaders.successSnackBar(title: "Restart The App", duration: 4, message: "Restart the application");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +80,12 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       initialBinding: GeneralBindings(),
       // builder: DevicePreview.appBuilder,
-      title: 'Sign up',
-      theme: ThemeData(
-        brightness: mode,
-      ),
-      home: const Scaffold(
-        body:
-        Center(
-          child: CircularProgressIndicator(
-            color: Color(0xFFFD8103),
-          ),
-        ),
-
+      // title: 'Sign up',
+      // theme: ThemeData(
+      //   brightness: Brightness.light,
+      // ),
+      home: const CircularProgressIndicator(
+          color: Color(0xFFFD8103),
       ),
     );
   }

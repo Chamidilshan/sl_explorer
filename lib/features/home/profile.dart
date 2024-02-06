@@ -100,11 +100,12 @@ class _ProfilePageState extends State<ProfilePage>{
       //   centerTitle: true,
       // ),
       body:  ListView(
+        //hei
         //mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Container(
               //width: _width,
-              height: 200.0,
+              height: 190.0,
               padding: EdgeInsets.symmetric(
                 vertical: 10
               ),
@@ -115,11 +116,11 @@ class _ProfilePageState extends State<ProfilePage>{
                   _userData != null
                       ?
                   Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                          padding: EdgeInsets.all(5.0),
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                           child:
                           CircleAvatar(
                             radius: 45,
@@ -131,21 +132,21 @@ class _ProfilePageState extends State<ProfilePage>{
                           Text("${_userData!['firstName']}  ${_userData!['lastName']}",
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 17,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text("${_userData!['email']}",
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 14,
                             ),
                           ),
                           _userData!['country'] != null ?
                           Text("${_userData!['country']}",
                             style: GoogleFonts.poppins(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 14,
                             )
                           )
                               :
@@ -162,15 +163,17 @@ class _ProfilePageState extends State<ProfilePage>{
 
           Center(
             child: Container(
-              height: _height - 265.0,
+              //height: _height/1.5,
               //color: Colors.red,
-              padding: EdgeInsets.all(25),
-              child: ListView(
-
+              // margin: EdgeInsets.all(25),
+              padding: EdgeInsets.symmetric(
+                horizontal: 25
+              ),
+              child: Column(
                 children: [
-
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    //margin: EdgeInsets.all(25),
+                    padding: EdgeInsets.fromLTRB(0, 50, 0, 0),
                     child: TextButton(
                       style: TextButton.styleFrom(
                         shape: const RoundedRectangleBorder(
@@ -352,7 +355,7 @@ class _ProfilePageState extends State<ProfilePage>{
                       ),
                     ),
                   ),
-                  
+
                   Container(
                     //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
@@ -398,7 +401,7 @@ class _ProfilePageState extends State<ProfilePage>{
                       ),
                     ),
                   ),
-                  
+
                   Container(
                     //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
@@ -444,7 +447,7 @@ class _ProfilePageState extends State<ProfilePage>{
                       ),
                     ),
                   ),
-                  
+
                   Container(
                     //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                     child: TextButton(
@@ -516,7 +519,7 @@ class _ProfilePageState extends State<ProfilePage>{
                         children: [
                           const Icon(
                             Icons.logout,
-                            size: 22,
+                            size: 18,
                             color: Colors.white,
                           ),
                           Padding(
@@ -528,7 +531,7 @@ class _ProfilePageState extends State<ProfilePage>{
                               child: Text(
                                 "Log Out",
                                 style: GoogleFonts.poppins(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),

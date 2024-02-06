@@ -55,12 +55,6 @@ class _OrdersPageState extends State<OrdersPage> {
       final orderProvider = Provider.of<OrderProvider>(context, listen: false);
       List<Order> fetchedOrders = await apiService.fetchOrders(_user!.uid);
       orderProvider.setOrders(fetchedOrders);
-
-      // print("\n\n\n\n\n");
-      // print(fetchedOrders[0].orderDate);
-      // print(fetchedOrders[0].package);
-      // print(fetchedOrders[0].noOfPeople);
-
       setState(() {
         orders = fetchedOrders;
         retrieved = true;
@@ -69,7 +63,6 @@ class _OrdersPageState extends State<OrdersPage> {
       print(e.toString());
     }
   }
-
 
 
 

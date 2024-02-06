@@ -21,6 +21,7 @@ class OrderDetailsPage extends StatefulWidget {
 class _OrderDetailsPageState extends State<OrderDetailsPage> {
   final GlobalKey<FormState> updateKey = GlobalKey();
 
+
   String? reference;
 
   _updateUserData() async {
@@ -505,6 +506,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         ),
                       ),
 
+
+                      widget.order.status == "Invoice"
+                          ?
                       Padding(
                         padding: EdgeInsets.all(15),
                         child: Column(
@@ -517,8 +521,6 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                 color: Colors.grey[700],
                               ),
                             ),
-                            widget.order.status == "Invoice"
-                            ?
                             Container(
                               margin: EdgeInsets.all(10),
                               padding: EdgeInsets.symmetric(
@@ -549,8 +551,9 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                           return null;
                                         }
                                       },
+                                      initialValue: widget.order.advance?.reference.toString() ?? null,
                                       decoration: InputDecoration(
-                                        labelText: widget.order.advance!.reference ?? "Reference Number",
+                                        labelText: "Reference Number",
                                         contentPadding: EdgeInsets.all(0)
                                         //border: InputBorder.none,
                                       ),
@@ -578,13 +581,11 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                 ),
                               )
                             )
-                            :
-                            Text("")
-
                           ],
                         ),
                       )
-
+                          :
+                      Text("")
                     ],
                   ),
                 )

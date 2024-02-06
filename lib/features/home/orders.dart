@@ -55,12 +55,6 @@ class _OrdersPageState extends State<OrdersPage> {
       final orderProvider = Provider.of<OrderProvider>(context, listen: false);
       List<Order> fetchedOrders = await apiService.fetchOrders(_user!.uid);
       orderProvider.setOrders(fetchedOrders);
-
-      // print("\n\n\n\n\n");
-      // print(fetchedOrders[0].orderDate);
-      // print(fetchedOrders[0].package);
-      // print(fetchedOrders[0].noOfPeople);
-
       setState(() {
         orders = fetchedOrders;
         retrieved = true;
@@ -69,7 +63,6 @@ class _OrdersPageState extends State<OrdersPage> {
       print(e.toString());
     }
   }
-
 
 
 
@@ -110,7 +103,7 @@ class _OrdersPageState extends State<OrdersPage> {
         surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.w900,
-          fontSize: 25.0,
+          fontSize: 20.0,
           letterSpacing: 1.0,
         ),
         centerTitle: true,

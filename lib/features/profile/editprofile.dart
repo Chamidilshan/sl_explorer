@@ -153,15 +153,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
         title: Text(
           "Edit Profile",
           style: GoogleFonts.merriweather(
-            color: Colors.black,
+            //color: Colors.black,
           ),
         ),
-        foregroundColor: const Color.fromRGBO(0, 0, 0, 1.0),
+        foregroundColor: Colors.white,
         shadowColor: const Color.fromRGBO(0, 0, 0, 1.0),
         surfaceTintColor: const Color.fromRGBO(0, 0, 0, 1.0),
+        backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
         titleTextStyle: const TextStyle(
           fontWeight: FontWeight.w900,
-          fontSize: 22.0,
+          fontSize: 20.0,
           letterSpacing: 1.0,
         ),
         centerTitle: true,
@@ -174,46 +175,49 @@ class _EditProfilePageState extends State<EditProfilePage> {
           children: [
             Center(
               //padding: EdgeInsets.fromLTRB(_width/4,20,_width/4,0),
-              child: Stack(
-                children: [
-                  _image != null ?
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundImage: MemoryImage(_image!),
-                      )
-                  :
-                  NetworkImage("${_userData!['profilePicture']}") != null ?
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundImage: NetworkImage("${_userData!['profilePicture']}"!),
-                      )
-                  :
-                  const CircleAvatar(
-                    radius: 60,
-                    backgroundImage: NetworkImage(
-                        "https://th.bing.com/th/id/OIP.bylQsr5qEADLgK6xlNGL2QHaE1?rs=1&pid=ImgDetMain",
-                    ),
-                  ),
-                  Positioned(
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+                child: Stack(
+                  children: [
+                    _image != null ?
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                    :
+                    NetworkImage("${_userData!['profilePicture']}") != null ?
+                        CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage("${_userData!['profilePicture']}"!),
+                        )
+                    :
+                    const CircleAvatar(
+                      radius: 60,
+                      backgroundImage: NetworkImage(
+                          "https://th.bing.com/th/id/OIP.bylQsr5qEADLgK6xlNGL2QHaE1?rs=1&pid=ImgDetMain",
                       ),
-                      child: IconButton(
-                        icon: const Icon(
-                            Icons.add_a_photo,
-                          size: 30,
+                    ),
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(15)),
                         ),
-                        onPressed: selectImage,
+                        child: IconButton(
+                          icon: const Icon(
+                              Icons.add_a_photo,
+                            size: 30,
+                          ),
+                          onPressed: selectImage,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
 

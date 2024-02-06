@@ -34,14 +34,14 @@ class _ForHelpPageState extends State<ForHelpPage> {
         title: Text(
           "For Help",
           style: GoogleFonts.merriweather(
-            color: Colors.black,
+            //color: Colors.black,
             fontWeight: FontWeight.w900,
-            fontSize: 25.0,
+            fontSize: 20.0,
             letterSpacing: 1.0,
           ),
         ),
         //backgroundColor: const Color.fromRGBO(253, 129, 3, 1.0),
-        foregroundColor: Colors.black,
+        //foregroundColor: Colors.white,
         centerTitle: true,
       ),
       body: Column(
@@ -74,14 +74,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.mail,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Mail Us",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -116,14 +117,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.perm_phone_msg,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "WhatsApp",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -155,14 +157,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.telegram,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Telegram",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -206,14 +209,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.public,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Web Site",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),

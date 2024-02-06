@@ -11,6 +11,7 @@ class OrderApiService {
 
   final String apiUrl = '$baseUrl/api/v1/orders';
 
+
   Future<bool> placeOrder(OrderRequest order, BuildContext context) async {
     try {
       final response = await http.post(
@@ -52,6 +53,7 @@ class OrderApiService {
     }
   }
 
+
   Future<List<Order>> fetchOrders(String _uid) async {
     final response = await http.get(Uri.parse('$apiUrl/$_uid'));
     print(response.statusCode);
@@ -64,4 +66,41 @@ class OrderApiService {
       throw Exception('Failed to load round trips');
     }
   }
+
+
+  Future<bool> postOrderReference(String orderId, String reference) async {
+    final String refUrl = '$apiUrl/reference';
+
+    // Create the JSON body
+    final jsonBody = {
+      'orderId': orderId,
+      'reference': reference,
+    };
+
+    try {
+      final response = await http.post(
+        Uri.parse(refUrl),
+        body: json.encode(jsonBody),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        print('Order reference created successfully');
+        return true;
+      } else {
+        print('Failed to create order reference. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        return false;
+      }
+    } catch (error) {
+      print('Error creating order reference: $error');
+      return false;
+    }
+  }
+
+
 }
+
+

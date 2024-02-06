@@ -1,4 +1,4 @@
-import 'package:SL_Explorer/features/profile/DeleteAccount.dart';
+import 'package:SL_Explorer/features/profile/deleteAccount.dart';
 import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

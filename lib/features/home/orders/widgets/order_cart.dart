@@ -1,8 +1,8 @@
 import 'package:SL_Explorer/features/home/orders/ordersDetails.dart';
-import 'package:SL_Explorer/features/home/profile.dart';
+// import 'package:SL_Explorer/features/home/profile.dart';
 import 'package:SL_Explorer/models/orders_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_social_button/flutter_social_button.dart';
+// import 'package:flutter_social_button/flutter_social_button.dart';
 import 'package:get/get.dart';
 
 class OrderCard extends StatelessWidget {
@@ -18,18 +18,31 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
+    //final _height = MediaQuery.of(context).size.height;
     return GestureDetector(
       onTap: (){
         //Get.to(() => OrderDetailsPage());
         Get.to(() => OrderDetailsPage(order: order));
       },
-      child: Card(
-        elevation: 15,
+      child: Container(
+        //height: 300,
         margin: EdgeInsets.all(15),
-        surfaceTintColor: Colors.white,
-        //color: Color.fromRGBO(255, 242, 230, 1),
-        color: Colors.white,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(15.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade300,
+              offset: Offset(1, 1), // Adjust the offset to control the shadow direction
+              blurRadius: 30, // Adjust the blur radius for a softer or sharper shadow
+            ),
+          ],
+          // border: Border.all(
+          //   color: Colors.grey,
+          //   width: 0.5,
+          //   style: BorderStyle.solid
+          // )
+        ),
         child: Container(
           width: _width/1.5,
           height: 170.0,

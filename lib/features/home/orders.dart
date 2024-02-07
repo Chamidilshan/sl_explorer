@@ -1,4 +1,6 @@
 import 'package:SL_Explorer/common/widgets/Numbered_shimmer_effect.dart';
+import 'package:SL_Explorer/features/home/bottom_navigation.dart';
+import 'package:SL_Explorer/features/home/home_page.dart';
 import 'package:SL_Explorer/features/home/orders/widgets/order_cart.dart';
 import 'package:SL_Explorer/features/home/round_trips/widgets/trip_card.dart';
 import 'package:SL_Explorer/models/orders_model.dart';
@@ -108,25 +110,32 @@ class _OrdersPageState extends State<OrdersPage> {
         ),
         centerTitle: true,
       ),
-
+      backgroundColor: Colors.grey[100],
       body: ListView(
         children: [
 
 
 
           retrieved == false
-          ? SizedBox(
+          ?
+          SizedBox(
             height: 200 * 1,//count
             child: NumberedShimmerWidgets(
             height: 180.0, count: 1,),
           )
           :
           orders.isEmpty
-          ?Padding(
+          ?
+          Padding(
             padding: const EdgeInsets.all(30.0),
-            child: Center(child: Text("No Orders Yet")),
+            child: Center(child: Column(
+              children: [
+                Text("No Orders Yet."),
+              ],
+            )),
           )
-          :SizedBox(
+          :
+          SizedBox(
             height: orders.length * 200,
             child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),//to top scrolling
@@ -144,8 +153,12 @@ class _OrdersPageState extends State<OrdersPage> {
 
 
           Container(
+            color: Colors.white,
             //height: double.infinity,
-            margin: EdgeInsets.fromLTRB(10, 50, 10, 10),
+            margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+            padding: EdgeInsets.symmetric(
+              horizontal: 10
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,11 +169,11 @@ class _OrdersPageState extends State<OrdersPage> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                        vertical: 20,
+                        vertical: 15,
                         horizontal: 10
                       ),
                       child: Text(
-                        "More to Explore",
+                        "Recommended",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
@@ -180,7 +193,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
                 roundTrips.isEmpty
                     ? SizedBox(
-                      height: 80 * 5,
+                      height: 120 * 5,
                       child: ShimmerWidget(height: 100.0,),
                     )
                     : SizedBox(

@@ -524,12 +524,12 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                             Container(
                               margin: EdgeInsets.all(10),
                               padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10
+                                horizontal: 15,
+                                vertical: 0
                               ),
                               //height: 120,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
+                                borderRadius: BorderRadius.circular(20),
                                 //color: Colors.orange,
                                 border: Border.all(
                                   color: Colors.grey,
@@ -554,11 +554,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                       initialValue: widget.order.advance?.reference.toString() ?? null,
                                       decoration: InputDecoration(
                                         labelText: "Reference Number",
-                                        contentPadding: EdgeInsets.all(0)
+                                        //contentPadding: EdgeInsets.all(0)
                                         //border: InputBorder.none,
                                       ),
                                     ),
-                                    //Text(""),
                                     ElevatedButton(
                                       onPressed: () async {
                                         if (updateKey.currentState?.validate() ?? false) {

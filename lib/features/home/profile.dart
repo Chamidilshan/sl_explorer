@@ -10,7 +10,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+//import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfilePage extends StatefulWidget{
@@ -78,8 +78,8 @@ class _ProfilePageState extends State<ProfilePage>{
 
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
-    final deviceStorage = GetStorage();
+    //final _height = MediaQuery.of(context).size.height;
+    //final deviceStorage = GetStorage();
 
     return Scaffold(
       // appBar: AppBar(
@@ -103,62 +103,72 @@ class _ProfilePageState extends State<ProfilePage>{
         //hei
         //mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
-              //width: _width,
-              height: 190.0,
-              padding: EdgeInsets.symmetric(
-                vertical: 10
-              ),
-              color: Color.fromRGBO(253, 129, 3, 1.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _userData != null
-                      ?
-                  Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                          child:
-                          CircleAvatar(
-                            radius: 45,
-                            backgroundImage: NetworkImage(
-                              "${_userData!['profilePicture']}",
-                            ),
-                          ),
-                        ),
-                          Text("${_userData!['firstName']}  ${_userData!['lastName']}",
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          Text("${_userData!['email']}",
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          ),
-                          _userData!['country'] != null ?
-                          Text("${_userData!['country']}",
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              fontSize: 14,
+          GestureDetector(
+            onTap: (){Get.to(() => EditProfilePage());},
+            child: Container(
+                //width: _width,
+                height: 190.0,
+                padding: EdgeInsets.symmetric(
+                  vertical: 10
+                ),
+                color: Color.fromRGBO(253, 129, 3, 1.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _userData != null
+                        ?
+                    Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                            child:
+                            _userData!['profilePicture'].toString() != ""
+                                ?
+                            CircleAvatar(
+                              radius: 45,
+                              backgroundImage: NetworkImage("${_userData!['profilePicture']}"),
                             )
-                          )
-                              :
-                          const Text(
-                              ""
-                          )
-                          ]
-                      )
-                      :
-                  const CircularProgressIndicator(),
-                ],
-              )
+                                :
+                            const CircleAvatar(
+                              radius: 45,
+                              backgroundImage: AssetImage(
+                                "assets/images/defaultprofileimage.jpg",
+                              ),
+                            ),
+                          ),
+                            Text("${_userData!['firstName']}  ${_userData!['lastName']}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            Text("${_userData!['email']}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 14,
+                              ),
+                            ),
+                            _userData!['country'] != null ?
+                            Text("${_userData!['country']}",
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 14,
+                              )
+                            )
+                                :
+                            const Text(
+                                ""
+                            )
+                            ]
+                        )
+                        :
+                    const CircularProgressIndicator(),
+                  ],
+                )
+            ),
           ),
 
           Center(
@@ -200,7 +210,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                 child: Text(
                                   "Edit Profile",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -246,7 +256,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                 child: Text(
                                   "Change Password",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -292,7 +302,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                 child: Text(
                                   "Wishlist",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -338,7 +348,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                 child: Text(
                                   "Cart",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -384,7 +394,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                 child: Text(
                                   "Payment Methods",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -430,7 +440,7 @@ class _ProfilePageState extends State<ProfilePage>{
                                 child: Text(
                                   "Settings",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -469,13 +479,14 @@ class _ProfilePageState extends State<ProfilePage>{
                               const Icon(
                                 Icons.headphones,
                                 size: 20,
+                                color: Colors.black,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                                 child: Text(
                                   "For Help",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 16,
+                                    fontSize: 17,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -531,7 +542,7 @@ class _ProfilePageState extends State<ProfilePage>{
                               child: Text(
                                 "Log Out",
                                 style: GoogleFonts.poppins(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),

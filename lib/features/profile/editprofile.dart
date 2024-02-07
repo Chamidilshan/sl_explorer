@@ -8,7 +8,7 @@ import 'package:csc_picker/csc_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-//import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:SL_Explorer/services/firebase_services/user_repository.dart';
@@ -95,9 +95,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
 
+  Uint8List? _image;
+  bool updating = false;
+  void selectImage() async {
+    Uint8List img = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = img;
+    });
+  }
+
 
   Future<void> _updateUserData() async {
-    if(MemoryImage(_image!) != null){
+    setState(() {
+      updating = true;
+    });
+    if(_image != null){
       StoreData store = StoreData();
       _profile = await store.saveData(file: _image!,id: "${_userData!['id']}");
     }
@@ -117,7 +129,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
 
     try {
-      final userRepository1 = Get.put(UserRepository());
+      Get.put(UserRepository());
       await UserRepository.instance.updateUser(newUser);
       Get.back();
       CommonLoaders.successSnackBar(
@@ -126,18 +138,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
           message: "Details updated successfully"
       );
     } on Exception catch (e) {
+      CommonLoaders.errorSnackBar(
+          title: "Something went wrong",
+          duration: 3,
+          message: "Something went wrong in our end"
+      );
       print(e);
     }
   }
 
 
-  Uint8List? _image;
-  void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery);
-    setState(() {
-      _image = img;
-    });
-  }
 
 
 
@@ -168,10 +178,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
         centerTitle: true,
       ),
       body:
-      isLoaded != false ?
+      isLoaded && !updating
+          ?
       Form(
         key: updateKey,
         child: ListView(
+          //physics: BouncingScrollPhysics(),
           children: [
             Center(
               //padding: EdgeInsets.fromLTRB(_width/4,20,_width/4,0),
@@ -179,22 +191,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: Stack(
                   children: [
-                    _image != null ?
-                        CircleAvatar(
-                          radius: 60,
-                          backgroundImage: MemoryImage(_image!),
-                        )
+                    _image != null
+                        ?
+                    CircleAvatar(
+                      radius: 60,
+                      backgroundImage: MemoryImage(_image!),
+                    )
                     :
-                    NetworkImage("${_userData!['profilePicture']}") != null ?
+                    _userData!['profilePicture'].toString() != ""
+                        ?
                         CircleAvatar(
                           radius: 60,
-                          backgroundImage: NetworkImage("${_userData!['profilePicture']}"!),
+                          backgroundImage: NetworkImage("${_userData!['profilePicture']}"),
                         )
                     :
                     const CircleAvatar(
                       radius: 60,
-                      backgroundImage: NetworkImage(
-                          "https://th.bing.com/th/id/OIP.bylQsr5qEADLgK6xlNGL2QHaE1?rs=1&pid=ImgDetMain",
+                      backgroundImage: AssetImage(
+                          "assets/images/defaultprofileimage.jpg",
                       ),
                     ),
                     Positioned(
@@ -223,15 +237,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  ),
+                  // border: Border.all(
+                  //   color: Colors.black,
+                  //   width: 1.0,
+                  //   style: BorderStyle.solid,
+                  // ),
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[100],
                 ),
-                margin: const EdgeInsets.fromLTRB(30.0,40.0,30.0,10.0),
+                margin: const EdgeInsets.fromLTRB(30.0,30.0,30.0,0.0),
                 //height: 60,
                 //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                 child: Padding(
@@ -257,7 +271,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 )
@@ -265,15 +279,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  ),
+                  // border: Border.all(
+                  //   color: Colors.black,
+                  //   width: 1.0,
+                  //   style: BorderStyle.solid,
+                  // ),
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[100],
                 ),
-                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
+                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,0.0),
                 //height: 60,
                 //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
                 child: Padding(
@@ -298,9 +312,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       labelText: "Last Name"
                     ),
                     style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 )
@@ -308,15 +322,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  ),
+                  // border: Border.all(
+                  //   color: Colors.black,
+                  //   width: 1.0,
+                  //   style: BorderStyle.solid,
+                  // ),
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.grey[100],
                 ),
-                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
+                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,0.0),
 
                 //height: 60,
                 //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
@@ -342,9 +356,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       labelText: "Family Name",
                     ),
                     style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 )
@@ -352,15 +366,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  ),
+                  // border: Border.all(
+                  //   color: Colors.black,
+                  //   width: 1.0,
+                  //   style: BorderStyle.solid,
+                  // ),
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[100],
+                  color: Colors.grey[200],
                 ),
-                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
+                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,0.0),
 
                 //height: 60,
                 //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
@@ -387,9 +401,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     enabled: false,
                     style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 )
@@ -397,15 +411,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
             Container(
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.black,
-                    width: 1.0,
-                    style: BorderStyle.solid,
-                  ),
+                  // border: Border.all(
+                  //   color: Colors.black,
+                  //   width: 1.0,
+                  //   style: BorderStyle.solid,
+                  // ),
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[100],
+                  color: Colors.grey[200],
                 ),
-                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,10.0),
+                margin: const EdgeInsets.fromLTRB(30.0,10.0,30.0,0.0),
 
                 //height: 60,
                 //padding: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
@@ -431,9 +445,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       labelText: "Mobile Number",
                     ),
                     style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                       color: Colors.black,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                 )
@@ -452,27 +466,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     CscCountry.United_Kingdom
                   ],
                   selectedItemStyle: GoogleFonts.poppins(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                   ),
                   layout: Layout.vertical,
                   dropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.grey[100],
-                    border: Border.all(
-                      color: Colors.black,
-                      style: BorderStyle.solid,
-                      width: 1.0,
-                    )
+                    color: Colors.grey[200],
+                    // border: Border.all(
+                    //   color: Colors.black,
+                    //   style: BorderStyle.solid,
+                    //   width: 1.0,
+                    // )
                   ),
                   disabledDropdownDecoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.grey[400],
-                    border: Border.all(
-                      color: Colors.black,
-                      style: BorderStyle.solid,
-                      width: 1.0,
-                    )
+                    // border: Border.all(
+                    //   color: Colors.black,
+                    //   style: BorderStyle.solid,
+                    //   width: 1.0,
+                    // )
                   ),
                   //flagState: CountryFlag.DISABLE,
                   onCountryChanged: (country) {
@@ -500,7 +514,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
 
             Container(
-              margin: EdgeInsets.fromLTRB(_width/5, 50,_width/5,20),
+              margin: EdgeInsets.fromLTRB(_width/5, 20,_width/5,20),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 color: Color.fromRGBO(253, 129, 3, 1.0),
@@ -549,7 +563,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
           ],
         ),
-      ): const Center(
+      )
+
+          :
+      const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

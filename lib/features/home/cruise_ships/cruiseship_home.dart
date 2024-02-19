@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/utils/styles.dart';
 
@@ -65,8 +66,12 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
 
 
 
+
+
   @override
   Widget build(BuildContext context) {
+    DateTime time = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd').format(time);
 
 
     return Scaffold(body:
@@ -120,8 +125,9 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
 
           //TOPIC
           const SizedBox(height: 10),
+          
           Padding(
-            padding: const EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(25.0, 10.0, 10.0, 10.0),
             child: Align(
               alignment: Alignment.center,
               child: Text(
@@ -140,7 +146,7 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
           //Description
           const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.fromLTRB(25.0, 0.0, 0.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(25.0, 10.0, 10.0, 10.0),
             child: Align(
               alignment: Alignment.center,
               child: Text(
@@ -159,19 +165,18 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
 
 
           //DATE
-
-          Row(
-            children: [
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.all(16),
-                child: DateBox(),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'Today : $formattedDate',
+              style: GoogleFonts.aBeeZee(
+                  color: const Color(0xFF232323),
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14.0
+              ), // Align text to the left
+            ),
           ),
-          //SELECT MENU BAR
-
-
           Expanded(
             child: DefaultTabController(
               length: 3,
@@ -190,95 +195,100 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
                   ),
                   // TabBarView
                   Expanded(
-                    child:
-                    TabBarView(
-                      controller: tabController,
-                      children: [
-                        // Tab 1 content
-                        ListView(
-                          shrinkWrap: true,
-                          children: [
-                            Image.asset('assets/images/Bentota.jpg'),  // Replace with your actual photo
-                            SizedBox(height: 30),
-                            Text(
-                              'Bentota & West Coast',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w700,
+                      child:
+                      TabBarView(
+                        controller: tabController,
+                        children: [
+                          // Tab 1 content
+                          ListView(
+                            shrinkWrap: true,
+                            children: [
+                              Image.asset('assets/images/Bentota.jpg'),  // Replace with your actual photo
+                              SizedBox(height: 30),
+                              Text(
+                                'Bentota & West Coast',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 22.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.abel(
-                                color: Colors.black,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w700,
+                              Text(
+                                'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.abel(
+                                  color: Colors.black,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
 
-                        // Tab 2 content
-                        ListView(
-                          children: [
-                            Image.asset('assets/images/Villege_tour.jpg'),  // Replace with your actual photo
-                            SizedBox(height: 30),
-                            Text(
-                              'Wadduwa Villege Tour',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w700,
+                          // Tab 2 content
+                          ListView(
+                            children: [
+                              Image.asset('assets/images/Villege_tour.jpg'),  // Replace with your actual photo
+                              SizedBox(height: 30),
+                              Text(
+                                'Wadduwa Villege Tour',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 22.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.abel(
-                                color: Colors.black,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w700,
+                              Text(
+                                'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.abel(
+                                  color: Colors.black,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
+                            ],
+                          ),
 
-                        // Tab 3 content
-                        ListView(
-                          children: [
-                            Image.asset('assets/images/Safari.jpg'),  // Replace with your actual photo
-                            SizedBox(height: 30),
-                            Text(
-                              'Safari',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 22.0,
-                                fontWeight: FontWeight.w700,
+                          // Tab 3 content
+                          ListView(
+                            children: [
+                              Image.asset('assets/images/Safari.jpg'),  // Replace with your actual photo
+                              SizedBox(height: 30),
+                              Text(
+                                'Safari',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 22.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                            Text(
-                              'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
-                              textAlign: TextAlign.left,
-                              style: GoogleFonts.abel(
-                                color: Colors.black,
-                                fontSize: 12.0,
-                                fontWeight: FontWeight.w700,
+                              Text(
+                                'Our small island in the Indian Ocean has a lot to offer. Dream beaches, jungles, rolling hills and steep mountains, a diverse flora and fauna: the largest land dwellers (elephants) and the largest sea creatures (blue whales), millennia-old culture and modern lifestyle, 6 UNESCO World Heritage Sites and 2 UNESCO World Heritage Sites, the delicious Sri Lankan cuisine and above all its radiant and hospitable people',
+                                textAlign: TextAlign.left,
+                                style: GoogleFonts.abel(
+                                  color: Colors.black,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
+                            ],
+                          ),
+                        ],
+                      )
                   ),
                 ],
               ),
             ),
           )
+
+
+
+
+
 
 
         ],
@@ -563,6 +573,7 @@ class _CruiseShipState extends State<CruiseShip> with TickerProviderStateMixin {
 
 
     );
+
   }
 }
 Widget _buildPriceListItem(String itemName) {

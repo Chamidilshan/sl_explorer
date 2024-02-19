@@ -1,9 +1,10 @@
 import 'package:SL_Explorer/common/user_location.dart';
 import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trips_details_page.dart';
 import 'package:SL_Explorer/features/home/profile.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/features/home/widgets/notifications_drawer.dart';
+import 'package:SL_Explorer/models/day_trip_packages_model.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,13 +12,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:get/get.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/north_west_coast.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/south_west_coast.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/east_coast.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/common_list.dart';
 import 'package:badges/badges.dart';
 import 'package:location/location.dart';
-
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trips_details_page.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/south_west_coast.dart';
 class HomePage extends StatefulWidget {
   final RemoteMessage? message;
   const HomePage({
@@ -335,7 +334,7 @@ class _HomePageState extends State<HomePage> {
                   'Day Trips',
                   dayTripData,
                   () {
-                    //Get.to(CommonListPage());
+                    //
                   },
                   context,
                 ),
@@ -461,11 +460,11 @@ void _onCardTap(
   } else if (tappedCardData['cardText'] == 'Mein Schiff 5') {
  //
   } else if (tappedCardData['cardText'] == 'Excursions South-West Coast') {
-    Get.to(South_West_CoastPage());
+    Get.to(DayTripListPage());
   }else if (tappedCardData['cardText'] == 'Excursions north-west coast') {
-    Get.to(North_West_CoastPage());
+
   }else if (tappedCardData['cardText'] == 'East Coast Excursions') {
-    Get.to(East_CoastPage());
+   // Get.to(East_CoastPage());
   }
 }
 

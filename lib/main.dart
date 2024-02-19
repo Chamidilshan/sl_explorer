@@ -4,6 +4,7 @@ import 'package:SL_Explorer/features/authentication/screens/email_verification_s
 import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/firebase_options.dart';
 import 'package:SL_Explorer/formtest.dart';
+import 'package:SL_Explorer/providers/day_trips_provider.dart';
 import 'package:SL_Explorer/providers/orders_provider.dart';
 import 'package:SL_Explorer/providers/round_trips_provider.dart';
 import 'package:SL_Explorer/services/firebase_services/notification_service.dart';
@@ -14,6 +15,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'services/firebase_services/authentication_repository.dart';
+import 'package:SL_Explorer/providers/festivals.provider.dart';
 
 //Brightness mode = Brightness.light;
 
@@ -25,6 +27,8 @@ Future<void> main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => RoundTripProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (context)=> FestivalProvider()),
+        ChangeNotifierProvider(create: (context) => DayTripProvider()),
       ],
       child: MyApp(),
     ),

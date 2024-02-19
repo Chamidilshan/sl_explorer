@@ -461,15 +461,15 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ),
                                     ElevatedButton(
                                       onPressed: (){
-                                        final order = OrderRequest(
-                                          customerId: AuthenticationRepository.instance.userId.toString(),
-                                          package: widget.dayTrip.id,
-                                          orderDate: '2024-01-29T12:00:00Z',
-                                          noOfPeople: 2,
-                                          option: 'beachBath',
-                                        );
-
-                                        apiService.placeOrder(order, context);
+                                        // final order = OrderRequest(
+                                        //   customerId: AuthenticationRepository.instance.userId.toString(),
+                                        //   package: widget.dayTrip.id,
+                                        //   orderDate: '2024-01-29T12:00:00Z',
+                                        //   noOfPeople: 2,
+                                        //   option: 'beachBath',
+                                        // );
+                                        //
+                                        // apiService.placeOrder(order, context);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: logoColor,

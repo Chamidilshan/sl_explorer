@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 class RoomsSelection extends StatefulWidget {
   final String itemName;
   final double roomPrice;
+  final ValueChanged<int> onCountChanged;
   const RoomsSelection({
     super.key,
     required this.itemName,
-    required this.roomPrice
+    required this.roomPrice,
+    required this.onCountChanged
   });
 
   @override
@@ -20,6 +22,8 @@ class _RoomsSelectionState extends State<RoomsSelection> {
 
   @override
   Widget build(BuildContext context) {
+    widget.onCountChanged(itemCount);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -16,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:badges/badges.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
 import '../../constants/constants.dart';
 
 import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list_east_coast.dart';
@@ -397,15 +398,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildCardSection(
-
-  double _width,
-  double _height,
-  String sectionTitle,
-  List<Map<String, String>> sectionData,
-  VoidCallback onSeeAllTap,
-  BuildContext context, {
-  bool showSeeAll = false,
-}) {
+    double _width,
+    double _height,
+    String sectionTitle,
+    List<Map<String, String>> sectionData,
+    VoidCallback onSeeAllTap,
+    BuildContext context, {
+      bool showSeeAll = false,
+    }) {
   return Padding(
     padding: EdgeInsets.only(
       // horizontal: _width * 0.04,
@@ -417,28 +417,31 @@ Widget _buildCardSection(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24.0),
+              padding: const EdgeInsets.only(left: 20.0),
               child: Text(
                 sectionTitle,
                 style: const TextStyle(
                   color: Color(0xFF232323),
                   fontSize: 18,
                   fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   height: 2,
                 ),
               ),
             ),
             if (sectionTitle != '')
-              InkWell(
-                onTap: onSeeAllTap,
-                child: const Text(
-                  'See All',
-                  style: TextStyle(
-                    color: Color(0xFFfd8103),
-                    fontSize: 16,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: InkWell(
+                  onTap: onSeeAllTap,
+                  child: const Text(
+                    'See All',
+                    style: TextStyle(
+                      color: Color(0xFFfd8103),
+                      fontSize: 18,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -449,13 +452,32 @@ Widget _buildCardSection(
         ),
         SizedBox(
           height: _height * 0.25,
-          child: ListView.builder(
+          child: sectionData.isEmpty
+              ? Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 4, // Show 4 shimmering cards
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(left: _width * 0.02, right: _width * 0.02),
+                  child: Container(
+                    width: _width * 0.4,
+                    height: _height * 0.25,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            ),
+          )
+              : ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: sectionData.length,
             itemBuilder: (context, index) {
               if (index < sectionData.length) {
                 return Padding(
-                  padding: EdgeInsets.only(left:_width * 0.02, right: _width * 0.02),
+                  padding: EdgeInsets.only(left: _width * 0.02, right: _width * 0.02),
                   child: InkWell(
                     onTap: () {
                       _onCardTap(context, index, sectionData);
@@ -548,7 +570,7 @@ class _CardsState extends State<Cards> {
 
     return Container(
       height: _height * 0.2,
-      width: _width * 0.4,
+      width: _width * 0.42,
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(28),

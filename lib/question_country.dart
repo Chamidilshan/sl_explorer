@@ -92,7 +92,7 @@ class _QCountryState extends State<QCountry> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFFfd8103),
+                    backgroundColor: const Color(0xFFfd8103),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),

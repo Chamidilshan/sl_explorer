@@ -1,4 +1,5 @@
 import 'package:SL_Explorer/features/home/orders/widgets/remainingDays.dart';
+import 'package:SL_Explorer/features/payments/paypal_home_screen.dart';
 import 'package:SL_Explorer/models/orders_model.dart';
 import 'package:SL_Explorer/services/api_services/orders_api_service.dart';
 import 'package:flutter/material.dart';
@@ -521,64 +522,58 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                 color: Colors.grey[700],
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.all(10),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 15,
-                                vertical: 0
-                              ),
-                              //height: 120,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                //color: Colors.orange,
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.5,
-                                  style: BorderStyle.solid
-                                )
-                              ),
-                              child:
-                              Form(
-                                key: updateKey,
-                                child: Column(
-                                  children: [
-                                    TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return "Please enter the reference number";
-                                        } else {
-                                          reference = value;
-                                          return null;
-                                        }
-                                      },
-                                      initialValue: widget.order.advance?.reference.toString() ?? null,
-                                      decoration: InputDecoration(
-                                        labelText: "Reference Number",
-                                        //contentPadding: EdgeInsets.all(0)
-                                        //border: InputBorder.none,
+                            SizedBox(
+                              height: 20.0,
+                            ),
+                            Form(
+                              key: updateKey,
+                              child: Column(
+                                children: [
+                                  // TextFormField(
+                                  //   validator: (value) {
+                                  //     if (value == null || value.isEmpty) {
+                                  //       return "Please enter the reference number";
+                                  //     } else {
+                                  //       reference = value;
+                                  //       return null;
+                                  //     }
+                                  //   },
+                                  //   initialValue: widget.order.advance?.reference.toString() ?? null,
+                                  //   decoration: InputDecoration(
+                                  //     labelText: "Reference Number",
+                                  //     //contentPadding: EdgeInsets.all(0)
+                                  //     //border: InputBorder.none,
+                                  //   ),
+                                  // ),
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      // if (updateKey.currentState?.validate() ?? false) {
+                                        //print("update key click event success");
+                                        // _updateUserData();
+                                      Get.to(
+                                          PaypalHomeScreen(
+                                            packageName: widget.order.packageId.roundTrip!.packageName,
+                                            date: widget.order.tripDate,
+                                            adultCount: widget.order.noOfPeople.adults.toString(),
+                                            childCount: widget.order.noOfPeople.children.toString(),
+                                          )
+                                      );
+                                      // }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.orange,
+
+                                    ),
+                                    child: Text(
+                                      "Pay Advance Now",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        if (updateKey.currentState?.validate() ?? false) {
-                                          //print("update key click event success");
-                                          _updateUserData();
-                                        }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.orange,
-                                      ),
-                                      child: Text(
-                                        "Update",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )
+                                  )
+                                ],
+                              ),
                             )
                           ],
                         ),
@@ -617,7 +612,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
 
 
           ],
-        )
+        ),
+
 
 
 

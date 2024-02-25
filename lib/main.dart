@@ -85,9 +85,8 @@ class MyApp extends StatelessWidget {
       initialBinding: GeneralBindings(),
       // builder: DevicePreview.appBuilder,
       // title: 'Sign up',
-      // theme: ThemeData(
-      //   brightness: Brightness.light,
-      // ),
+      theme: ThemeData(
+      ),
       home: const CircularProgressIndicator(
           color: Color(0xFFFD8103),
       ),

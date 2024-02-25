@@ -74,7 +74,6 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
       case 'Triple':
         roomPrice = widget.roundTrip.prices.private.triple.toDouble();
         break;
-    // Add more cases for other room types if needed
 
       default:
       // Handle invalid room types
@@ -105,7 +104,8 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
 
 
 
-  int selectedDay = 1;
+  int selectedDay = 0;
+  int index = 0;
 
   DateTime selectedDate = DateTime.now();
   bool isDateSelected = false;
@@ -235,6 +235,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                           isSelected: selectedDay == itineraryDay.dayNumber,
                           onPressed: () {
                             setState(() {
+                              print(itineraryDay.dayNumber);
                               selectedDay = itineraryDay.dayNumber;
                             });
                           },
@@ -247,7 +248,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   child: Text(
-                    widget.roundTrip.itenary[selectedDay].description,
+                    widget.roundTrip.itenary[index].description,
                     style: GoogleFonts.poppins(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w300,
@@ -373,6 +374,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 physics: const BouncingScrollPhysics(),
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: widget.roundTrip.hotels.map((hotel) {
                   return HotelLocation(
                     locationName: hotel.hotel.hotelDistrict,

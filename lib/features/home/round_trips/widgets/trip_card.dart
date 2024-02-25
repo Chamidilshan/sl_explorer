@@ -41,52 +41,58 @@ class TripListCard extends StatelessWidget {
         ),
         collapsedIconColor: logoColor,
         title: SizedBox(
-          height: 80.0,
+          height: 90.0,
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                    flex: 2,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.network(
-                        imgLink,
-                        fit: BoxFit.cover,
-                      ),
-                    )
+                Container(
+                  width: 80.0,
+                  height: 80.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                      imgLink,
+                      fit: BoxFit.cover,
+                      height: 80.0,
+                      width: 80.0,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 10.0,
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      titleText,
-                      style: GoogleFonts.poppins(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16.0
+                Expanded(
+                flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        titleText,
+                        style: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16.0
+                        ),
                       ),
-                    ),
-                    Text(
-                      firstSubTitleText,
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFF666666),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0
+                      Text(
+                        firstSubTitleText,
+                        style: GoogleFonts.poppins(
+                            color: Color(0xFF666666),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0
+                        ),
                       ),
-                    ),
-                    Text(
-                      secondSubTitleText,
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFF666666),
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14.0
-                      ),
-                    )
-                  ],
+                      Text(
+                        secondSubTitleText,
+                        style: GoogleFonts.poppins(
+                            color: Color(0xFF666666),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14.0
+                        ),
+                      )
+                    ],
+                  ),
                 )
               ]
           ),

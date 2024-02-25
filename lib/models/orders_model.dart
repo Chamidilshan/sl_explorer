@@ -6,8 +6,10 @@ class OrderRequest {
   final Map<String, String> packageId;
   final String orderDate;
   final String tripDate;
+  final String? pickUpLocation;
+  final String? clientRequests;
   final Map<String, int> noOfPeople;
-  final Map<String, int> rooms;
+  final Map<String, int>? rooms;
   final String status;
   final Map<String, double> price;
   final Map<String, dynamic> advance;
@@ -18,8 +20,10 @@ class OrderRequest {
     required this.packageId,
     required this.orderDate,
     required this.tripDate,
+    this.pickUpLocation,
+    this.clientRequests,
     required this.noOfPeople,
-    required this.rooms,
+    this.rooms,
     required this.status,
     required this.price,
     required this.advance,
@@ -32,6 +36,8 @@ class OrderRequest {
       'packageId': packageId,
       'orderDate': orderDate,
       'tripDate': tripDate,
+      'pickUpLocation': pickUpLocation,
+      'clientRequests': clientRequests,
       'noOfPeople': noOfPeople,
       'rooms': rooms,
       'status': status,
@@ -47,6 +53,8 @@ class OrderRequest {
       packageId: Map<String, String>.from(json['packageId']),
       orderDate: json['orderDate'],
       tripDate: json['tripDate'],
+      pickUpLocation: json['pickUpLocation'],
+      clientRequests: json['clientRequests'],
       noOfPeople: Map<String, int>.from(json['noOfPeople']),
       rooms: Map<String, int>.from(json['rooms']),
       status: json['status'],
@@ -76,7 +84,7 @@ class Order {
   DateTime orderDate;
   DateTime tripDate;
   NoOfPeople noOfPeople;
-  Rooms rooms;
+  Rooms? rooms;
   String status;
   Price price;
   Advance? advance;
@@ -124,7 +132,7 @@ class Order {
       'orderDate': orderDate.toIso8601String(),
       'tripDate': tripDate.toIso8601String(),
       'noOfPeople': noOfPeople.toJson(),
-      'rooms': rooms.toJson(),
+      'rooms': rooms!.toJson(),
       'status': status,
       'price': price.toJson(),
       'advance': advance!.toJson(),

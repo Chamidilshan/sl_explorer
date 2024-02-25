@@ -7,15 +7,20 @@ import 'package:SL_Explorer/models/day_trip_packages_model.dart';
 import 'package:SL_Explorer/providers/day_trips_provider.dart';
 import 'package:SL_Explorer/services/api_services/day_trips_api_service.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import '../widgets/day_trip_card.dart';
 
-class DayTripListPage extends StatefulWidget {
-  const DayTripListPage({super.key});
+class DayTripListPage_North_West_Coast extends StatefulWidget {
+  final String categoryName;
+  const DayTripListPage_North_West_Coast({Key? key, required this.categoryName})
+      : super(key: key);
+
   @override
-  State<DayTripListPage> createState() => _DayTripListPageState();
+  State<DayTripListPage_North_West_Coast> createState() =>
+      _DayTripListPageState();
 }
 
-class _DayTripListPageState extends State<DayTripListPage>
+class _DayTripListPageState extends State<DayTripListPage_North_West_Coast>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   List<DayTrip> dayTrips = [];
@@ -34,9 +39,15 @@ class _DayTripListPageState extends State<DayTripListPage>
           Provider.of<DayTripProvider>(context, listen: false);
 
       List<DayTrip> fetchedDayTrips = [];
-      for (int i = 1; i <= 3; i++) {
-        List<DayTrip> trips = await apiService.fetchDayTrips(i.toString());
-        fetchedDayTrips.addAll(trips);
+      List<String> packageCategoryNames = ['Excursions north-west coast'];
+
+      for (String packageCategoryName in packageCategoryNames) {
+        for (int i = 1; i <= 3; i++) {
+          List<DayTrip> trips =
+              await apiService.fetchDayTripsByCategoryAndDuration(
+                  packageCategoryName, i.toString());
+          fetchedDayTrips.addAll(trips);
+        }
       }
 
       dayTripProvider.setDayTrips(fetchedDayTrips);
@@ -50,10 +61,6 @@ class _DayTripListPageState extends State<DayTripListPage>
 
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
-    final dayTripProvider = Provider.of<DayTripProvider>(context);
-    final dayTrip = dayTripProvider.dayTrips;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -61,14 +68,24 @@ class _DayTripListPageState extends State<DayTripListPage>
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              '${dayTrips.isNotEmpty ? dayTrips[0].packageCategoryName : ""}',
-              style: GoogleFonts.poppins(
-                fontSize: 22.0,
-                color: Colors.black,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            dayTrips.isNotEmpty
+                ? Text(
+                    '${dayTrips[0].packageCategoryName}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 22.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
+                : Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      width: 200,
+                      height: 24,
+                      color: Colors.grey[300],
+                    ),
+                  ),
             Text(
               'Tap the cards to view a short description about the tour.',
               style: GoogleFonts.montserrat(
@@ -81,42 +98,55 @@ class _DayTripListPageState extends State<DayTripListPage>
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-          Text(
-            '${dayTrips.isNotEmpty ? dayTrips[0].packageTitle : ""}',
-            style: GoogleFonts.poppins(
-              fontSize: 16.0,
-              color: Colors.black,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-          CustomButton(onPressed: (){}),
-
-          TabBar(
-            controller: _tabController,
-            labelColor: logoColor,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: logoColor,
-            tabs: [
-              Tab(text: 'One Day'),
-              Tab(text: 'Two Days'),
-              Tab(text: 'Three Days'),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            dayTrips.isNotEmpty
+                ? Text(
+                    '${dayTrips[0].packageTitle}',
+                    style: GoogleFonts.poppins(
+                      fontSize: 14.0,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  )
+                : Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor:
+                        Colors.grey[100]!, // Use your desired gradient
+                    child: Container(
+                      width: 200,
+                      height: 18,
+                      color: Colors.grey[300],
+                    ),
+                  ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+            CustomButton(onPressed: () {}),
+            TabBar(
               controller: _tabController,
-              children: [
-                _buildTripList(1),
-                _buildTripList(2),
-                _buildTripList(3),
+              labelColor: logoColor,
+              unselectedLabelColor: Colors.grey,
+              indicatorColor: logoColor,
+              tabs: [
+                Tab(text: 'One Day'),
+                Tab(text: 'Two Days'),
+                Tab(text: 'Three Days'),
               ],
             ),
-          ),
-        ],
+            Expanded(
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildTripList(1),
+                  _buildTripList(2),
+                  _buildTripList(3),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -124,24 +154,35 @@ class _DayTripListPageState extends State<DayTripListPage>
   Widget _buildTripList(int duration) {
     List<DayTrip> filteredTrips = [];
     if (dayTrips.isNotEmpty) {
-      List<String> packageCategoryName = ['West Coast Excursions', 'Another Category Name', 'Third Category Name'];
-      filteredTrips = dayTrips
-          .where((trip) =>
-      packageCategoryName.contains(trip.packageCategoryName) &&
-              trip.packageDays == duration)
-          .toList();
+      filteredTrips =
+          dayTrips.where((trip) => trip.packageDays == duration).toList();
     }
 
     return ListView.builder(
-      itemCount: filteredTrips.length,
+      itemCount: filteredTrips.isEmpty ? 4 : filteredTrips.length,
       itemBuilder: (context, index) {
-        return DayTripListCard(
-          imgLink: filteredTrips[index].packageCoverImage,
-          titleText: filteredTrips[index].packageName,
-          descriptionText: filteredTrips[index].packageShortDescription,
-          dayTrips: dayTrips,
-          index: index,
-        );
+        if (filteredTrips.isEmpty) {
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Container(
+              height: 100.0, // Adjust the height as needed
+              margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+            ),
+          );
+        } else {
+          return DayTripListCard(
+            imgLink: filteredTrips[index].packageCoverImage,
+            titleText: filteredTrips[index].packageName,
+            descriptionText: filteredTrips[index].packageShortDescription,
+            dayTrips: dayTrips,
+            index: index,
+          );
+        }
       },
     );
   }
@@ -224,4 +265,3 @@ class PopupBuilder {
     }
   }
 }
-

@@ -1,22 +1,69 @@
+import 'dart:convert';
 import 'package:SL_Explorer/common/user_location.dart';
 import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trips_details_page.dart';
 import 'package:SL_Explorer/features/home/profile.dart';
+import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/features/home/widgets/notifications_drawer.dart';
-import 'package:SL_Explorer/models/day_trip_packages_model.dart';
+import 'package:SL_Explorer/models/round2.dart';
+import 'package:SL_Explorer/models/round_trip_packages_model.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:anim_search_bar/anim_search_bar.dart';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:get/get.dart';
 import 'package:badges/badges.dart';
 import 'package:location/location.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trips_details_page.dart';
-import 'package:SL_Explorer/features/home/day_trip_screens/south_west_coast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shimmer/shimmer.dart';
+import '../../constants/constants.dart';
+
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list_east_coast.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list_north_west.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list_west_coast.dart';
+import 'package:SL_Explorer/models/category_model.dart';
+
+class CruiseShipApiServicehome{
+}
+
+class CategoryApiService {
+  final String apiUrl = '$baseUrl/api/v1/dayTips/category';
+
+  Future<List<Category>> fetchCategory() async {
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => Category.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load categories');
+    }
+  }
+}
+
+class RoundTripsApiServicehome{
+
+  Future<List<RoundTrip>> fetchRoundTrips() async {
+    final response = await http.get(Uri.parse('$baseUrl/api/v1/roundTrips'));
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => RoundTrip.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load round trips');
+    }
+  }
+}
+class MaldivesEmiratesApiServicehome{
+}
+
+class AyurvedaHoneymoonServicehome{
+}
+
+
+
 class HomePage extends StatefulWidget {
   final RemoteMessage? message;
   const HomePage({
@@ -28,79 +75,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, String>> cruise_shipdData = [
-    {
-      "imagePath": "assets/images/costa_ship.jpg",
-      "cardText": "Costa Deliziosa"
-    },
-    {"imagePath": "assets/images/Mein_Schiff.png", "cardText": "Mein Schiff 5"},
-    {
-      "imagePath": "assets/images/Mein_Schiff6.png",
-      "cardText": "Mein Schiff 6"
-    },
-    {"imagePath": "assets/images/AIDA_Stella.jpg", "cardText": "Aida Stella"},
-  ];
-  List<Map<String, String>> roundTripData = [
-    {
-      "imagePath": "assets/images/costa_ship.jpg",
-      "cardText": "Sri Lanka Culture & Nature"
-    },
-    {
-      "imagePath": "assets/images/Mein_Schiff.png",
-      "cardText": "Sri Lanka Summer Trip"
-    },
-    {
-      "imagePath": "assets/images/Mein_Schiff6.png",
-      "cardText": "Sri Lanka Young & Fun"
-    },
-    {
-      "imagePath": "assets/images/AIDA_Stella.jpg",
-      "cardText": "Sri Lanka Reloaded"
-    },
-  ];
-  List<Map<String, String>> dayTripData = [
-    {
-      "imagePath": "assets/images/costa_ship.jpg",
-      "cardText": "Excursions South-West Coast"
-    },
-    {
-      "imagePath": "assets/images/Mein_Schiff.png",
-      "cardText": "Excursions north-west coast"
-    },
-    {
-      "imagePath": "assets/images/Mein_Schiff6.png",
-      "cardText": "East Coast Excursions"
-    },
-  ];
-  List<Map<String, String>> maldives_emiratesData = [
-    {
-      "imagePath": "assets/images/costa_ship.jpg",
-      "cardText": "Embudu, South Male Atoll"
-    },
-    {
-      "imagePath": "assets/images/Mein_Schiff.png",
-      "cardText": "Malahini Kuda Bandos"
-    },
-    {
-      "imagePath": "assets/images/Mein_Schiff6.png",
-      "cardText": "Adaaran Select Meedhupparu"
-    },
-  ];
-  List<Map<String, String>> ayurveda_honeymoonData = [
-    {"imagePath": "assets/images/costa_ship.jpg", "cardText": "Ayurveda"},
-    {"imagePath": "assets/images/Mein_Schiff.png", "cardText": "Yoga Retreats"},
-    {
-      "imagePath": "assets/images/Mein_Schiff6.png",
-      "cardText": "Get Married in Paradise"
-    },
-  ];
+  List<Map<String, String>> cruise_shipdData = [];
+
+  final RoundTripsApiServicehome _roundapiService = RoundTripsApiServicehome();
+  List<Map<String, String>> roundTripData = [];
+
+  final CategoryApiService _apiService = CategoryApiService();
+  List<Map<String, String>> dayTripData = [];
+
+  List<Map<String, String>> maldives_emiratesData = [];
+  List<Map<String, String>> ayurveda_honeymoonData = [];
+
 
   int notificationCount = 0;
   void onNotificationClick() {
     setState(() {
       notificationCount = 0;
     });
-    //
   }
 
   Future<void> locationService() async{
@@ -144,6 +135,38 @@ class _HomePageState extends State<HomePage> {
   void initState(){
     super.initState();
     locationService();
+    _loadDayTripsData();
+    _loadRoundTripsData();
+  }
+
+  Future<void> _loadDayTripsData() async {
+    try {
+      List<Category> data = await _apiService.fetchCategory();
+      List<Map<String, String>> convertedData = data.take(3).map((category) => {
+        "imagePath": category.packageCategoryImage,
+        "cardText": category.packageCategoryName,
+      }).toList();
+      setState(() {
+        dayTripData = convertedData;
+      });
+    } catch (e) {
+      print('Error loading day trips data: $e');
+    }
+  }
+
+  Future<void> _loadRoundTripsData() async {
+    try {
+      List<RoundTrip> data = await _roundapiService.fetchRoundTrips();
+      List<Map<String, String>> convertedData = data.take(4).map((category) => {
+        "imagePath": category.packageCoverImage,
+        "cardText": category.packageName,
+      }).toList();
+      setState(() {
+        roundTripData = convertedData;
+      });
+    } catch (e) {
+      print('Error loading round trips data: $e');
+    }
   }
 
   @override
@@ -308,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                   'Cruise Ship',
                   cruise_shipdData,
                   () {
-                    //navigate to cruise ship page
+                    Get.to(CruiseShip());
                   },
                   context,
                 ),
@@ -320,10 +343,11 @@ class _HomePageState extends State<HomePage> {
                   _height,
                   'Round Trips',
                   roundTripData,
-                  () {
+                      () {
                     Get.to(RoundTripListPage());
                   },
                   context,
+                  showSeeAll: true,
                 ),
                 SizedBox(
                   height: _height * 0.01,
@@ -374,14 +398,14 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildCardSection(
-  double _width,
-  double _height,
-  String sectionTitle,
-  List<Map<String, String>> sectionData,
-  VoidCallback onSeeAllTap,
-  BuildContext context, {
-  bool showSeeAll = false,
-}) {
+    double _width,
+    double _height,
+    String sectionTitle,
+    List<Map<String, String>> sectionData,
+    VoidCallback onSeeAllTap,
+    BuildContext context, {
+      bool showSeeAll = false,
+    }) {
   return Padding(
     padding: EdgeInsets.only(
       // horizontal: _width * 0.04,
@@ -393,28 +417,31 @@ Widget _buildCardSection(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 24.0),
+              padding: const EdgeInsets.only(left: 20.0),
               child: Text(
                 sectionTitle,
                 style: const TextStyle(
                   color: Color(0xFF232323),
                   fontSize: 18,
                   fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                   height: 2,
                 ),
               ),
             ),
-            if (sectionTitle != 'Cruise Ship')
-              InkWell(
-                onTap: onSeeAllTap,
-                child: const Text(
-                  'See All',
-                  style: TextStyle(
-                    color: Color(0xFFfd8103),
-                    fontSize: 16,
-                    fontFamily: 'Montserrat',
-                    fontWeight: FontWeight.w400,
+            if (sectionTitle != '')
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: InkWell(
+                  onTap: onSeeAllTap,
+                  child: const Text(
+                    'See All',
+                    style: TextStyle(
+                      color: Color(0xFFfd8103),
+                      fontSize: 18,
+                      fontFamily: 'Montserrat',
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
               ),
@@ -425,19 +452,38 @@ Widget _buildCardSection(
         ),
         SizedBox(
           height: _height * 0.25,
-          child: ListView.builder(
+          child: sectionData.isEmpty
+              ? Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: 4, // Show 4 shimmering cards
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.only(left: _width * 0.02, right: _width * 0.02),
+                  child: Container(
+                    width: _width * 0.4,
+                    height: _height * 0.25,
+                    color: Colors.white,
+                  ),
+                );
+              },
+            ),
+          )
+              : ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: sectionData.length,
             itemBuilder: (context, index) {
               if (index < sectionData.length) {
                 return Padding(
-                  padding: EdgeInsets.only(left:_width * 0.02, right: _width * 0.02),
+                  padding: EdgeInsets.only(left: _width * 0.02, right: _width * 0.02),
                   child: InkWell(
                     onTap: () {
                       _onCardTap(context, index, sectionData);
                     },
                     child: Cards(
-                      imagePath: sectionData[index]["imagePath"]!,
+                      networkImage: sectionData[index]["imagePath"]!,
                       cardText: sectionData[index]["cardText"]!,
                     ),
                   ),
@@ -454,19 +500,20 @@ Widget _buildCardSection(
 void _onCardTap(
     BuildContext context, int index, List<Map<String, String>> sectionData) {
   Map<String, String> tappedCardData = sectionData[index];
+  String? packageName = tappedCardData['cardText'];
 
-  if (tappedCardData['cardText'] == 'Costa Deliziosa') {
-   Get.to(CruiseShip());
-  } else if (tappedCardData['cardText'] == 'Mein Schiff 5') {
- //
-  } else if (tappedCardData['cardText'] == 'Excursions South-West Coast') {
-    Get.to(DayTripListPage());
-  }else if (tappedCardData['cardText'] == 'Excursions north-west coast') {
+  if (packageName != null) {
+    if (packageName == 'West Coast Excursions') {
+      Get.to(DayTripListPage_WestCoast(categoryName: 'West Coast Excursions'));
+    } else if (packageName == 'Excursions north-west coast') {
+      Get.to(DayTripListPage_North_West_Coast(categoryName: 'Excursions north-west coast'));
+    } else if (packageName == 'East Coast Excursions') {
+      Get.to(DayTripListPage_EastCoast(categoryName: 'East Coast Excursions'));
+    }
 
-  }else if (tappedCardData['cardText'] == 'East Coast Excursions') {
-   // Get.to(East_CoastPage());
   }
 }
+
 
 class searchbar extends StatefulWidget {
   const searchbar({Key? key}) : super(key: key);
@@ -503,10 +550,10 @@ class _SearchBarState extends State<searchbar> {
 }
 
 class Cards extends StatefulWidget {
-  final String imagePath;
+  final String networkImage;
   final String cardText;
 
-  const Cards({Key? key, required this.imagePath, required this.cardText})
+  const Cards({Key? key, required this.networkImage, required this.cardText})
       : super(key: key);
 
   @override
@@ -523,7 +570,7 @@ class _CardsState extends State<Cards> {
 
     return Container(
       height: _height * 0.2,
-      width: _width * 0.4,
+      width: _width * 0.42,
       decoration: BoxDecoration(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(28),
@@ -542,7 +589,7 @@ class _CardsState extends State<Cards> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(28),
               image: DecorationImage(
-                image: AssetImage(widget.imagePath),
+                image: NetworkImage(widget.networkImage),
                 fit: BoxFit.fill,
               ),
             ),

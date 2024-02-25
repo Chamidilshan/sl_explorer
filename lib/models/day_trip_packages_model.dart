@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class DayTrip {
   final String id;
   final String packageCategoryName;
+  final String packageCategoryImage;
   final int packageDays;
   final String packageName;
   final String packageShortDescription;
@@ -20,6 +21,7 @@ class DayTrip {
   DayTrip({
     required this.id,
     required this.packageCategoryName,
+    required this.packageCategoryImage,
     required this.packageDays,
     required this.packageName,
     required this.packageShortDescription,
@@ -39,6 +41,7 @@ class DayTrip {
       return DayTrip(
         id: json['_id'],
         packageCategoryName: json['packageCategoryName'],
+        packageCategoryImage: json['packageCategoryImage'],
         packageDays: json['packageDays'],
         packageName: json['packageName'],
         packageShortDescription: json['packageShortDescription'],
@@ -63,6 +66,7 @@ class DayTrip {
       return DayTrip(
         id: '',
         packageCategoryName: '',
+        packageCategoryImage: '',
         packageDays: 0,
         packageName: '',
         packageShortDescription: '',

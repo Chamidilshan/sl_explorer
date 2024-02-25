@@ -22,12 +22,6 @@ class DayTripDetailsPage extends StatefulWidget {
 }
 
 class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
-  List<String> images = [
-    "https://images.wallpapersden.com/image/download/purple-sunrise-4k-vaporwave_bGplZmiUmZqaraWkpJRmbmdlrWZlbWU.jpg",
-    "https://wallpaperaccess.com/full/2637581.jpg",
-    "https://uhdwallpapers.org/uploads/converted/20/01/14/the-mandalorian-5k-1920x1080_477555-mm-90.jpg"
-  ];
-
   String? selectedAdultCount;
   String? selectedChildCount;
 
@@ -72,26 +66,76 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.dayTrip.packageName,
-          style: GoogleFonts.poppins(
-            color: Colors.black,
-            fontSize: 22.0,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.04,
-            vertical: MediaQuery.of(context).size.height * 0,
-          ),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers:[
+            SliverAppBar(
+              backgroundColor: Colors.white,
+              expandedHeight: 200.0,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                background: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 200.0,
+                    autoPlay: true,
+                    enlargeFactor: 0.25,
+                    aspectRatio: 2.0,
+                    disableCenter: true,
+                    viewportFraction: 1,
+                    enlargeCenterPage: false,
+                    autoPlayInterval: const Duration(milliseconds: 1500),
+                    onPageChanged: (position, reason) {
+                      print(reason);
+                      print(CarouselPageChangedReason.controller);
+                    },
+                    enableInfiniteScroll: false,
+                  ),
+                  items: widget.dayTrip.packageImageLinks.map<Widget>((item) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Image.network(
+                              item, // Assuming each item has only one image link
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+            ),
+        SliverList(
+          delegate: SliverChildListDelegate([
+          Padding(
+          padding: const EdgeInsets.all(20.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ImageSlider(imageUrls: widget.dayTrip.packageImageLinks),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+            Text(
+            widget.dayTrip.packageName,
+            style: GoogleFonts.poppins(
+              color: Colors.black,
+              fontSize: 22.0,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          Text(
+            '${widget.dayTrip.packageTitle}',
+            style: GoogleFonts.poppins(
+              color: const Color(0xFF666666),
+              fontWeight: FontWeight.w400,
+              fontSize: 14.0,
+            ),
+          ),
+              const SizedBox(
+                height: 30.0,
+              ),
               Text(
                 widget.dayTrip.packageShortDescription,
                 textAlign: TextAlign.justify,
@@ -101,83 +145,95 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                   fontSize: 14.0,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-              DatesExpansionTile(avaliableDates: widget.dayTrip.avaliableDates),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              ExpansionTile(
-                collapsedIconColor: logoColor,
-                title: SizedBox(
-                  child: Text(
-                    'Services',
-                    style: GoogleFonts.poppins(
-                      color: logoColor,
-                      fontSize: 22.0,
-                    ),
-                  ),
-                ),
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: widget.dayTrip.services.map((service) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
-                        child: Text(
-                          '• $service',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: 'AbhayaLibreMedium',
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFF3A544F),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ],
+              const SizedBox(
+                height: 10.0,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-              ExpansionTile(
-                collapsedIconColor: logoColor,
-                title: SizedBox(
-                  child: Text(
-                    'Hotel',
-                    style: GoogleFonts.poppins(
-                      color: logoColor,
-                      fontSize: 22.0,
-                    ),
-                  ),
-                ),
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.dayTrip.hotels[0].hotel.hotelName,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+              // Add more content as needed
+            ],
+          ),
+        ),
+            SingleChildScrollView(child: DatesExpansionTile(avaliableDates: widget.dayTrip.avaliableDates)),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                SingleChildScrollView(
+                  child: ExpansionTile(
+                    collapsedIconColor: logoColor,
+                    title: SizedBox(
+                      child: Text(
+                        'Services',
+                        style: GoogleFonts.poppins(
+                          color: logoColor,
+                          fontSize: 22.0,
                         ),
                       ),
-                      SizedBox(height: 8.0),
-                      Image.network(
-                        widget.dayTrip.hotels[0].hotel.hotelImage,
-                        height: 200.0,
-                        width: 200.0,
-                        fit: BoxFit.cover,
-                      ),
-                      SizedBox(height: 8.0),
-                      Text(
-                        widget.dayTrip.hotels[0].hotelLocationDesc,
-                        style: TextStyle(
-                          fontSize: 14.0,
+                    ),
+                    children: [
+                      SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: widget.dayTrip.services.map((service) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Text(
+                                '• $service',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontFamily: 'AbhayaLibreMedium',
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(0xFF3A544F),
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
-            ],
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                // ExpansionTile(
+                //   collapsedIconColor: logoColor,
+                //   title: SizedBox(
+                //     child: Text(
+                //       'Hotel',
+                //       style: GoogleFonts.poppins(
+                //         color: logoColor,
+                //         fontSize: 22.0,
+                //       ),
+                //     ),
+                //   ),
+                //   children: [
+                //     Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         Text(
+                //           widget.dayTrip.hotels[0].hotel.hotelName,
+                //           style: TextStyle(
+                //             fontSize: 18.0,
+                //             fontWeight: FontWeight.bold,
+                //           ),
+                //         ),
+                //         SizedBox(height: 8.0),
+                //         Image.network(
+                //           widget.dayTrip.hotels[0].hotel.hotelImage,
+                //           height: 200.0,
+                //           width: 200.0,
+                //           fit: BoxFit.cover,
+                //         ),
+                //         SizedBox(height: 8.0),
+                //         Text(
+                //           widget.dayTrip.hotels[0].hotelLocationDesc,
+                //           style: TextStyle(
+                //             fontSize: 14.0,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ],
+                // ),
+          ],
           ),
+        ),
+          ],
         ),
       ),
       bottomSheet: Container(
@@ -285,7 +341,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                             children: [
                                               Text(
                                                 'Select Adults:',
-                                                style: TextStyle(fontSize: 18.0),
+                                                style: TextStyle(fontSize: 16.0),
                                               ),
                                               SizedBox(height: 8.0),
                                               DropdownButtonHideUnderline(
@@ -353,7 +409,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                             children: [
                                               Text(
                                                 'Select Children:',
-                                                style: TextStyle(fontSize: 18.0),
+                                                style: TextStyle(fontSize: 16.0),
                                               ),
                                               SizedBox(height: 8.0),
                                               DropdownButtonHideUnderline(
@@ -425,7 +481,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         SizedBox(height: 16),
                                         const Text(
                                           'from/to location & hotel:',
-                                          style: TextStyle(fontSize: 18.0),
+                                        
                                         ),
                                       ],
                                     ),
@@ -438,7 +494,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     SizedBox(height: 16.0),
                                     const Text(
                                       'Questions/messages/requests:',
-                                      style: TextStyle(fontSize: 18.0),
+                                      style: TextStyle(fontSize: 16.0),
                                     ),
                                     const TextField(
                                       maxLines: 5, // Set the maximum number of lines
@@ -461,15 +517,34 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ),
                                     ElevatedButton(
                                       onPressed: (){
-                                        // final order = OrderRequest(
-                                        //   customerId: AuthenticationRepository.instance.userId.toString(),
-                                        //   package: widget.dayTrip.id,
-                                        //   orderDate: '2024-01-29T12:00:00Z',
-                                        //   noOfPeople: 2,
-                                        //   option: 'beachBath',
-                                        // );
-                                        //
-                                        // apiService.placeOrder(order, context);
+                                        String orderDate = DateTime.now().toString();
+                                        String tripDate = selectedDate.toString();
+                                        Map<String, String> packageId = {'dayTrip': widget.dayTrip.id.toString()};
+                                        Map<String, int> noOfPeople = {'adults': int.parse(selectedAdultCount.toString()), 'children': int.parse(selectedChildCount.toString())};
+                                        var selectedSingleRooms;
+                                        var selectedDoubleRooms;
+                                        var selectedTripleRooms;
+                                        Map<String, int> rooms = {'single': selectedSingleRooms, 'double': selectedDoubleRooms, 'triple': selectedTripleRooms, 'Quadruple': 0};
+                                        String status = "Pending";
+                                        Map<String, double> price = {'shownPrice per person': widget.dayTrip.price.toDouble()};
+                                        Map<String, dynamic> advance = {'isPaid': false};
+                                        Map<String, dynamic> option = { "name": "Beach Hotel", "amount": 110};
+
+
+                                        final order = OrderRequest(
+                                            customerId: AuthenticationRepository.instance.userId.toString(),
+                                            packageId: packageId,
+                                            orderDate: orderDate,
+                                            tripDate: tripDate,
+                                            noOfPeople: noOfPeople,
+                                            rooms: rooms,
+                                            status: status,
+                                            price: price,
+                                            advance: advance,
+                                            option: option
+                                        );
+
+                                        apiService.placeOrder(order, context);
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: logoColor,
@@ -569,61 +644,6 @@ class RoundedButton extends StatelessWidget {
   }
 }
 
-
-class ImageSlider extends StatefulWidget {
-  final List<String> imageUrls;
-
-  const ImageSlider({required this.imageUrls, Key? key}) : super(key: key);
-
-  @override
-  _ImageSliderState createState() => _ImageSliderState();
-}
-
-class _ImageSliderState extends State<ImageSlider> {
-  int _current = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return CarouselSlider(
-      options: CarouselOptions(
-        height: 200.0,
-        autoPlay: true,
-        enlargeFactor: 0.25,
-        aspectRatio: 2.0,
-        disableCenter: true,
-        viewportFraction: 1,
-        enlargeCenterPage: false,
-        autoPlayInterval: const Duration(milliseconds: 2500),
-        onPageChanged: (position, reason) {
-          print(reason);
-          print(CarouselPageChangedReason.controller);
-          setState(() {
-            _current = position;
-          });
-        },
-        enableInfiniteScroll: false,
-      ),
-      items: widget.imageUrls.map<Widget>((url) {
-        return Builder(
-          builder: (BuildContext context) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16.0),
-                child: Image.network(
-                  url,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
-              ),
-            );
-          },
-        );
-      }).toList(),
-    );
-  }
-}
-
 class DatesExpansionTile extends StatelessWidget {
   final List<Dates> avaliableDates;
 
@@ -633,47 +653,49 @@ class DatesExpansionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: ExpansionTile(
-        collapsedIconColor: logoColor,
-        title: SizedBox(
-          child: Text(
-            'Available Dates',
-            style: GoogleFonts.poppins(
-              color: logoColor,
-              fontSize: 22.0,
-            ),
-          ),
+    return SingleChildScrollView(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
         ),
-        children: [
-          Text(
-            'Available Dates are in Green',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: MediaQuery.of(context).size.width * 0.025,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w400,
-              height: MediaQuery.of(context).size.height * 0.001,
+        child: ExpansionTile(
+          collapsedIconColor: logoColor,
+          title: SizedBox(
+            child: Text(
+              'Available Dates',
+              style: GoogleFonts.poppins(
+                color: logoColor,
+                fontSize: 22.0,
+              ),
             ),
           ),
-          Container(
-            color: Colors.white,
-            padding: EdgeInsets.symmetric(
-                vertical: _height * 0.02, horizontal: _width * 0.04),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                for (var date in avaliableDates)
-                  _buildDayBox(date.dayName, date.avaliability),
-              ],
+          children: [
+            Text(
+              'Available Dates are in Green',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: MediaQuery.of(context).size.width * 0.025,
+                fontFamily: 'Montserrat',
+                fontWeight: FontWeight.w400,
+                height: MediaQuery.of(context).size.height * 0.001,
+              ),
             ),
-          ),
-        ],
+            Container(
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(
+                  vertical: _height * 0.02, horizontal: _width * 0.04),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  for (var date in avaliableDates)
+                    _buildDayBox(date.dayName, date.avaliability),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -681,18 +703,21 @@ class DatesExpansionTile extends StatelessWidget {
   Widget _buildDayBox(String day, bool isAvailable) {
     Color boxColor = isAvailable ? Colors.green : Colors.red;
 
-    return Container(
-      width: 65,
-      height: 40,
-      color: boxColor,
-      child: Center(
-        child: Text(
-          day,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 12,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w500,
+    return Flexible(
+      flex: 2,
+      child: Container(
+        width: 65,
+        height: 40,
+        color: boxColor,
+        child: Center(
+          child: Text(
+            day,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),

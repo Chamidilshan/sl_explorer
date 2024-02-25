@@ -49,24 +49,24 @@ class _FestivalsDetailsPageState extends State<FestivalsDetailsPage> {
               ImageSlider(imageUrls: widget.festival.festivalImageLinks),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: logoColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(0),
                     ),
                     padding: EdgeInsets.all(5.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.receipt_long, color: Colors.white),
+                        Icon(Icons.receipt_long, color: logoColor),
                         SizedBox(width: 5.0),
                         Text(
                           'About',
                           style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18.0,
+                            color: logoColor,
+                            fontSize: 22.0,
                           ),
                         ),
                       ],
@@ -89,22 +89,23 @@ class _FestivalsDetailsPageState extends State<FestivalsDetailsPage> {
 
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: logoColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(0),
                     ),
                     padding: EdgeInsets.all(5.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.date_range_outlined,color: Colors.white),
+                        Icon(Icons.date_range_outlined,color: logoColor),
                         Text('Date',
+                          textAlign: TextAlign.left,
                           style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18.0,
+                            color: logoColor,
+                            fontSize: 22.0,
                           ),),
                       ],
                     ),
@@ -112,6 +113,7 @@ class _FestivalsDetailsPageState extends State<FestivalsDetailsPage> {
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
                       Text(
                         widget.festival.festivalDate,
+                        textAlign: TextAlign.left,
                         style: GoogleFonts.poppins(
                           color: const Color(0xFF21231E),
                           fontWeight: FontWeight.w400,
@@ -122,22 +124,22 @@ class _FestivalsDetailsPageState extends State<FestivalsDetailsPage> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     decoration: BoxDecoration(
-                      color: logoColor,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(0),
                     ),
                     padding: EdgeInsets.all(5.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.celebration_outlined,color: Colors.white),
+                        Icon(Icons.celebration_outlined,color: logoColor),
                         Text('Celebrations',
                           style: GoogleFonts.poppins(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18.0,
+                            color: logoColor,
+                            fontSize: 22.0,
                           ),),
                       ],
                     ),

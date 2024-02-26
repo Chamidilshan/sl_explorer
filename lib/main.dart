@@ -14,6 +14,7 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'services/firebase_services/authentication_repository.dart';
 import 'package:SL_Explorer/providers/festivals.provider.dart';
 
@@ -41,27 +42,13 @@ Future<void> initializeServices() async {
   );
   await FirebaseNotificationApi().initNotifications();
   await FirebaseMessaging.instance.subscribeToTopic('ALL');
+  await FirebaseMessaging.instance.getToken().then((token) async{
+    print("FCM Token: $token");
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("fcmToken", token!);
+  });
 }
 
-
-// Future<void> main() async{
-//   runApp(
-//     MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider(create: (context) => RoundTripProvider()),
-//         ChangeNotifierProvider(create: (context) => OrderProvider()),
-//       ],
-//       child: MyApp(),
-//     ),
-//   );
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-//           (FirebaseApp value)=> Get.put(AuthenticationRepository())
-//   );
-//   await FirebaseNotificationApi().initNotifications();
-//   await FirebaseMessaging.instance.subscribeToTopic('ALL');
-//
-// }
 
 class MyApp extends StatelessWidget {
 

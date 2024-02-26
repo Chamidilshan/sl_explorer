@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoundTripsDetailsPage extends StatefulWidget {
   final RoundTrip roundTrip;
@@ -702,7 +703,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                               height: 20.0,
                                             ),
                                             ElevatedButton(
-                                                onPressed: (){
+                                                onPressed: () async{
 
                                                   double totalSingleRoomsPrice = calculateRoomPrice('Single', selectedSingleRooms);
                                                   double totalDoubleRoomsPrice =  calculateRoomPrice('Double', selectedDoubleRooms);
@@ -721,6 +722,10 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                                   Map<String, dynamic> advance = {'isPaid': false};
                                                   Map<String, dynamic> option = { "name": "Beach Hotel", "amount": 110};
 
+                                                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                  String? token = prefs.getString('fcmToken');
+                                                  print('token is $token');
+
 
                                                   final order = OrderRequest(
                                                       customerId: AuthenticationRepository.instance.userId.toString(),
@@ -732,7 +737,8 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                                       status: status,
                                                       price: price,
                                                       advance: advance,
-                                                      option: option
+                                                      option: option,
+                                                      userDeviceToken: token.toString()
                                                   );
 
 

@@ -75,7 +75,7 @@ class _RemainingDaysWidgetState extends State<RemainingDaysWidget> {
                   textAlign: TextAlign.center,
                 ):
                 Text(
-                  "Thank you for touring with us.",
+                  "Thank you \nfor touring \nwith us.",
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w600

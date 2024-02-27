@@ -8,6 +8,7 @@ import 'package:SL_Explorer/models/orders_model.dart';
 import 'package:SL_Explorer/services/api_services/orders_api_service.dart';
 import 'package:SL_Explorer/models/day_trip_packages_model.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DayTripDetailsPage extends StatefulWidget {
   final DayTrip dayTrip;
@@ -554,7 +555,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                       height: 20.0,
                                     ),
                                     ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async{
                                         String orderDate =
                                             DateTime.now().toString();
                                         String tripDate =
@@ -591,6 +592,10 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                           "amount": 110
                                         };
 
+                                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                        String? token = prefs.getString('fcmToken');
+                                        print('token is $token');
+
                                         final order = OrderRequest(
                                             customerId: AuthenticationRepository
                                                 .instance.userId
@@ -601,9 +606,11 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                             noOfPeople: noOfPeople,
                                             rooms: rooms,
                                             status: status,
-                                            price: price,
+                                            price: price, 
                                             advance: advance,
-                                            option: option);
+                                            option: option,
+                                            userDeviceToken: token.toString()
+                                        );
 
                                         apiService.placeOrder(order, context);
                                       },

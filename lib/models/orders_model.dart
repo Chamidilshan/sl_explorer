@@ -11,6 +11,7 @@ class OrderRequest {
   final Map<String, int> noOfPeople;
   final Map<String, int>? rooms;
   final String status;
+  final String userDeviceToken;
   final Map<String, double> price;
   final Map<String, dynamic> advance;
   final Map<String, dynamic>? option;
@@ -27,6 +28,7 @@ class OrderRequest {
     required this.status,
     required this.price,
     required this.advance,
+    required this.userDeviceToken,
     this.option,
   });
 
@@ -41,6 +43,7 @@ class OrderRequest {
       'noOfPeople': noOfPeople,
       'rooms': rooms,
       'status': status,
+      'userDeviceToken': userDeviceToken,
       'price': price,
       'advance': advance,
       'option': option,
@@ -58,6 +61,7 @@ class OrderRequest {
       noOfPeople: Map<String, int>.from(json['noOfPeople']),
       rooms: Map<String, int>.from(json['rooms']),
       status: json['status'],
+      userDeviceToken: json['userDeviceToken'],
       price: Map<String, double>.from(json['price']),
       advance: Map<String, dynamic>.from(json['advance']),
       option: json['option'] != null ? Map<String, dynamic>.from(json['option']) : null,

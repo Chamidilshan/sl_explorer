@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'orders.dart';
 import 'gallery.dart';
-import 'services.dart';
+import 'package:SL_Explorer/features/home/Festivals/screens/festivals_list.dart';
 import 'profile.dart';
 
 class bottomNavigationBar extends StatefulWidget {
@@ -15,10 +15,11 @@ class bottomNavigationBar extends StatefulWidget {
 class _bottomNavigationBarState extends State<bottomNavigationBar> {
   List pages =[
     const HomePage(),
-    OrdersPage(),
+    FestivalListPage(),
     const gallery(),
-    services(),
+    OrdersPage(),
     const ProfilePage(),
+
   ];
   int currentIndex=0;
   void onTap(int index){
@@ -44,16 +45,16 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.task_outlined),
-            label: 'Orders',
+            icon: Icon(Icons.temple_hindu_outlined),
+            label: 'Festive',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),
             label: 'Gallery',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.real_estate_agent_sharp),
-            label: 'Services',
+            icon: Icon(Icons.task_outlined),
+            label: 'Orders',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),

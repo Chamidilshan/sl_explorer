@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RoundTripsDetailsPage extends StatefulWidget {
   final RoundTrip roundTrip;
@@ -33,10 +34,11 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
   String selectedLocationDescription = 'Ella';
   String selectedHotelName = 'Ella';
   // String selectedImage = widget.roundTrip.hotels[0].hotel.;
-  String? selectedAdultCount;
-  String? selectedChildCount;
+  String? selectedAdultCount = '0';
+  String? selectedChildCount = '0';
 
   final List<String> childCount = [
+    '0',
     '1',
     '2',
     '3',
@@ -47,11 +49,44 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
 
 
   final List<String> adultCount = [
+    '0',
     '1',
     '2',
     '3',
     '4',
   ];
+
+  int selectedSingleRooms = 0;
+  int selectedDoubleRooms = 0;
+  int selectedTripleRooms = 0;
+
+  double totalRoomsPrice = 0;
+
+  double calculateRoomPrice(String roomType, int roomCount) {
+    double roomPrice;
+
+    switch (roomType) {
+      case 'Single':
+        roomPrice = widget.roundTrip.prices.private.single.toDouble();
+        break;
+      case 'Double':
+        roomPrice = widget.roundTrip.prices.private.double.toDouble();
+        break;
+      case 'Triple':
+        roomPrice = widget.roundTrip.prices.private.triple.toDouble();
+        break;
+
+      default:
+      // Handle invalid room types
+        roomPrice = 0.0; // or throw an exception, depending on your use case
+        break;
+    }
+
+    return roomPrice * roomCount;
+  }
+
+
+
 
   OrderApiService apiService = OrderApiService();
 
@@ -70,7 +105,8 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
 
 
 
-  int selectedDay = 1;
+  int selectedDay = 0;
+  int index = 0;
 
   DateTime selectedDate = DateTime.now();
   bool isDateSelected = false;
@@ -200,6 +236,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                           isSelected: selectedDay == itineraryDay.dayNumber,
                           onPressed: () {
                             setState(() {
+                              print(itineraryDay.dayNumber);
                               selectedDay = itineraryDay.dayNumber;
                             });
                           },
@@ -212,7 +249,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   child: Text(
-                    widget.roundTrip.itenary[selectedDay].description,
+                    widget.roundTrip.itenary[index].description,
                     style: GoogleFonts.poppins(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w300,
@@ -318,88 +355,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                     )
                   ],
                 )
-                // DefaultTabController(
-                //   length: 2,
-                //   child: Column(
-                //     children: [
-                //       const TabBar(
-                //         tabs: [
-                //           Tab(text: 'Included'),
-                //           Tab(text: 'Not Included')
-                //         ],
-                //         indicatorColor: Colors.black,
-                //         indicatorPadding: EdgeInsets.zero,
-                //         labelStyle: TextStyle(
-                //             color: Colors.black,
-                //             fontWeight: FontWeight.w600),
-                //         dividerColor: Colors.transparent,
-                //         unselectedLabelStyle: TextStyle(
-                //             color: Color(0x80000000),
-                //             fontWeight: FontWeight.w600),
-                //       ),
-                //       SizedBox(
-                //         height: 180.0,
-                //         child: TabBarView(
-                //           children: [
-                //             // Included tab content
-                //             Padding(
-                //               padding:
-                //               const EdgeInsets.symmetric(horizontal: 24.0),
-                //               child:
-                //               // Wrap(
-                //               //   spacing: 16.0,
-                //               //   runSpacing: 16.0,
-                //               //   children: [
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 1',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 1 Details'),
-                //               //     ),
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 2',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 2 Details'),
-                //               //     ),
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 2',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 2 Details'),
-                //               //     ),
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 2',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 2 Details'),
-                //               //     ),
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 2',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 2 Details'),
-                //               //     ),
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 2',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 2 Details'),
-                //               //     ),
-                //               //     ServiceContainer(
-                //               //       serviceName: 'Service 2',
-                //               //       onTap: () =>
-                //               //           _showServiceDialog(context, 'Service 2 Details'),
-                //               //     ),
-                //               //   ],
-                //               // ),
-                //             ),
-                //             // Not Included tab content
-                //             Container(
-                //               child: const Center(
-                //                 child: Text('Content for Not Included Tab'),
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
+
               ],
             ),
             ExpansionTile(
@@ -419,6 +375,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 physics: const BouncingScrollPhysics(),
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: widget.roundTrip.hotels.map((hotel) {
                   return HotelLocation(
                     locationName: hotel.hotel.hotelDistrict,
@@ -711,17 +668,27 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                             RoomsSelection(
                                               itemName: 'Single Room',
                                               roomPrice: widget.roundTrip.prices.private.single.toDouble(),
+                                              onCountChanged: (count){
+                                                selectedSingleRooms = count;
+                                              },
                                             ),
                                             const SizedBox(height: 8.0),
                                             RoomsSelection(
                                               itemName: 'Double Room',
                                               roomPrice: widget.roundTrip.prices.private.double.toDouble(),
-                                            )
-                                            ,
+                                                onCountChanged: (count){
+                                                    selectedDoubleRooms = count;
+                                                    print(selectedDoubleRooms);
+                                                }
+                                            ),
                                             const SizedBox(height: 8.0),
                                             RoomsSelection(
                                               itemName: 'Triple Room',
                                               roomPrice: widget.roundTrip.prices.private.triple.toDouble(),
+                                                onCountChanged: (count){
+                                                  selectedTripleRooms = count;
+                                                  print(selectedTripleRooms);
+                                                }
                                             ),
                                             Align(
                                               alignment: Alignment.centerRight,
@@ -736,14 +703,45 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                               height: 20.0,
                                             ),
                                             ElevatedButton(
-                                                onPressed: (){
+                                                onPressed: () async{
+
+                                                  double totalSingleRoomsPrice = calculateRoomPrice('Single', selectedSingleRooms);
+                                                  double totalDoubleRoomsPrice =  calculateRoomPrice('Double', selectedDoubleRooms);
+                                                  double totalTripleRoomsPrice =  calculateRoomPrice('Double', selectedTripleRooms);
+
+                                                  double totalPrice = totalSingleRoomsPrice + totalDoubleRoomsPrice + totalTripleRoomsPrice;
+                                                  print('total price $totalPrice');
+
+                                                  String orderDate = DateTime.now().toString();
+                                                  String tripDate = selectedDate.toString();
+                                                  Map<String, String> packageId = {'roundTrip': widget.roundTrip.id.toString()};
+                                                  Map<String, int> noOfPeople = {'adults': int.parse(selectedAdultCount.toString()), 'children': int.parse(selectedChildCount.toString())};
+                                                  Map<String, int> rooms = {'single': selectedSingleRooms, 'double': selectedDoubleRooms, 'triple': selectedTripleRooms, 'Quadruple': 0};
+                                                  String status = "Pending";
+                                                  Map<String, double> price = {'shownPrice': totalPrice};
+                                                  Map<String, dynamic> advance = {'isPaid': false};
+                                                  Map<String, dynamic> option = { "name": "Beach Hotel", "amount": 110};
+
+                                                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                  String? token = prefs.getString('fcmToken');
+                                                  print('token is $token');
+
+
                                                   final order = OrderRequest(
-                                                    customerId: AuthenticationRepository.instance.userId.toString(),
-                                                    package: widget.roundTrip.id,
-                                                    orderDate: '2024-01-29T12:00:00Z',
-                                                    noOfPeople: 2,
-                                                    option: 'beachBath',
+                                                      customerId: AuthenticationRepository.instance.userId.toString(),
+                                                      packageId: packageId,
+                                                      orderDate: orderDate,
+                                                      tripDate: tripDate,
+                                                      noOfPeople: noOfPeople,
+                                                      rooms: rooms,
+                                                      status: status,
+                                                      price: price,
+                                                      advance: advance,
+                                                      option: option,
+                                                      userDeviceToken: token.toString()
                                                   );
+
+
 
                                                   apiService.placeOrder(order, context);
                                                 },
@@ -850,7 +848,7 @@ class RoundedButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          primary: isSelected ? Colors.white.withOpacity(0.75): const Color(0xFF9E9E9E).withOpacity(0.15),
+          backgroundColor: isSelected ? Colors.white.withOpacity(0.75): const Color(0xFF9E9E9E).withOpacity(0.15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
@@ -1080,49 +1078,3 @@ class HotelDetailRow extends StatelessWidget {
 
 
 
-// Widget _buildPriceListItem(String itemName) {
-//   int itemCount = 0;
-//
-//   return Column(
-//     crossAxisAlignment: CrossAxisAlignment.start,
-//     children: [
-//       Row(
-//         children: [
-//           Text(
-//             itemName,
-//             style: const TextStyle(fontSize: 16.0),
-//           ),
-//           const Spacer(),
-//           const Text(
-//             '\$50.00', // Replace with actual price
-//             style: TextStyle(fontSize: 16.0),
-//           ),
-//         ],
-//       ),
-//       const SizedBox(height: 8.0),
-//       Row(
-//         children: [
-//           IconButton(
-//             icon: const Icon(Icons.remove),
-//             onPressed: () {
-//               if (itemCount > 0) {
-//                 itemCount--;
-//               }
-//             },
-//           ),
-//           Text(
-//             itemCount.toString(),
-//             style: const TextStyle(fontSize: 18.0),
-//           ),
-//           IconButton(
-//             icon: const Icon(Icons.add),
-//             onPressed: () {
-//               itemCount++;
-//             },
-//           ),
-//         ],
-//       ),
-//       const Divider(),
-//     ],
-//   );
-// }

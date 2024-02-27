@@ -1,26 +1,22 @@
 import 'package:SL_Explorer/constants/utils/styles.dart';
-import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
-import 'package:SL_Explorer/models/round_trip_packages_model.dart';
+import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trips_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../models/day_trip_packages_model.dart';
 
-class TripListCard extends StatelessWidget {
+class DayTripListCard extends StatelessWidget {
   final String imgLink;
   final String titleText;
-  final String firstSubTitleText;
-  final String secondSubTitleText;
   final String descriptionText;
-  final List<RoundTrip> roundTrips;
+  final List<DayTrip> dayTrips;
   final int index;
-  const TripListCard({
+  const DayTripListCard({
     super.key,
     required this.imgLink,
     required this.titleText,
-    required this.firstSubTitleText,
-    required this.secondSubTitleText,
     required this.descriptionText,
-    required this.roundTrips,
+    required this.dayTrips,
     required this.index,
   });
 
@@ -35,36 +31,33 @@ class TripListCard extends StatelessWidget {
           icon: Icon(Icons.keyboard_double_arrow_right_rounded),
           onPressed: (){
             Get.to(
-                RoundTripsDetailsPage(roundTrip: roundTrips[index],)
+                DayTripDetailsPage(dayTrip: dayTrips[index],)
             );
           },
         ),
         collapsedIconColor: logoColor,
         title: SizedBox(
-          height: 90.0,
+          height: 80.0,
           child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 80.0,
-                  height: 80.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      imgLink,
-                      fit: BoxFit.cover,
-                      height: 80.0,
-                      width: 80.0,
-                    ),
-                  ),
+                Expanded(
+                    flex: 2,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.network(
+                        imgLink,
+                        fit: BoxFit.cover,
+                      ),
+                    )
                 ),
                 SizedBox(
                   width: 10.0,
                 ),
-                Expanded(
-                flex: 2,
+                Flexible(
+                  flex: 2,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
@@ -75,22 +68,6 @@ class TripListCard extends StatelessWidget {
                             fontSize: 16.0
                         ),
                       ),
-                      Text(
-                        firstSubTitleText,
-                        style: GoogleFonts.poppins(
-                            color: Color(0xFF666666),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0
-                        ),
-                      ),
-                      Text(
-                        secondSubTitleText,
-                        style: GoogleFonts.poppins(
-                            color: Color(0xFF666666),
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14.0
-                        ),
-                      )
                     ],
                   ),
                 )

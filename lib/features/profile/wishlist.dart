@@ -1,3 +1,6 @@
+import 'package:SL_Explorer/models/wishlist_model.dart';
+import 'package:SL_Explorer/providers/wishlist_provider.dart';
+import 'package:SL_Explorer/services/api_services/wishlist_api_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,20 +18,20 @@ class WishlistPage extends StatefulWidget {
 class _WishlistPageState extends State<WishlistPage> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  // late List<Order> orders;
+  late Wishlist wishes;
   bool retrieved = false;
-  // OrderApiService apiService = OrderApiService();
+  WishlistApiService apiService = WishlistApiService();
   User? _user;
 
-  // @override
-  // void initState(){
-  //   super.initState();
-  //   _getCurrentUser();
-  //   //print(_user!.uid);
-  //   loadOrders();
-  //   //load packages
-  //   // loadRoundTripPackages();
-  // }
+  @override
+  void initState(){
+    super.initState();
+    _getCurrentUser();
+    //print(_user!.uid);
+    loadWishlist();
+    //load packages
+    // loadRoundTripPackages();
+  }
 
 
   Future<void> _getCurrentUser() async {
@@ -40,29 +43,38 @@ class _WishlistPageState extends State<WishlistPage> {
     }
   }
 
-  // loadOrders() async {
-  //   try{
-  //     final orderProvider = Provider.of<OrderProvider>(context, listen: false);
-  //     // List<Order> fetchedOrders = await apiService.fetchOrders(_user!.uid);
-  //     // orderProvider.setOrders(fetchedOrders);
-  //
-  //     // print("\n\n\n\n\n");
-  //     // print(fetchedOrders[0].orderDate);
-  //     // print(fetchedOrders[0].package);
-  //     // print(fetchedOrders[0].noOfPeople);
-  //
-  //     setState(() {
-  //       // orders = fetchedOrders;
-  //       retrieved = true;
-  //     });
-  //   }catch(e){
-  //     print(e.toString());
-  //   }
-  // }
+  loadWishlist() async {
+    try{
+      final wishlistProvider = Provider.of<WishlistProvider>(context, listen: false);
+      Wishlist fetchedWishlist = await apiService.fetchWishlist(_user!.uid);
+      wishlistProvider.setWishlists(fetchedWishlist.wishes);
+
+      print("\n\n\n\n\n");
+      print(fetchedWishlist);
+      print(fetchedWishlist.wishes);
+
+      setState(() {
+        wishes = fetchedWishlist;
+        retrieved = true;
+      });
+
+      // final Wishlist wishlist = Wishlist.fromJson(wishes);
+      // print(wishlist.userId); // Output: yourUserId
+      print(wishes); // Output: [wish1, wish2, wish3]
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+
       appBar: AppBar(
         title: Text(
           "Wishlist",
@@ -83,6 +95,7 @@ class _WishlistPageState extends State<WishlistPage> {
       ),
 
 
+      
       // body:
       // ListView(
       //   children: [

@@ -36,7 +36,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   String? _lastName = '';
   String? _familyName = '';
   String? _email = '';
-  String? _profile = '';
+  String? _profile = null;
   String? _mobile = '';
   String? _userName = '';
   bool? _countrySelected = null;
@@ -95,7 +95,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 
 
-  Uint8List? _image;
+  Uint8List? _image = null;
   bool updating = false;
   void selectImage() async {
     Uint8List img = await pickImage(ImageSource.gallery);
@@ -109,7 +109,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       updating = true;
     });
-    if(_image != null){
+    if(_image != null ){
       StoreData store = StoreData();
       _profile = await store.saveData(file: _image!,id: "${_userData!['id']}");
     }
@@ -426,13 +426,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20.0,5.0,20.0,0.0),
                   child: TextFormField(
-                    validator: (value){
-                      if (value==null || value.isEmpty) {
-                        return "Please enter a valid mobile number";
-                      }else {
-                        _mobile = value;
-                        return null;
+                    validator: (mobile) {
+                      if (mobile!.isEmpty) {
+                        return 'required';
+                      } else if (!RegExp(r'^\+(?:[0-9] ?){6,14}[0-9]$')
+                          .hasMatch(mobile)) {
+                        return 'Enter a valid mobile number';
                       }
+                      _mobile = mobile;
+                      return null;
                     },
                     initialValue: "${_userData!['phoneNumber']}",
                     decoration: const InputDecoration(

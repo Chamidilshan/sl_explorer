@@ -1,3 +1,4 @@
+import 'package:SL_Explorer/features/home/termsAndConditions.dart';
 import 'package:SL_Explorer/features/profile/deleteAccount.dart';
 import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
@@ -130,8 +131,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   onPressed:  ()async {
-                      var url = Uri.parse("https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9");
-                      await launchUrl(url);
+                      // var url = Uri.parse("https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9");
+                      // await launchUrl(url);
+                    Get.to(TermsAndCondotions());
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -366,51 +366,51 @@ class _ProfilePageState extends State<ProfilePage>{
                     ),
                   ),
 
-                  Container(
-                    //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      onPressed: (){
-                        Get.to(() => PaymentMethodsPage());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.credit_card,
-                                size: 20,
-                                color: Colors.black,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
-                                child: Text(
-                                  "Payment Methods",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 17,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          // const Icon(
-                          //   Icons.arrow_right,
-                          //   size: 25.0,
-                          //   color: Colors.black,
-                          //   weight: 30.0,
-                          // ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),
+                  //   child: TextButton(
+                  //     style: TextButton.styleFrom(
+                  //       shape: const RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.zero,
+                  //       ),
+                  //     ),
+                  //     onPressed: (){
+                  //       Get.to(() => PaymentMethodsPage());
+                  //     },
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //       crossAxisAlignment: CrossAxisAlignment.center,
+                  //
+                  //       children: [
+                  //         Row(
+                  //           children: [
+                  //             const Icon(
+                  //               Icons.credit_card,
+                  //               size: 20,
+                  //               color: Colors.black,
+                  //             ),
+                  //             Padding(
+                  //               padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
+                  //               child: Text(
+                  //                 "Payment Methods",
+                  //                 style: GoogleFonts.poppins(
+                  //                   fontSize: 17,
+                  //                   color: Colors.black,
+                  //                 ),
+                  //               ),
+                  //             )
+                  //           ],
+                  //         ),
+                  //         // const Icon(
+                  //         //   Icons.arrow_right,
+                  //         //   size: 25.0,
+                  //         //   color: Colors.black,
+                  //         //   weight: 30.0,
+                  //         // ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
 
                   Container(
                     //margin: EdgeInsets.fromLTRB(0, 0, 0, 20.0),

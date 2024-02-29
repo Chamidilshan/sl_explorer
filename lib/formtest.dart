@@ -1,6 +1,7 @@
 import 'package:SL_Explorer/features/authentication/controllers/signin_controller.dart';
 import 'package:SL_Explorer/features/authentication/controllers/signup_controller.dart';
 import 'package:SL_Explorer/features/authentication/widgets/my_button.dart';
+import 'package:SL_Explorer/features/home/termsAndConditions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -216,6 +217,7 @@ class _FormTestState extends State<FormTest> {
                           GestureDetector(
                             onTap: (){
                               launch('https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9');
+                              // Get.to(TermsAndCondotions());
                             },
                             child: Text(
                                 'privacy policy.',

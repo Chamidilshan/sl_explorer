@@ -1,3 +1,5 @@
+import 'package:SL_Explorer/features/home/termsAndConditions.dart';
+import 'package:SL_Explorer/features/profile/deleteAccount.dart';
 import 'package:SL_Explorer/main.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -59,14 +61,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           const Icon(
                             Icons.language,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Switch Language",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -75,8 +78,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       const Icon(
                         Icons.arrow_right,
-                        size: 40.0,
+                        size: 25.0,
                         weight: 30.0,
+                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -86,46 +90,33 @@ class _SettingsPageState extends State<SettingsPage> {
                 //color: Colors.red,
                 padding: EdgeInsets.fromLTRB(_width/15,0,_width/15,0),
                 //padding: EdgeInsets.all(_width/15),
-                margin: const EdgeInsets.fromLTRB(0, 0, 0, 20.0),
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                  ),
-                  onPressed: (){
-                    //MyApp.changeMode();
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                margin: const EdgeInsets.fromLTRB(10, 0, 10, 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
 
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.dark_mode,
-                            size: 24,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
-                            child: Text(
-                              "Switch Mode",
-                              style: GoogleFonts.poppins(
-                                fontSize: 22,
-                                color: Colors.black,
-                              ),
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.dark_mode,
+                          size: 20,
+                          color: Colors.black,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
+                          child: Text(
+                            "Switch Mode",
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              color: Colors.black,
                             ),
-                          )
-                        ],
-                      ),
-                      const Icon(
-                        Icons.arrow_right,
-                        size: 40.0,
-                        weight: 30.0,
-                      ),
-                    ],
-                  ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Switch(value: false, onChanged: (value){value=!value;}),
+                  ],
                 ),
               ),
               Container(
@@ -140,8 +131,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                   ),
                   onPressed:  ()async {
-                      var url = Uri.parse("https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9");
-                      await launchUrl(url);
+                      // var url = Uri.parse("https://www.freeprivacypolicy.com/live/52b8458f-24dd-4592-9cb7-4726fa323ce9");
+                      // await launchUrl(url);
+                    Get.to(TermsAndCondotions());
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,14 +144,15 @@ class _SettingsPageState extends State<SettingsPage> {
                         children: [
                           const Icon(
                             Icons.description,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Terms & Conditions",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -168,8 +161,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       ),
                       const Icon(
                         Icons.arrow_right,
-                        size: 40.0,
+                        size: 25.0,
                         weight: 30.0,
+                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -191,7 +185,9 @@ class _SettingsPageState extends State<SettingsPage> {
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     ),
                   ),
-                  onPressed: (){},
+                  onPressed: (){
+                    Get.to(() => DeleteAccountPage());
+                  },
                   child: Column(
                     children: [
                       Row(

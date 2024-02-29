@@ -94,16 +94,16 @@ class Hotel {
 }
 
 class HotelDetails {
-  // final String id;
+  // // final String id;
   final String hotelName;
-  // final String hotelDistrict;
-  // final String hotelImage;
+  // // final String hotelDistrict;
+  // // final String hotelImage;
 
   HotelDetails({
-    // required this.id,
+  //   // required this.id,
     required this.hotelName,
-    // required this.hotelDistrict,
-    // required this.hotelImage,
+  //   // required this.hotelDistrict,
+  //   // required this.hotelImage,
   });
 
   factory HotelDetails.fromJson(Map<String, dynamic> json) {

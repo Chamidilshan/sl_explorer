@@ -74,14 +74,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.mail,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Mail Us",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -116,14 +117,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.perm_phone_msg,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "WhatsApp",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -155,14 +157,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.telegram,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Telegram",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),
@@ -206,14 +209,15 @@ class _ForHelpPageState extends State<ForHelpPage> {
                         children: [
                           const Icon(
                             Icons.public,
-                            size: 24,
+                            size: 20,
+                            color: Colors.black,
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20.0,0,0,0),
                             child: Text(
                               "Web Site",
                               style: GoogleFonts.poppins(
-                                fontSize: 22,
+                                fontSize: 18,
                                 color: Colors.black,
                               ),
                             ),

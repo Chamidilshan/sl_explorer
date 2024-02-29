@@ -3,40 +3,73 @@ import 'package:SL_Explorer/models/round_trip_packages_model.dart';
 
 class OrderRequest {
   final String customerId;
-  final String package;
+  final Map<String, String> packageId;
   final String orderDate;
-  final int noOfPeople;
-  final String option;
+  final String tripDate;
+  final String? pickUpLocation;
+  final String? clientRequests;
+  final Map<String, int> noOfPeople;
+  final Map<String, int>? rooms;
+  final String status;
+  final String userDeviceToken;
+  final Map<String, double> price;
+  final Map<String, dynamic> advance;
+  final Map<String, dynamic>? option;
 
   OrderRequest({
     required this.customerId,
-    required this.package,
+    required this.packageId,
     required this.orderDate,
+    required this.tripDate,
+    this.pickUpLocation,
+    this.clientRequests,
     required this.noOfPeople,
-    required this.option,
+    this.rooms,
+    required this.status,
+    required this.price,
+    required this.advance,
+    required this.userDeviceToken,
+    this.option,
   });
 
   Map<String, dynamic> toJson() {
     return {
       'customerId': customerId,
-      'package': package,
+      'packageId': packageId,
       'orderDate': orderDate,
+      'tripDate': tripDate,
+      'pickUpLocation': pickUpLocation,
+      'clientRequests': clientRequests,
       'noOfPeople': noOfPeople,
+      'rooms': rooms,
+      'status': status,
+      'userDeviceToken': userDeviceToken,
+      'price': price,
+      'advance': advance,
       'option': option,
     };
   }
 
   factory OrderRequest.fromJson(Map<String, dynamic> json) {
     return OrderRequest(
-    customerId: json['customerId'],
-    package: "kjkjfdfdjkfidfsjd",//json['packageId.roundTrip'],
-    orderDate: json['orderDate'],
-    noOfPeople: 3,//json['noOfPeople'],
-    option: "option",//json['option'],
+      customerId: json['customerId'],
+      packageId: Map<String, String>.from(json['packageId']),
+      orderDate: json['orderDate'],
+      tripDate: json['tripDate'],
+      pickUpLocation: json['pickUpLocation'],
+      clientRequests: json['clientRequests'],
+      noOfPeople: Map<String, int>.from(json['noOfPeople']),
+      rooms: Map<String, int>.from(json['rooms']),
+      status: json['status'],
+      userDeviceToken: json['userDeviceToken'],
+      price: Map<String, double>.from(json['price']),
+      advance: Map<String, dynamic>.from(json['advance']),
+      option: json['option'] != null ? Map<String, dynamic>.from(json['option']) : null,
     );
   }
-
 }
+
+
 
 
 
@@ -55,7 +88,7 @@ class Order {
   DateTime orderDate;
   DateTime tripDate;
   NoOfPeople noOfPeople;
-  Rooms rooms;
+  Rooms? rooms;
   String status;
   Price price;
   Advance? advance;
@@ -103,7 +136,7 @@ class Order {
       'orderDate': orderDate.toIso8601String(),
       'tripDate': tripDate.toIso8601String(),
       'noOfPeople': noOfPeople.toJson(),
-      'rooms': rooms.toJson(),
+      'rooms': rooms!.toJson(),
       'status': status,
       'price': price.toJson(),
       'advance': advance!.toJson(),

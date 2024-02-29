@@ -4,6 +4,7 @@ import 'package:SL_Explorer/features/authentication/screens/email_verification_s
 import 'package:SL_Explorer/features/authentication/screens/success_verification_screen.dart';
 import 'package:SL_Explorer/firebase_options.dart';
 import 'package:SL_Explorer/formtest.dart';
+import 'package:SL_Explorer/providers/day_trips_provider.dart';
 import 'package:SL_Explorer/providers/orders_provider.dart';
 import 'package:SL_Explorer/providers/round_trips_provider.dart';
 import 'package:SL_Explorer/services/firebase_services/notification_service.dart';
@@ -13,42 +14,55 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'services/firebase_services/authentication_repository.dart';
+import 'package:SL_Explorer/providers/festivals.provider.dart';
 
-Brightness mode = Brightness.light;
+//Brightness mode = Brightness.light;
 
-
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
-      (FirebaseApp value)=> Get.put(AuthenticationRepository())
-  );
-  await FirebaseNotificationApi().initNotifications();
-  await FirebaseMessaging.instance.subscribeToTopic('ALL');
+  await initializeServices();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => RoundTripProvider()),
         ChangeNotifierProvider(create: (context) => OrderProvider()),
+        ChangeNotifierProvider(create: (context)=> FestivalProvider()),
+        ChangeNotifierProvider(create: (context) => DayTripProvider()),
       ],
       child: MyApp(),
     ),
   );
 }
 
+Future<void> initializeServices() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
+          (FirebaseApp value)=> Get.put(AuthenticationRepository())
+  );
+  await FirebaseNotificationApi().initNotifications();
+  await FirebaseMessaging.instance.subscribeToTopic('ALL');
+  await FirebaseMessaging.instance.getToken().then((token) async{
+    print("FCM Token: $token");
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("fcmToken", token!);
+  });
+}
+
+
 class MyApp extends StatelessWidget {
 
   MyApp({super.key});
 
-  static void changeMode(){
-
-    if(mode == Brightness.dark){
-      mode = Brightness.light;
-    }else{
-      mode = Brightness.dark;
-    }
-    CommonLoaders.successSnackBar(title: "Restart The App", duration: 4, message: "Restart the application");
-  }
+  // static void changeMode(){
+  //
+  //   if(mode == Brightness.dark){
+  //     mode = Brightness.light;
+  //   }else{
+  //     mode = Brightness.dark;
+  //   }
+  //   CommonLoaders.successSnackBar(title: "Restart The App", duration: 4, message: "Restart the application");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -57,18 +71,11 @@ class MyApp extends StatelessWidget {
       locale: DevicePreview.locale(context),
       initialBinding: GeneralBindings(),
       // builder: DevicePreview.appBuilder,
-      title: 'Sign up',
+      // title: 'Sign up',
       theme: ThemeData(
-        brightness: mode,
       ),
-      home: const Scaffold(
-        body:
-        Center(
-          child: CircularProgressIndicator(
-            color: Color(0xFFFD8103),
-          ),
-        ),
-
+      home: const CircularProgressIndicator(
+          color: Color(0xFFFD8103),
       ),
     );
   }

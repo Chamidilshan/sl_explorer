@@ -28,6 +28,8 @@ class _RemainingDaysWidgetState extends State<RemainingDaysWidget> {
       //print(remainingDuration.inDays);
       percentage = (remainingDays / widget.endDate.difference(widget.startDate).inDays);
       //print(_percentage);
+    }else{
+      percentage = 0;
     }
   }
 
@@ -63,8 +65,17 @@ class _RemainingDaysWidgetState extends State<RemainingDaysWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                (percentage>0) ?
                 Text(
                   "Your trip\nstarts in,\n${remainingDays} Days",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600
+                  ),
+                  textAlign: TextAlign.center,
+                ):
+                Text(
+                  "Thank you \nfor touring \nwith us.",
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     fontWeight: FontWeight.w600

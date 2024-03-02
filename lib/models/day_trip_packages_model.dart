@@ -12,9 +12,9 @@ class DayTrip {
   final String packageTitle;
   final String packageSubTitle;
   final List<String> packageImageLinks;
-  final List<Dates> avaliableDates;
+  final List<Location> locations;
   final List<Hotel> hotels;
-  final List<String> services;
+  final List<Service> services;
   final int price;
 
 
@@ -30,7 +30,7 @@ class DayTrip {
     required this.packageTitle,
     required this.packageSubTitle,
     required this.packageImageLinks,
-    required this.avaliableDates,
+    required this.locations,
     required this.hotels,
     required this.services,
     required this.price,
@@ -50,18 +50,21 @@ class DayTrip {
         packageTitle: json['packageTitle'],
         packageSubTitle: json['packageSubTitle'],
         packageImageLinks: List<String>.from(json['packageImageLinks']),
-        avaliableDates: (json['avaliableDates'] as List<dynamic>)
-            .map((dynamic x) => x is String ? Dates(dayName: '', avaliability: false) : Dates.fromJson(x))
-            .toList(),
+        locations: (json['locations'] as List<dynamic>?)
+            ?.map((location) => Location.fromJson(location))
+            .toList() ??
+            [],
         hotels: (json['hotels'] as List<dynamic>)
             .map((dynamic x) => x is String ? Hotel(hotel: HotelDetails(id: '', hotelName: '', hotelDistrict: '', hotelImage: ''), hotelRoomDesc: '', hotelLocationDesc: '') : Hotel.fromJson(x))
             .toList(),
-        services: List<String>.from(json['services'].map((dynamic x) => x.toString())),
+        services: (json['services'] as List<dynamic>?)
+            ?.map((service) => Service.fromJson(service))
+            .toList() ??
+            [],
         price: json['price'],
       );
     } catch (e) {
       print('Error parsing DayTrip: $e');
-      // Print the JSON data to identify which field is causing the error
       print('JSON data: $json');
       return DayTrip(
         id: '',
@@ -75,7 +78,7 @@ class DayTrip {
         packageTitle: '',
         packageSubTitle: '',
         packageImageLinks: [],
-        avaliableDates: [],
+        locations: [],
         hotels: [],
         services: [],
         price: 0,
@@ -83,6 +86,53 @@ class DayTrip {
     }
   }
 
+}
+class Service {
+  final String category;
+  final String name;
+
+  Service({
+    required this.category,
+    required this.name,
+  });
+
+  factory Service.fromJson(dynamic json) {
+    try {
+      return Service(
+        category: json['category'] ?? '',
+        name: json['name'] ?? '',
+      );
+    } catch (e) {
+      print('Error parsing Service: $e');
+      print('JSON data: $json');
+      return Service(
+        category: '',
+        name: '',
+      );
+    }
+  }
+}
+class Location {
+  final String name;
+  final int prices;
+  final List<Dates> avaliableDates;
+
+  Location({
+    required this.name,
+    required this.prices,
+    required this.avaliableDates,
+  });
+
+  factory Location.fromJson(Map<String, dynamic> json) {
+    return Location(
+      name: json['name'] ?? '',
+      prices: json['prices']?? '',
+      avaliableDates: (json['avaliableDates'] as List<dynamic>?)
+          ?.map((date) => Dates.fromJson(date))
+          .toList() ??
+          [],
+    );
+  }
 }
 class Dates {
   final String dayName;

@@ -177,7 +177,7 @@ class _DayTripListPageState extends State<DayTripListPage_EastCoast>
           return DayTripListCard(
             imgLink: filteredTrips[index].packageCoverImage,
             titleText: filteredTrips[index].packageName,
-            descriptionText: filteredTrips[index].packageShortDescription,
+            descriptionText: filteredTrips[index].packageCoverDescription,
             dayTrips: dayTrips,
             index: index,
           );

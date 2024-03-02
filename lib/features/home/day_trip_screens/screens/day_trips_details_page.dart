@@ -11,6 +11,7 @@ import 'package:SL_Explorer/services/firebase_services/authentication_repository
 
 class DayTripDetailsPage extends StatefulWidget {
   final DayTrip dayTrip;
+
   const DayTripDetailsPage({super.key, required this.dayTrip});
 
   @override
@@ -19,6 +20,7 @@ class DayTripDetailsPage extends StatefulWidget {
 
 class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
   String? selectedAdultCount;
+
   String? selectedChildCount;
 
   final List<String> childCount = ['1', '2', '3', '4', '5', '6'];
@@ -33,6 +35,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
   OrderApiService apiService = OrderApiService();
   @override
   int selectedDay = 1;
+
 
   DateTime selectedDate = DateTime.now();
   bool isDateSelected = false;
@@ -53,6 +56,8 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final double _height = MediaQuery.of(context).size.height;
+    final double _width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -87,7 +92,8 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(16.0),
                             child: Image.network(
-                              item, // Assuming each item has only one image link
+                              item,
+                              // Assuming each item has only one image link
                               fit: BoxFit.cover,
                               width: double.infinity,
                             ),
@@ -116,7 +122,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                           ),
                         ),
                         Text(
-                          '${widget.dayTrip.packageTitle}',
+                          widget.dayTrip.packageSubTitle,
                           style: GoogleFonts.poppins(
                             color: const Color(0xFF666666),
                             fontWeight: FontWeight.w400,
@@ -143,9 +149,87 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                     ),
                   ),
                   SingleChildScrollView(
-                      child: DatesExpansionTile(
-                          avaliableDates: widget.dayTrip.avaliableDates)),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                    child: ExpansionTile(
+                      collapsedIconColor: logoColor,
+                      title: SizedBox(
+                        child: Text(
+                          'Available Dates',
+                          style: GoogleFonts.poppins(
+                            color: logoColor,
+                            fontSize: 22.0,
+                          ),
+                        ),
+                      ),
+                      children: [
+                        Text('Avaliable dates are represented in Green', style: GoogleFonts.poppins(
+                      fontSize: 12.0,
+                    ),),
+                        SizedBox(height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.02),
+
+                        for (var location in widget.dayTrip.locations)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'From: ${location.name}',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15.0,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      SizedBox(height: MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height * 0.01),
+                                      Text(
+                                        'Price per person: \u20AC ${location.prices} ',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15.0,
+                                          fontFamily: 'Montserrat',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  color: Colors.white,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: _height * 0.02,
+                                    horizontal: _width * 0.04,
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      for (var date in location.avaliableDates)
+                                        _buildDayBox(date.dayName, date.avaliability),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.01),
                   SingleChildScrollView(
                     child: ExpansionTile(
                       collapsedIconColor: logoColor,
@@ -159,31 +243,38 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                         ),
                       ),
                       children: [
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 18.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: widget.dayTrip.services.map((service) {
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: Text(
-                                  '• $service',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'AbhayaLibreMedium',
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF3A544F),
-                                  ),
-                                ),
-                              );
-                            }).toList(),
+                            children: [
+                              Align(alignment: Alignment.topLeft),
+                              _buildServiceCategory(
+                                  'Included', widget.dayTrip.services
+                                  .where((service) =>
+                              service.category == 'included')
+                                  .toList()),
+                              _buildServiceCategory(
+                                  'Not included', widget.dayTrip.services
+                                  .where((service) =>
+                              service.category == 'not included')
+                                  .toList()),
+                              _buildServiceCategory(
+                                  'Recommendations', widget.dayTrip.services
+                                  .where((service) =>
+                              service.category == 'recommendations')
+                                  .toList()),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
+
+                  SizedBox(height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.2),
                   // ExpansionTile(
                   //   collapsedIconColor: logoColor,
                   //   title: SizedBox(
@@ -250,12 +341,25 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                       fontWeight: FontWeight.w400,
                       fontSize: 14.0),
                 ),
-                Text(
-                  '\u20AC${widget.dayTrip.price}',
-                  style: GoogleFonts.montserrat(
-                      color: const Color(0xFF2DD7A4),
-                      fontWeight: FontWeight.w700,
-                      fontSize: 24.0),
+                Row(
+                  children: [
+                    Text(
+                      'per person',
+                      style: GoogleFonts.aBeeZee(
+                          color: const Color(0xFF232323),
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14.0),
+                    ),
+                    SizedBox(width: 10),
+                    Text(
+                      '\u20AC${widget.dayTrip.price}',
+                      style: GoogleFonts.montserrat(
+                          color: const Color(0xFF2DD7A4),
+                          fontWeight: FontWeight.w700,
+                          fontSize: 24.0),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -265,7 +369,10 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                     context: context,
                     builder: (builder) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 0.5,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height * 0.5,
                         width: double.infinity,
                         color: Colors.transparent,
                         child: Container(
@@ -296,27 +403,28 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                       child: Container(
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                                  BorderRadius.circular(4.0),
+                                              BorderRadius.circular(4.0),
                                               border: Border.all(
                                                   color: Color(0xFF8C8C8C))),
                                           height: 44.0,
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 20.0),
                                                 child: Text(isDateSelected
-                                                    ? "${selectedDate.toLocal()}"
-                                                        .split(' ')[0]
+                                                    ? "${selectedDate
+                                                    .toLocal()}"
+                                                    .split(' ')[0]
                                                     : "Select a date"),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 20.0),
                                                 child:
-                                                    Icon(Icons.calendar_month),
+                                                Icon(Icons.calendar_month),
                                               )
                                             ],
                                           )),
@@ -324,17 +432,17 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     SizedBox(height: 20.0),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Select Adults:',
                                                 style:
-                                                    TextStyle(fontSize: 16.0),
+                                                TextStyle(fontSize: 16.0),
                                               ),
                                               SizedBox(height: 8.0),
                                               DropdownButtonHideUnderline(
@@ -344,23 +452,24 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     '',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Theme.of(context)
+                                                      color: Theme
+                                                          .of(context)
                                                           .hintColor,
                                                     ),
                                                   ),
                                                   items: adultCount
                                                       .map((String item) =>
-                                                          DropdownMenuItem<
-                                                              String>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          ))
+                                                      DropdownMenuItem<
+                                                          String>(
+                                                        value: item,
+                                                        child: Text(
+                                                          item,
+                                                          style:
+                                                          const TextStyle(
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ))
                                                       .toList(),
                                                   value: selectedAdultCount,
                                                   onChanged: (String? value) {
@@ -370,47 +479,47 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     });
                                                   },
                                                   buttonStyleData:
-                                                      ButtonStyleData(
+                                                  ButtonStyleData(
                                                     padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 16),
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 16),
                                                     height: 40,
                                                     width: 140,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              14),
+                                                      BorderRadius.circular(
+                                                          14),
                                                       border: Border.all(
                                                         color: Colors.black26,
                                                       ),
                                                     ),
                                                   ),
                                                   menuItemStyleData:
-                                                      const MenuItemStyleData(
+                                                  const MenuItemStyleData(
                                                     height: 40,
                                                   ),
                                                   dropdownStyleData:
-                                                      DropdownStyleData(
+                                                  DropdownStyleData(
                                                     maxHeight: 200,
                                                     width: 200,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              14),
+                                                      BorderRadius.circular(
+                                                          14),
                                                     ),
                                                     offset:
-                                                        const Offset(-20, 0),
+                                                    const Offset(-20, 0),
                                                     scrollbarTheme:
-                                                        ScrollbarThemeData(
+                                                    ScrollbarThemeData(
                                                       radius:
-                                                          const Radius.circular(
-                                                              40),
+                                                      const Radius.circular(
+                                                          40),
                                                       thickness:
-                                                          MaterialStateProperty
-                                                              .all(6),
+                                                      MaterialStateProperty
+                                                          .all(6),
                                                       thumbVisibility:
-                                                          MaterialStateProperty
-                                                              .all(true),
+                                                      MaterialStateProperty
+                                                          .all(true),
                                                     ),
                                                   ),
                                                 ),
@@ -421,12 +530,12 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Select Children:',
                                                 style:
-                                                    TextStyle(fontSize: 16.0),
+                                                TextStyle(fontSize: 16.0),
                                               ),
                                               SizedBox(height: 8.0),
                                               DropdownButtonHideUnderline(
@@ -436,23 +545,24 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     '',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Theme.of(context)
+                                                      color: Theme
+                                                          .of(context)
                                                           .hintColor,
                                                     ),
                                                   ),
                                                   items: childCount
                                                       .map((String item) =>
-                                                          DropdownMenuItem<
-                                                              String>(
-                                                            value: item,
-                                                            child: Text(
-                                                              item,
-                                                              style:
-                                                                  const TextStyle(
-                                                                fontSize: 14,
-                                                              ),
-                                                            ),
-                                                          ))
+                                                      DropdownMenuItem<
+                                                          String>(
+                                                        value: item,
+                                                        child: Text(
+                                                          item,
+                                                          style:
+                                                          const TextStyle(
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ))
                                                       .toList(),
                                                   value: selectedChildCount,
                                                   onChanged: (String? value) {
@@ -462,47 +572,47 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     });
                                                   },
                                                   buttonStyleData:
-                                                      ButtonStyleData(
+                                                  ButtonStyleData(
                                                     padding:
-                                                        EdgeInsets.symmetric(
-                                                            horizontal: 16),
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 16),
                                                     height: 40,
                                                     width: 140,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              14),
+                                                      BorderRadius.circular(
+                                                          14),
                                                       border: Border.all(
                                                         color: Colors.black26,
                                                       ),
                                                     ),
                                                   ),
                                                   menuItemStyleData:
-                                                      const MenuItemStyleData(
+                                                  const MenuItemStyleData(
                                                     height: 40,
                                                   ),
                                                   dropdownStyleData:
-                                                      DropdownStyleData(
+                                                  DropdownStyleData(
                                                     maxHeight: 200,
                                                     width: 200,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              14),
+                                                      BorderRadius.circular(
+                                                          14),
                                                     ),
                                                     offset:
-                                                        const Offset(-20, 0),
+                                                    const Offset(-20, 0),
                                                     scrollbarTheme:
-                                                        ScrollbarThemeData(
+                                                    ScrollbarThemeData(
                                                       radius:
-                                                          const Radius.circular(
-                                                              40),
+                                                      const Radius.circular(
+                                                          40),
                                                       thickness:
-                                                          MaterialStateProperty
-                                                              .all(6),
+                                                      MaterialStateProperty
+                                                          .all(6),
                                                       thumbVisibility:
-                                                          MaterialStateProperty
-                                                              .all(true),
+                                                      MaterialStateProperty
+                                                          .all(true),
                                                     ),
                                                   ),
                                                 ),
@@ -514,9 +624,9 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ),
                                     Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(height: 16),
                                         const Text(
@@ -537,7 +647,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ),
                                     const TextField(
                                       maxLines:
-                                          5, // Set the maximum number of lines
+                                      5, // Set the maximum number of lines
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         hintText: 'Type here...',
@@ -556,12 +666,12 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ElevatedButton(
                                       onPressed: () {
                                         String orderDate =
-                                            DateTime.now().toString();
+                                        DateTime.now().toString();
                                         String tripDate =
-                                            selectedDate.toString();
+                                        selectedDate.toString();
                                         Map<String, String> packageId = {
                                           'dayTrip':
-                                              widget.dayTrip.id.toString()
+                                          widget.dayTrip.id.toString()
                                         };
                                         Map<String, int> noOfPeople = {
                                           'adults': int.parse(
@@ -580,8 +690,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         };
                                         String status = "Pending";
                                         Map<String, double> price = {
-                                          'shownPrice per person':
-                                              widget.dayTrip.price.toDouble()
+                                          'shownPrice per person': widget.dayTrip.price != null ? widget.dayTrip.price!.toDouble() : 0.0,
                                         };
                                         Map<String, dynamic> advance = {
                                           'isPaid': false
@@ -611,7 +720,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         backgroundColor: logoColor,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(12.0)),
+                                            BorderRadius.circular(12.0)),
                                         minimumSize: const Size(100, 56.0),
                                       ),
                                       child: Center(
@@ -662,6 +771,66 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
       ),
     );
   }
+
+  Widget _buildServiceCategory(String title, List<Service> services) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: services.map((service) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Text(
+                '• ${service.name}',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'AbhayaLibreMedium',
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF3A544F),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDayBox(String day, bool isAvailable) {
+    Color boxColor = isAvailable ? Colors.green : Colors.red;
+
+    return Flexible(
+      flex: 2,
+      child: Container(
+        width: 65,
+        height: 40,
+        color: boxColor,
+        child: Center(
+          child: Text(
+            day,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class RoundedButton extends StatelessWidget {
@@ -700,87 +869,102 @@ class RoundedButton extends StatelessWidget {
   }
 }
 
-class DatesExpansionTile extends StatelessWidget {
-  final List<Dates> avaliableDates;
-
-  const DatesExpansionTile({Key? key, required this.avaliableDates})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.symmetric(vertical: 8.0),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: ExpansionTile(
-          collapsedIconColor: logoColor,
-          title: SizedBox(
-            child: Text(
-              'Available Dates',
-              style: GoogleFonts.poppins(
-                color: logoColor,
-                fontSize: 22.0,
-              ),
-            ),
-          ),
-          children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Text(
-                'Available Dates are in Green',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: MediaQuery.of(context).size.width * 0.025,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w400,
-                  height: MediaQuery.of(context).size.height * 0.001,
-                ),
-              ),
-            ),
-            Container(
-              color: Colors.white,
-              padding: EdgeInsets.symmetric(
-                  vertical: _height * 0.02, horizontal: _width * 0.04),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  for (var date in avaliableDates)
-                    _buildDayBox(date.dayName, date.avaliability),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDayBox(String day, bool isAvailable) {
-    Color boxColor = isAvailable ? Colors.green : Colors.red;
-
-    return Flexible(
-      flex: 2,
-      child: Container(
-        width: 65,
-        height: 40,
-        color: boxColor,
-        child: Center(
-          child: Text(
-            day,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class DatesExpansionTile extends StatelessWidget {
+//   final List<Location> locations;
+//
+//   const DatesExpansionTile({Key? key, required this.locations})
+//       : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final _width = MediaQuery.of(context).size.width;
+//     final _height = MediaQuery.of(context).size.height;
+//     return SingleChildScrollView(
+//       child: Container(
+//         margin: const EdgeInsets.symmetric(vertical: 8.0),
+//         decoration: BoxDecoration(
+//           color: Colors.white,
+//           borderRadius: BorderRadius.circular(8.0),
+//         ),
+//         child: ExpansionTile(
+//           collapsedIconColor: logoColor,
+//           title: SizedBox(
+//             child: Text(
+//               'Available Dates',
+//               style: GoogleFonts.poppins(
+//                 color: logoColor,
+//                 fontSize: 22.0,
+//               ),
+//             ),
+//           ),
+//           children: [
+//             SingleChildScrollView(
+//               scrollDirection: Axis.horizontal,
+//               child: Text(
+//                 'Available Dates are in Green',
+//                 style: TextStyle(
+//                   color: Colors.black,
+//                   fontSize: MediaQuery.of(context).size.width * 0.025,
+//                   fontFamily: 'Montserrat',
+//                   fontWeight: FontWeight.w400,
+//                   height: MediaQuery.of(context).size.height * 0.001,
+//                 ),
+//               ),
+//             ),
+//             for (var location in locations)
+//               Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     location.name,
+//                     style: TextStyle(
+//                       color: Colors.black,
+//                       fontSize: 18.0,
+//                       fontFamily: 'Montserrat',
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                   Container(
+//                     color: Colors.white,
+//                     padding: EdgeInsets.symmetric(
+//                         vertical: _height * 0.02, horizontal: _width * 0.04),
+//                     child: Row(
+//                       mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                       children: [
+//                         for (var date in location.availableDates)
+//                           _buildDayBox(date.dayName, date.availability),
+//                       ],
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildDayBox(String day, bool isAvailable) {
+//     Color boxColor = isAvailable ? Colors.green : Colors.red;
+//
+//     return Flexible(
+//       flex: 2,
+//       child: Container(
+//         width: 65,
+//         height: 40,
+//         color: boxColor,
+//         child: Center(
+//           child: Text(
+//             day,
+//             style: const TextStyle(
+//               color: Colors.white,
+//               fontSize: 12,
+//               fontFamily: 'Montserrat',
+//               fontWeight: FontWeight.w500,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

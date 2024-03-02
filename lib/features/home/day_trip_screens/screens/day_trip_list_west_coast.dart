@@ -34,7 +34,7 @@ class _DayTripListPageState extends State<DayTripListPage_WestCoast>
   loadDayTripPackages() async {
     try {
       final dayTripProvider =
-          Provider.of<DayTripProvider>(context, listen: false);
+      Provider.of<DayTripProvider>(context, listen: false);
 
       List<DayTrip> fetchedDayTrips = [];
       List<String> packageCategoryNames = ['West Coast Excursions'];
@@ -42,8 +42,8 @@ class _DayTripListPageState extends State<DayTripListPage_WestCoast>
       for (String packageCategoryName in packageCategoryNames) {
         for (int i = 1; i <= 3; i++) {
           List<DayTrip> trips =
-              await apiService.fetchDayTripsByCategoryAndDuration(
-                  packageCategoryName, i.toString());
+          await apiService.fetchDayTripsByCategoryAndDuration(
+              packageCategoryName, i.toString());
           fetchedDayTrips.addAll(trips);
         }
       }
@@ -176,7 +176,7 @@ class _DayTripListPageState extends State<DayTripListPage_WestCoast>
           return DayTripListCard(
             imgLink: filteredTrips[index].packageCoverImage,
             titleText: filteredTrips[index].packageName,
-            descriptionText: filteredTrips[index].packageShortDescription,
+            descriptionText: filteredTrips[index].packageCoverDescription,
             dayTrips: dayTrips,
             index: index,
           );

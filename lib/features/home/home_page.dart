@@ -358,7 +358,7 @@ class _HomePageState extends State<HomePage> {
                   'Day Trips',
                   dayTripData,
                   () {
-                    //
+
                   },
                   context,
                 ),
@@ -371,7 +371,7 @@ class _HomePageState extends State<HomePage> {
                   'Maldives & Emirates',
                   maldives_emiratesData,
                   () {
-                    //Get.to(FormTest());
+
                   },
                   context,
                 ),

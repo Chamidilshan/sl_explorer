@@ -30,9 +30,9 @@ class _FestivalListPageState extends State<FestivalListPage> {
 
   loadFestivalPackages() async {
     try{
-      final roundTripProvider = Provider.of<FestivalProvider>(context, listen: false);
+      final festivalProvider = Provider.of<FestivalProvider>(context, listen: false);
       List<Festival> fetchedFestivals = await apiService.fetchFestivals();
-      roundTripProvider.setFestivals(fetchedFestivals);
+      festivalProvider.setFestivals(fetchedFestivals);
       setState(() {
         festivals = fetchedFestivals;
       });
@@ -68,7 +68,7 @@ class _FestivalListPageState extends State<FestivalListPage> {
                 ),
               ),
               Text(
-                'Tap the arrow to view a short description about each festival.',
+                'Tap the arrow to view a short description.',
                 style: GoogleFonts.montserrat(
                     fontSize: 12.0,
                     color: Colors.black,

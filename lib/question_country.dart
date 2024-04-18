@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:csc_picker/csc_picker.dart';
 import 'question_gender.dart';
 import 'question_common.dart';
+import 'dart:core';
+
 
 class QCountry extends StatefulWidget {
   const QCountry({Key? key}) : super(key: key);
@@ -92,7 +94,7 @@ class _QCountryState extends State<QCountry> {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFFfd8103),
+                    backgroundColor: const Color(0xFFfd8103),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),

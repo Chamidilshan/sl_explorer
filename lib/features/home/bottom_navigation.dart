@@ -1,8 +1,10 @@
+import 'package:SL_Explorer/models/a_z_model.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'orders.dart';
 import 'gallery.dart';
 import 'package:SL_Explorer/features/home/Festivals/screens/festivals_list.dart';
+import 'package:SL_Explorer/features/home/SL_A_Z/Screens/sl_A_Z.dart';
 import 'profile.dart';
 
 class bottomNavigationBar extends StatefulWidget {
@@ -13,13 +15,12 @@ class bottomNavigationBar extends StatefulWidget {
 }
 
 class _bottomNavigationBarState extends State<bottomNavigationBar> {
-  List pages =[
+  List pages = [
     const HomePage(),
-    FestivalListPage(),
+    A_Z_page(),
     const gallery(),
     OrdersPage(),
     const ProfilePage(),
-
   ];
   int currentIndex=0;
   void onTap(int index){
@@ -46,7 +47,7 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.temple_hindu_outlined),
-            label: 'Festive',
+            label: 'SL A-Z',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.camera_alt_outlined),

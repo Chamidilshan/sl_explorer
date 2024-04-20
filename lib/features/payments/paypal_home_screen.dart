@@ -1,10 +1,20 @@
+import 'dart:convert';
+
+import 'package:SL_Explorer/common/snackbar.dart';
+import 'package:SL_Explorer/constants/constants.dart';
 import 'package:SL_Explorer/constants/utils/styles.dart';
+import 'package:SL_Explorer/features/home/bottom_navigation.dart';
 import 'package:SL_Explorer/features/payments/payment_screen.dart';
+import 'package:SL_Explorer/models/orders_model.dart';
+import 'package:SL_Explorer/services/api_services/orders_api_service.dart';
 import 'package:SL_Explorer/services/payment_service/stripe_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class PaypalHomeScreen extends StatefulWidget {
+  final Order order;
   final String packageName;
   final DateTime date;
   final String adultCount;
@@ -14,7 +24,8 @@ class PaypalHomeScreen extends StatefulWidget {
     required this.packageName,
     required this.date,
     required this.adultCount,
-    required this.childCount
+    required this.childCount,
+    required this.order
   }) : super(key: key);
 
   @override
@@ -23,31 +34,78 @@ class PaypalHomeScreen extends StatefulWidget {
 
 class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  OrderApiService apiService = OrderApiService();
+
+  static Future<void> updateOrderStatus(String orderId, String status) async {
+    final String apiUrl = '$baseUrl/api/v1/orders/status';
+    final Map<String, String> headers = {
+      'Content-Type': 'application/json',
+    };
+    final Map<String, String> body = {
+      'orderId': orderId,
+      'status': status,
+    };
+
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(apiUrl),
+        headers: headers,
+        body: jsonEncode(body),
+      );
+
+      if (response.statusCode == 200) {
+        print('Order status updated successfully');
+      } else {
+        print('Failed to update order status: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error updating order status: $error');
+    }
+  }
+
 
   void displayPaymentSheet() async {
     try {
-      await Stripe.instance.presentPaymentSheet().then((value){
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Paid successfully'))
+      await Stripe.instance.presentPaymentSheet().then((value) async {
+
+        Get.offAll(()=> bottomNavigationBar());
+
+
+        await updateOrderStatus(widget.order.orderId, 'Confirmed');
+
+        CommonLoaders.successSnackBar(
+              title: 'Payment Success',
+            duration: 4,
+            message: 'The advance payment has been successfully processed. Thank you for your transaction'
         );
+
+
+
       });
 
-      // Fluttertoast.showToast(msg: 'Payment succesfully completed');
     } on Exception catch (e) {
       if (e is StripeException) {
         print(e);
-        // Fluttertoast.showToast(
-        //     msg: 'Error from Stripe: ${e.error.localizedMessage}');
+        CommonLoaders.errorSnackBar(
+            title: 'Something went wrong',
+            duration: 4,
+            message: '${e.error.localizedMessage}'
+        );
+
       } else {
+        CommonLoaders.errorSnackBar(
+            title: 'Something went wrong',
+            duration: 4,
+            message: 'Unforeseen error: ${e}'
+        );
         print(e);
-        // Fluttertoast.showToast(msg: 'Unforeseen error: ${e}');
       }
     }
   }
 
   Future<void> makePayment(BuildContext context) async {
     try {
-      final paymentIntentData = await createPaymentIntent('100', 'USD') ?? {};
+      final paymentIntentData = await createPaymentIntent(widget.order.advance!.amount.toString(), 'USD') ?? {};
 
       await Stripe.instance
           .initPaymentSheet(
@@ -239,7 +297,7 @@ class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
               // );
             },
             child: Text(
-              'Pay Advance 20\$',
+              'Pay Advance ${widget.order.advance!.amount.toString()}\$',
               style: TextStyle(
                 color: Colors.white
               ),

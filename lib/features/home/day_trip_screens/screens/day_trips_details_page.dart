@@ -32,11 +32,17 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
     '3',
     '4',
   ];
+  int selectedSingleRooms = 0;
+  int selectedDoubleRooms = 0;
+  int selectedTripleRooms = 0;
+
+  double totalRoomsPrice = 0;
+
+
 
   OrderApiService apiService = OrderApiService();
   @override
   int selectedDay = 1;
-
 
   DateTime selectedDate = DateTime.now();
   bool isDateSelected = false;
@@ -162,24 +168,27 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                         ),
                       ),
                       children: [
-                        Text('Avaliable dates are represented in Green', style: GoogleFonts.poppins(
-                      fontSize: 12.0,
-                    ),),
-                        SizedBox(height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.02),
-
+                        Text(
+                          'Avaliable dates are represented in Green',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12.0,
+                          ),
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.02),
                         for (var location in widget.dayTrip.locations)
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 4.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 16.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         'From: ${location.name}',
@@ -190,10 +199,11 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                      SizedBox(height: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .height * 0.01),
+                                      SizedBox(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.01),
                                       Text(
                                         'Price per person: \u20AC ${location.prices} ',
                                         style: TextStyle(
@@ -213,10 +223,12 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     horizontal: _width * 0.04,
                                   ),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
                                       for (var date in location.avaliableDates)
-                                        _buildDayBox(date.dayName, date.avaliability),
+                                        _buildDayBox(
+                                            date.dayName, date.avaliability),
                                     ],
                                   ),
                                 ),
@@ -227,10 +239,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                     ),
                   ),
 
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.01),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   SingleChildScrollView(
                     child: ExpansionTile(
                       collapsedIconColor: logoColor,
@@ -251,20 +260,23 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                             children: [
                               Align(alignment: Alignment.topLeft),
                               _buildServiceCategory(
-                                  'Included', widget.dayTrip.services
-                                  .where((service) =>
-                              service.category == 'included')
-                                  .toList()),
+                                  'Included',
+                                  widget.dayTrip.services
+                                      .where((service) =>
+                                          service.category == 'included')
+                                      .toList()),
                               _buildServiceCategory(
-                                  'Not included', widget.dayTrip.services
-                                  .where((service) =>
-                              service.category == 'not included')
-                                  .toList()),
+                                  'Not included',
+                                  widget.dayTrip.services
+                                      .where((service) =>
+                                          service.category == 'not included')
+                                      .toList()),
                               _buildServiceCategory(
-                                  'Recommendations', widget.dayTrip.services
-                                  .where((service) =>
-                              service.category == 'recommendations')
-                                  .toList()),
+                                  'Recommendations',
+                                  widget.dayTrip.services
+                                      .where((service) =>
+                                          service.category == 'recommendations')
+                                      .toList()),
                             ],
                           ),
                         ),
@@ -272,10 +284,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                     ),
                   ),
 
-                  SizedBox(height: MediaQuery
-                      .of(context)
-                      .size
-                      .height * 0.2),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.2),
                   // ExpansionTile(
                   //   collapsedIconColor: logoColor,
                   //   title: SizedBox(
@@ -370,10 +379,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                     context: context,
                     builder: (builder) {
                       return Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height * 0.5,
+                        height: MediaQuery.of(context).size.height * 0.5,
                         width: double.infinity,
                         color: Colors.transparent,
                         child: Container(
@@ -404,28 +410,27 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                       child: Container(
                                           decoration: BoxDecoration(
                                               borderRadius:
-                                              BorderRadius.circular(4.0),
+                                                  BorderRadius.circular(4.0),
                                               border: Border.all(
                                                   color: Color(0xFF8C8C8C))),
                                           height: 44.0,
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     left: 20.0),
                                                 child: Text(isDateSelected
-                                                    ? "${selectedDate
-                                                    .toLocal()}"
-                                                    .split(' ')[0]
+                                                    ? "${selectedDate.toLocal()}"
+                                                        .split(' ')[0]
                                                     : "Select a date"),
                                               ),
                                               Padding(
                                                 padding: const EdgeInsets.only(
                                                     right: 20.0),
                                                 child:
-                                                Icon(Icons.calendar_month),
+                                                    Icon(Icons.calendar_month),
                                               )
                                             ],
                                           )),
@@ -433,17 +438,17 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     SizedBox(height: 20.0),
                                     Row(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                          MainAxisAlignment.spaceEvenly,
                                       children: [
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Select Adults:',
                                                 style:
-                                                TextStyle(fontSize: 16.0),
+                                                    TextStyle(fontSize: 16.0),
                                               ),
                                               SizedBox(height: 8.0),
                                               DropdownButtonHideUnderline(
@@ -453,24 +458,23 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     '',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Theme
-                                                          .of(context)
+                                                      color: Theme.of(context)
                                                           .hintColor,
                                                     ),
                                                   ),
                                                   items: adultCount
                                                       .map((String item) =>
-                                                      DropdownMenuItem<
-                                                          String>(
-                                                        value: item,
-                                                        child: Text(
-                                                          item,
-                                                          style:
-                                                          const TextStyle(
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ))
+                                                          DropdownMenuItem<
+                                                              String>(
+                                                            value: item,
+                                                            child: Text(
+                                                              item,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ))
                                                       .toList(),
                                                   value: selectedAdultCount,
                                                   onChanged: (String? value) {
@@ -480,47 +484,47 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     });
                                                   },
                                                   buttonStyleData:
-                                                  ButtonStyleData(
+                                                      ButtonStyleData(
                                                     padding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 16),
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 16),
                                                     height: 40,
                                                     width: 140,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          14),
+                                                          BorderRadius.circular(
+                                                              14),
                                                       border: Border.all(
                                                         color: Colors.black26,
                                                       ),
                                                     ),
                                                   ),
                                                   menuItemStyleData:
-                                                  const MenuItemStyleData(
+                                                      const MenuItemStyleData(
                                                     height: 40,
                                                   ),
                                                   dropdownStyleData:
-                                                  DropdownStyleData(
+                                                      DropdownStyleData(
                                                     maxHeight: 200,
                                                     width: 200,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          14),
+                                                          BorderRadius.circular(
+                                                              14),
                                                     ),
                                                     offset:
-                                                    const Offset(-20, 0),
+                                                        const Offset(-20, 0),
                                                     scrollbarTheme:
-                                                    ScrollbarThemeData(
+                                                        ScrollbarThemeData(
                                                       radius:
-                                                      const Radius.circular(
-                                                          40),
+                                                          const Radius.circular(
+                                                              40),
                                                       thickness:
-                                                      MaterialStateProperty
-                                                          .all(6),
+                                                          MaterialStateProperty
+                                                              .all(6),
                                                       thumbVisibility:
-                                                      MaterialStateProperty
-                                                          .all(true),
+                                                          MaterialStateProperty
+                                                              .all(true),
                                                     ),
                                                   ),
                                                 ),
@@ -531,12 +535,12 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         Expanded(
                                           child: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 'Select Children:',
                                                 style:
-                                                TextStyle(fontSize: 16.0),
+                                                    TextStyle(fontSize: 16.0),
                                               ),
                                               SizedBox(height: 8.0),
                                               DropdownButtonHideUnderline(
@@ -546,24 +550,23 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     '',
                                                     style: TextStyle(
                                                       fontSize: 14,
-                                                      color: Theme
-                                                          .of(context)
+                                                      color: Theme.of(context)
                                                           .hintColor,
                                                     ),
                                                   ),
                                                   items: childCount
                                                       .map((String item) =>
-                                                      DropdownMenuItem<
-                                                          String>(
-                                                        value: item,
-                                                        child: Text(
-                                                          item,
-                                                          style:
-                                                          const TextStyle(
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ))
+                                                          DropdownMenuItem<
+                                                              String>(
+                                                            value: item,
+                                                            child: Text(
+                                                              item,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 14,
+                                                              ),
+                                                            ),
+                                                          ))
                                                       .toList(),
                                                   value: selectedChildCount,
                                                   onChanged: (String? value) {
@@ -573,47 +576,47 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                                     });
                                                   },
                                                   buttonStyleData:
-                                                  ButtonStyleData(
+                                                      ButtonStyleData(
                                                     padding:
-                                                    EdgeInsets.symmetric(
-                                                        horizontal: 16),
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 16),
                                                     height: 40,
                                                     width: 140,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          14),
+                                                          BorderRadius.circular(
+                                                              14),
                                                       border: Border.all(
                                                         color: Colors.black26,
                                                       ),
                                                     ),
                                                   ),
                                                   menuItemStyleData:
-                                                  const MenuItemStyleData(
+                                                      const MenuItemStyleData(
                                                     height: 40,
                                                   ),
                                                   dropdownStyleData:
-                                                  DropdownStyleData(
+                                                      DropdownStyleData(
                                                     maxHeight: 200,
                                                     width: 200,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                      BorderRadius.circular(
-                                                          14),
+                                                          BorderRadius.circular(
+                                                              14),
                                                     ),
                                                     offset:
-                                                    const Offset(-20, 0),
+                                                        const Offset(-20, 0),
                                                     scrollbarTheme:
-                                                    ScrollbarThemeData(
+                                                        ScrollbarThemeData(
                                                       radius:
-                                                      const Radius.circular(
-                                                          40),
+                                                          const Radius.circular(
+                                                              40),
                                                       thickness:
-                                                      MaterialStateProperty
-                                                          .all(6),
+                                                          MaterialStateProperty
+                                                              .all(6),
                                                       thumbVisibility:
-                                                      MaterialStateProperty
-                                                          .all(true),
+                                                          MaterialStateProperty
+                                                              .all(true),
                                                     ),
                                                   ),
                                                 ),
@@ -625,9 +628,9 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ),
                                     Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(height: 16),
                                         const Text(
@@ -648,7 +651,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                     ),
                                     const TextField(
                                       maxLines:
-                                      5, // Set the maximum number of lines
+                                          5, // Set the maximum number of lines
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         hintText: 'Type here...',
@@ -665,14 +668,15 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                       height: 20.0,
                                     ),
                                     ElevatedButton(
-                                      onPressed: () async{
+                                      onPressed: () async {
+
                                         String orderDate =
-                                        DateTime.now().toString();
+                                            DateTime.now().toString();
                                         String tripDate =
-                                        selectedDate.toString();
+                                            selectedDate.toString();
                                         Map<String, String> packageId = {
                                           'dayTrip':
-                                          widget.dayTrip.id.toString()
+                                              widget.dayTrip.id.toString()
                                         };
                                         Map<String, int> noOfPeople = {
                                           'adults': int.parse(
@@ -680,9 +684,9 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                           'children': int.parse(
                                               selectedChildCount.toString())
                                         };
-                                        var selectedSingleRooms;
-                                        var selectedDoubleRooms;
-                                        var selectedTripleRooms;
+                                        var selectedSingleRooms = 0;
+                                        var selectedDoubleRooms = 0;
+                                        var selectedTripleRooms = 0;
                                         Map<String, int> rooms = {
                                           'single': selectedSingleRooms,
                                           'double': selectedDoubleRooms,
@@ -691,7 +695,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         };
                                         String status = "Pending";
                                         Map<String, double> price = {
-                                          'shownPrice per person': widget.dayTrip.price != null ? widget.dayTrip.price!.toDouble() : 0.0,
+                                          'shownPrice': (widget.dayTrip.price ?? 0.0).toDouble(),
                                         };
                                         Map<String, dynamic> advance = {
                                           'isPaid': false
@@ -701,8 +705,11 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                           "amount": 110
                                         };
 
-                                        final SharedPreferences prefs = await SharedPreferences.getInstance();
-                                        String? token = prefs.getString('fcmToken');
+                                        final SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+                                        String? token =
+                                            prefs.getString('fcmToken');
                                         print('token is $token');
 
                                         final order = OrderRequest(
@@ -718,8 +725,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                             price: price,
                                             advance: advance,
                                             option: option,
-                                            userDeviceToken: token.toString()
-                                        );
+                                            userDeviceToken: token.toString());
 
                                         apiService.placeOrder(order, context);
                                       },
@@ -727,7 +733,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                         backgroundColor: logoColor,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
-                                            BorderRadius.circular(12.0)),
+                                                BorderRadius.circular(12.0)),
                                         minimumSize: const Size(100, 56.0),
                                       ),
                                       child: Center(

@@ -203,11 +203,11 @@ class _OrdersPageState extends State<OrdersPage> {
                         itemCount: roundTrips.length,
                         itemBuilder: (context, index) {
                       return TripListCard(
-                        imgLink: roundTrips[index].packageCoverImage,
-                        titleText: roundTrips[index].packageName,
-                        firstSubTitleText: roundTrips[index].packageTitle,
-                        secondSubTitleText: roundTrips[index].packageSubTitle,
-                        descriptionText: roundTrips[index].packageShortDescription,
+                        imgLink: roundTrips[index].packageCoverImage.toString(),
+                        titleText: roundTrips[index].packageName.toString(),
+                        firstSubTitleText: roundTrips[index].packageTitle.toString(),
+                        secondSubTitleText: roundTrips[index].packageSubTitle.toString(),
+                        descriptionText: roundTrips[index].packageShortDescription.toString(),
                         roundTrips: roundTrips,
                         index: index,
                       );

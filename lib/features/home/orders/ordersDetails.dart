@@ -324,21 +324,21 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                 )
                               ],
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10,
-                              ),
-                              child: Text(
-                                    "Pack:"
-                                    "  ${widget.order.packageId.roundTrip!.packageName}\n"
-                                    "Trip:"
-                                    "  ${widget.order.tripDate}\n"
-                                    "People: ${widget.order.noOfPeople.adults}-Adults and ${widget.order.noOfPeople.children}-Children",
-                                style: GoogleFonts.poppins(
-
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(
+                            //     vertical: 10,
+                            //   ),
+                            //   child: Text(
+                            //         "Pack:"
+                            //         "  ${widget.order.packageId.roundTrip!.packageName}\n"
+                            //         "Trip:"
+                            //         "  ${widget.order.tripDate}\n"
+                            //         "People: ${widget.order.noOfPeople.adults}-Adults and ${widget.order.noOfPeople.children}-Children",
+                            //     style: GoogleFonts.poppins(
+                            //
+                            //     ),
+                            //   ),
+                            // ),
                             Text(
                               "${widget.order.orderId}",
                               style: TextStyle(
@@ -420,30 +420,30 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              ClipRRect(
-                                child: Image.network(
-                                  widget.order.packageId.roundTrip!.packageCoverImage,
-                                  fit: BoxFit.cover,
-                                  colorBlendMode: BlendMode.softLight,
-                                  height: 100,
-                                  width: 100,
-                                  color: Colors.white,
-                                ),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
+                              // ClipRRect(
+                              //   child: Image.network(
+                              //     widget.order.packageId.roundTrip!.packageCoverImage,
+                              //     fit: BoxFit.cover,
+                              //     colorBlendMode: BlendMode.softLight,
+                              //     height: 100,
+                              //     width: 100,
+                              //     color: Colors.white,
+                              //   ),
+                              //   borderRadius: BorderRadius.circular(10),
+                              // ),
                               SizedBox(
                                 width: _width/2,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      widget.order.packageId.roundTrip!.packageName,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w800,
-                                        fontSize: 20,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   widget.order.packageId.roundTrip!.packageName,
+                                    //   style: TextStyle(
+                                    //     fontWeight: FontWeight.w800,
+                                    //     fontSize: 20,
+                                    //   ),
+                                    // ),
                                     Row(
                                       children: [
                                         Icon(
@@ -552,7 +552,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                         // _updateUserData();
                                       Get.to(
                                           PaypalHomeScreen(
-                                            packageName: widget.order.packageId.roundTrip!.packageName,
+                                            packageName: '',
                                             date: widget.order.tripDate,
                                             adultCount: widget.order.noOfPeople.adults.toString(),
                                             childCount: widget.order.noOfPeople.children.toString(),

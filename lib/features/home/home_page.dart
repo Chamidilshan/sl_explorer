@@ -157,12 +157,12 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadRoundTripsData() async {
     try {
       List<RoundTrip> data = await _roundapiService.fetchRoundTrips();
-      List<Map<String, String>> convertedData = data.take(4).map((category) => {
+      List<Map<String, String?>> convertedData = data.take(4).map((category) => {
         "imagePath": category.packageCoverImage,
         "cardText": category.packageName,
       }).toList();
       setState(() {
-        roundTripData = convertedData;
+        // roundTripData = convertedData;
       });
     } catch (e) {
       print('Error loading round trips data: $e');

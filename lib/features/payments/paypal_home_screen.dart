@@ -1,6 +1,8 @@
 import 'package:SL_Explorer/constants/utils/styles.dart';
 import 'package:SL_Explorer/features/payments/payment_screen.dart';
+import 'package:SL_Explorer/services/payment_service/stripe_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 class PaypalHomeScreen extends StatefulWidget {
   final String packageName;
@@ -21,6 +23,60 @@ class PaypalHomeScreen extends StatefulWidget {
 
 class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet().then((value){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Paid successfully'))
+        );
+      });
+
+      // Fluttertoast.showToast(msg: 'Payment succesfully completed');
+    } on Exception catch (e) {
+      if (e is StripeException) {
+        print(e);
+        // Fluttertoast.showToast(
+        //     msg: 'Error from Stripe: ${e.error.localizedMessage}');
+      } else {
+        print(e);
+        // Fluttertoast.showToast(msg: 'Unforeseen error: ${e}');
+      }
+    }
+  }
+
+  Future<void> makePayment(BuildContext context) async {
+    try {
+      final paymentIntentData = await createPaymentIntent('100', 'USD') ?? {};
+
+      await Stripe.instance
+          .initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+              // billingDetails: BillingDetails(
+              //     name: 'YOUR NAME',
+              //     email: 'YOUREMAIL@gmail.com',
+              //     phone: 'YOUR NUMBER',
+              //     address: Address(
+              //         city: 'YOUR CITY',
+              //         country: 'YOUR COUNTRY',
+              //         line1: 'YOUR ADDRESS 1',
+              //         line2: 'YOUR ADDRESS 2',
+              //         postalCode: 'YOUR PINCODE',
+              //         state: 'YOUR STATE')),
+              paymentIntentClientSecret: paymentIntentData!['client_secret'], //Gotten from payment intent
+              style: ThemeMode.dark,
+              merchantDisplayName: 'Ikay'))
+          .then((value) {
+        displayPaymentSheet();
+      });
+
+      //STEP 3: Display Payment sheet
+    } catch (e) {
+      print(e.toString());
+      // Fluttertoast.showToast(msg: e.toString());
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -160,26 +216,27 @@ class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
                 )
             ),
             onPressed: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (BuildContext context) => Payment(
-                    onFinish: (number) async {
-                      // payment done
-                      final snackBar = SnackBar(
-                        content: const Text("Payment done Successfully"),
-                        duration: const Duration(seconds: 5),
-                        action: SnackBarAction(
-                          label: 'Close',
-                          onPressed: () {
-                            // Some code to undo the change.
-                          },
-                        ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                  ),
-                ),
-              );
+              makePayment(context);
+              // Navigator.of(context).push(
+              //   MaterialPageRoute(
+              //     builder: (BuildContext context) => Payment(
+              //       onFinish: (number) async {
+              //         // payment done
+              //         final snackBar = SnackBar(
+              //           content: const Text("Payment done Successfully"),
+              //           duration: const Duration(seconds: 5),
+              //           action: SnackBarAction(
+              //             label: 'Close',
+              //             onPressed: () {
+              //               // Some code to undo the change.
+              //             },
+              //           ),
+              //         );
+              //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              //       },
+              //     ),
+              //   ),
+              // );
             },
             child: Text(
               'Pay Advance 20\$',

@@ -67,13 +67,13 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
 
     switch (roomType) {
       case 'Single':
-        roomPrice = widget.roundTrip.prices.private.single.toDouble();
+        roomPrice = widget.roundTrip.prices!.private!.single!.toDouble();
         break;
       case 'Double':
-        roomPrice = widget.roundTrip.prices.private.double.toDouble();
+        roomPrice = widget.roundTrip.prices!.private!.double!.toDouble();
         break;
       case 'Triple':
-        roomPrice = widget.roundTrip.prices.private.triple.toDouble();
+        roomPrice = widget.roundTrip.prices!.private!.triple!.toDouble();
         break;
 
       default:
@@ -97,9 +97,9 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
   }
 
   loadHotelValues(){
-    selectedHotelName = widget.roundTrip.hotels[0].hotel.hotelName.toString();
-    selectedRoomDescription = widget.roundTrip.hotels[0].hotelRoomDesc.toString();
-    selectedLocationDescription = widget.roundTrip.hotels[0].hotelLocationDesc.toString();
+    selectedHotelName = widget.roundTrip.hotels![0].hotel!.hotelName.toString();
+    selectedRoomDescription = widget.roundTrip.hotels![0].hotelRoomDesc.toString();
+    selectedLocationDescription = widget.roundTrip.hotels![0].hotelLocationDesc.toString();
   }
 
 
@@ -152,7 +152,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 },
                 enableInfiniteScroll: false,
               ),
-              items: widget.roundTrip.packageImageLinks.map<Widget>((item) {
+              items: widget.roundTrip.packageImageLinks!.map<Widget>((item) {
                 return Builder(
                   builder: (BuildContext context) {
                     return Padding(
@@ -180,7 +180,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.roundTrip.packageName,
+                    widget.roundTrip.packageName.toString(),
                     style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 22.0,
@@ -199,7 +199,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                     height: 10.0,
                   ),
                   Text(
-                    widget.roundTrip.packageCoverDescription,
+                    widget.roundTrip.packageCoverDescription.toString(),
                     style: GoogleFonts.poppins(
                       color: const Color(0xFF21231E),
                       fontWeight: FontWeight.w400,
@@ -230,18 +230,18 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      for (var itineraryDay in widget.roundTrip.itenary)
-                        RoundedButton(
-                          text: itineraryDay.dayNumber.toString(),
-                          isSelected: selectedDay == itineraryDay.dayNumber,
-                          onPressed: () {
-                            setState(() {
-                              print(itineraryDay.dayNumber);
-                              selectedDay = itineraryDay.dayNumber;
-                            });
-                          },
-                          dateName: '',
-                        ),
+                      // for (var itineraryDay in widget.roundTrip.itenary)
+                      //   RoundedButton(
+                      //     text: itineraryDay.dayNumber.toString(),
+                      //     isSelected: selectedDay == itineraryDay.dayNumber,
+                      //     onPressed: () {
+                      //       setState(() {
+                      //         print(itineraryDay.dayNumber);
+                      //         selectedDay = itineraryDay.dayNumber.toString() as int;
+                      //       });
+                      //     },
+                      //     dateName: '',
+                      //   ),
                     ],
                   ),
                 ),
@@ -249,7 +249,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 24.0, right: 24.0),
                   child: Text(
-                    widget.roundTrip.itenary[index].description,
+                    widget.roundTrip.itenary![index].description.toString(),
                     style: GoogleFonts.poppins(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w300,
@@ -376,14 +376,14 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                 child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.roundTrip.hotels.map((hotel) {
+                children: widget.roundTrip.hotels!.map((hotel) {
                   return HotelLocation(
-                    locationName: hotel.hotel.hotelDistrict,
-                    image: hotel.hotel.hotelImage,
+                    locationName: hotel.hotel!.hotelDistrict.toString(),
+                    image: hotel.hotel!.hotelImage.toString(),
                     onSelect: () {
                       setState(() {
-                        selectedLocation = hotel.hotelLocationDesc;
-                        selectedHotelName = hotel.hotel.hotelName.toString();
+                        selectedLocation = hotel.hotelLocationDesc!;
+                        selectedHotelName = hotel.hotel!.hotelName.toString();
                         selectedLocationDescription = hotel.hotelLocationDesc.toString();
                         selectedRoomDescription = hotel.hotelRoomDesc.toString();
                         // selectedImage = hotel.hotel.hotelImage.toString();
@@ -667,7 +667,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                             const SizedBox(height: 16.0),
                                             RoomsSelection(
                                               itemName: 'Single Room',
-                                              roomPrice: widget.roundTrip.prices.private.single.toDouble(),
+                                              roomPrice: widget.roundTrip.prices!.private!.single!.toDouble(),
                                               onCountChanged: (count){
                                                 selectedSingleRooms = count;
                                               },
@@ -675,7 +675,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                             const SizedBox(height: 8.0),
                                             RoomsSelection(
                                               itemName: 'Double Room',
-                                              roomPrice: widget.roundTrip.prices.private.double.toDouble(),
+                                              roomPrice: widget.roundTrip.prices!.private!.double!.toDouble(),
                                                 onCountChanged: (count){
                                                     selectedDoubleRooms = count;
                                                     print(selectedDoubleRooms);
@@ -684,7 +684,7 @@ class _RoundTripsDetailsPageState extends State<RoundTripsDetailsPage> {
                                             const SizedBox(height: 8.0),
                                             RoomsSelection(
                                               itemName: 'Triple Room',
-                                              roomPrice: widget.roundTrip.prices.private.triple.toDouble(),
+                                              roomPrice: widget.roundTrip.prices!.private!.triple!.toDouble(),
                                                 onCountChanged: (count){
                                                   selectedTripleRooms = count;
                                                   print(selectedTripleRooms);

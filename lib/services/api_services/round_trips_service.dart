@@ -14,8 +14,14 @@ class RoundTripsApiService{
     print(response.body);
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      return data.map((json) => RoundTrip.fromJson(json)).toList();
+     try{
+       final List<dynamic> data = jsonDecode(response.body);
+       return data.map((json) => RoundTrip.fromJson(json)).toList();
+     }catch(e){
+       print('hello');
+       print(e);
+       throw e;
+     }
     } else { 
       throw Exception('Failed to load round trips');
     }

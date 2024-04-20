@@ -715,7 +715,7 @@ class _DayTripDetailsPageState extends State<DayTripDetailsPage> {
                                             noOfPeople: noOfPeople,
                                             rooms: rooms,
                                             status: status,
-                                            price: price, 
+                                            price: price,
                                             advance: advance,
                                             option: option,
                                             userDeviceToken: token.toString()

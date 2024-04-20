@@ -84,7 +84,7 @@ class OrderRequest {
 class Order {
   String orderId;
   String customerId;
-  PackageId packageId;
+  // PackageId packageId;
   DateTime orderDate;
   DateTime tripDate;
   NoOfPeople noOfPeople;
@@ -98,7 +98,7 @@ class Order {
   Order({
     required this.orderId,
     required this.customerId,
-    required this.packageId,
+    // required this.packageId,
     required this.orderDate,
     required this.tripDate,
     required this.noOfPeople,
@@ -114,7 +114,7 @@ class Order {
     return Order(
       orderId: json['_id'],
       customerId: json['customerId'],
-      packageId: PackageId.fromJson(json['packageId']),
+      // packageId: PackageId.fromJson(json['packageId']),
       orderDate: DateTime.parse(json['orderDate']),
       tripDate: DateTime.parse(json['tripDate']),
       noOfPeople: NoOfPeople.fromJson(json['noOfPeople']),

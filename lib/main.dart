@@ -13,6 +13,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +43,7 @@ Future<void> initializeServices() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then(
           (FirebaseApp value)=> Get.put(AuthenticationRepository())
   );
+  Stripe.publishableKey = 'pk_test_51P7Kv2P2T7YncC47Pyuo5PkqEX7wM9DPFBqRvGXhTksCqiwSg50p9qazEUc11BFZiyvAM9J6iThRvn7cdt6zC7GG00ZPU92lqa';
   await FirebaseNotificationApi().initNotifications();
   await FirebaseMessaging.instance.subscribeToTopic('ALL');
   await FirebaseMessaging.instance.getToken().then((token) async{

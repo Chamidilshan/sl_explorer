@@ -56,29 +56,29 @@ class OrderCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        order.packageId.roundTrip!.packageCoverImage,
-                        fit: BoxFit.cover,
-                        color: Colors.white,
-                        colorBlendMode: BlendMode.softLight,
-                        height: 100,
-                        width: 100,
-                      ),
-                    ),
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(10),
+                    //   child: Image.network(
+                    //     order.packageId!.roundTrip!.packageCoverImage,
+                    //     fit: BoxFit.cover,
+                    //     color: Colors.white,
+                    //     colorBlendMode: BlendMode.softLight,
+                    //     height: 100,
+                    //     width: 100,
+                    //   ),
+                    // ),
                     SizedBox(
                       width: _width/2,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("${order.packageId.roundTrip!.packageName}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 17,
-                            ),
-                          ),
+                          // Text("${order.packageId?.roundTrip!.packageName}",
+                          //   style: TextStyle(
+                          //     fontWeight: FontWeight.w600,
+                          //     fontSize: 17,
+                          //   ),
+                          // ),
                           Row(
                             children: [
                               ClipRRect(
@@ -89,11 +89,11 @@ class OrderCard extends StatelessWidget {
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              Text("    ${order.packageId.roundTrip!.packageTitle} | ${order.packageId.roundTrip!.packageSubTitle}",
-                              style: TextStyle(
-                                color: Colors.grey,
-                              ),
-                              )
+                              // Text("    ${order.packageId?.roundTrip!.packageTitle} | ${order.packageId?.roundTrip!.packageSubTitle}",
+                              // style: TextStyle(
+                              //   color: Colors.grey,
+                              // ),
+                              // )
                             ],
                           ),
                           Row(
@@ -103,7 +103,7 @@ class OrderCard extends StatelessWidget {
                                 size: 15,
                                 color: Colors.grey,
                               ),
-                              Text("    ${order.noOfPeople.adults}-Adults | ${order.noOfPeople.children}-Children",
+                              Text("    ${order.noOfPeople?.adults}-Adults | ${order.noOfPeople?.children}-Children",
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),
@@ -117,7 +117,7 @@ class OrderCard extends StatelessWidget {
                                 size: 15,
                                 color: Colors.grey,
                               ),
-                              Text("    ${order.tripDate.year}-${order.tripDate.month}-${order.tripDate.day}",
+                              Text("    ${order.tripDate?.year}-${order.tripDate?.month}-${order.tripDate?.day}",
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),

@@ -5,6 +5,7 @@ import 'package:SL_Explorer/features/authentication/screens/success_verification
 import 'package:SL_Explorer/firebase_options.dart';
 import 'package:SL_Explorer/formtest.dart';
 import 'package:SL_Explorer/providers/a_z_provider.dart';
+import 'package:SL_Explorer/providers/cruise_ships_provider.dart';
 import 'package:SL_Explorer/providers/day_trips_provider.dart';
 import 'package:SL_Explorer/providers/orders_provider.dart';
 import 'package:SL_Explorer/providers/round_trips_provider.dart';
@@ -33,6 +34,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context)=> FestivalProvider()),
         ChangeNotifierProvider(create: (context) => DayTripProvider()),
         ChangeNotifierProvider(create: (context)=> A_ZProvider()),
+        ChangeNotifierProvider(create: (context)=> CruiseShipProvider()),
       ],
       child: MyApp(),
     ),

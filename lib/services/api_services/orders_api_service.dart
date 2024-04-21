@@ -28,7 +28,7 @@ class OrderApiService {
       if (response.statusCode == 201) {
         // Order successfully placed
         CommonLoaders.successSnackBar(
-            title: 'Congradualtions',
+            title: 'Congratulations',
             duration: 4,
             message: 'Your order was made successfully. Please wait for a confirmation'
         );
@@ -99,6 +99,7 @@ class OrderApiService {
       return false;
     }
   }
+
 
 
 }

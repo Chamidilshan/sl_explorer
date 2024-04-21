@@ -556,6 +556,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                                             date: widget.order.tripDate,
                                             adultCount: widget.order.noOfPeople.adults.toString(),
                                             childCount: widget.order.noOfPeople.children.toString(),
+                                            order: widget.order,
                                           )
                                       );
                                       // }

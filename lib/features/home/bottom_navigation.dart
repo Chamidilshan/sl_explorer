@@ -1,4 +1,3 @@
-import 'package:SL_Explorer/models/a_z_model.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'orders.dart';
@@ -18,9 +17,8 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
   List pages = [
     const HomePage(),
     A_Z_page(),
-    const gallery(),
+    FestivalListPage(),
     OrdersPage(),
-    const ProfilePage(),
   ];
   int currentIndex=0;
   void onTap(int index){
@@ -46,20 +44,16 @@ class _bottomNavigationBarState extends State<bottomNavigationBar> {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.temple_hindu_outlined),
+            icon: Icon(Icons.language_outlined),
             label: 'SL A-Z',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.camera_alt_outlined),
-            label: 'Gallery',
+            icon: Icon(Icons.festival_outlined),
+            label: 'Festive',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.task_outlined),
             label: 'Orders',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            label: 'Profile',
           ),
         ],
       ),

@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'package:SL_Explorer/common/user_location.dart';
+import 'package:SL_Explorer/features/home/cruise_ships/cruise_ship_details_page.dart';
 import 'package:SL_Explorer/features/home/cruise_ships/cruiseship_home.dart';
 import 'package:SL_Explorer/features/home/profile.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_detsila_page.dart';
 import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_page.dart';
 import 'package:SL_Explorer/features/home/widgets/notifications_drawer.dart';
+import 'package:SL_Explorer/models/cruise_ship_packages_model.dart';
 import 'package:SL_Explorer/models/round2.dart';
 import 'package:SL_Explorer/models/round_trip_packages_model.dart';
+import 'package:SL_Explorer/services/api_services/cruise_ships_service.dart';
 import 'package:SL_Explorer/services/api_services/round_trips_service.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -25,7 +28,20 @@ import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list
 import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list_west_coast.dart';
 import 'package:SL_Explorer/models/category_model.dart';
 
-class CruiseShipApiServicehome {}
+class CruiseShipApiServicehome {
+  Future<List<CruiseShip>> fetchCruiseShips() async {
+    final response = await http.get(Uri.parse('$baseUrl/api/v1/CruiseShips'));
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => CruiseShip.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load CruiseShips');
+    }
+  }
+}
 
 class CategoryApiService {
   final String apiUrl = '$baseUrl/api/v1/dayTips/category';
@@ -70,6 +86,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final CruiseShipApiServicehome _cruiseapiService = CruiseShipApiServicehome();
   List<Map<String, String>> cruise_shipdData = [];
 
   final RoundTripsApiServicehome _roundapiService = RoundTripsApiServicehome();
@@ -130,6 +147,8 @@ class _HomePageState extends State<HomePage> {
     locationService();
     _loadDayTripsData();
     _loadRoundTripsData();
+    _loadCruiseShipData();
+
   }
 
   Future<void> _loadDayTripsData() async {
@@ -164,6 +183,23 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       print('Error loading round trips data: $e');
+    }
+  }
+
+  Future<void> _loadCruiseShipData() async {
+    try {
+      List<CruiseShip> data = await _cruiseapiService.fetchCruiseShips();
+      List<Map<String, String>> convertedData = data.take(4).map((category) => {
+        "imagePath": category.packageCoverImage ?? '',
+        "cardText": category.packageName ?? '',
+        "id": category.id ?? '',
+      }).toList();
+
+      setState(() {
+        cruise_shipdData = convertedData;
+      });
+    } catch (e) {
+      print('Error loading Cruise Ship data: $e');
     }
   }
 
@@ -513,6 +549,7 @@ void _onCardTap(
 
     if (id != null) {
       _fetchRoundTripDetails(id);
+      _fetchCruiseShipDetails(id);
 
     }
   }
@@ -529,6 +566,20 @@ void _fetchRoundTripDetails(String id) {
     print('Error fetching round trip details: $error');
   });
 }
+
+void _fetchCruiseShipDetails(String id) {
+  CruiseShipsApiService _cruiseapiService = CruiseShipsApiService();
+  _cruiseapiService.fetchCruiseShipsById(id).then((CruiseShip fetchCruiseShips) {
+    if (fetchCruiseShips != null) {
+      Get.to(CruiseShipsDetailsPage(cruiseShip: fetchCruiseShips));
+    } else {
+    }
+  }).catchError((error) {
+    // Handle any errors that occur during the API call
+    print('Error fetching Cruise Ship details: $error');
+  });
+}
+
 
 class searchbar extends StatefulWidget {
   const searchbar({Key? key}) : super(key: key);

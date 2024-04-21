@@ -24,9 +24,7 @@ import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list
 import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list_west_coast.dart';
 import 'package:SL_Explorer/models/category_model.dart';
 
-class CruiseShipApiServicehome{
-
-}
+class CruiseShipApiServicehome {}
 
 class CategoryApiService {
   final String apiUrl = '$baseUrl/api/v1/dayTips/category';
@@ -42,8 +40,7 @@ class CategoryApiService {
   }
 }
 
-class RoundTripsApiServicehome{
-
+class RoundTripsApiServicehome {
   Future<List<RoundTrip>> fetchRoundTrips() async {
     final response = await http.get(Uri.parse('$baseUrl/api/v1/roundTrips'));
     print(response.statusCode);
@@ -62,13 +59,9 @@ class RoundTripsApiServicehome{
 //class AyurvedaHoneymoonServicehome{
 //}
 
-
-
 class HomePage extends StatefulWidget {
   final RemoteMessage? message;
-  const HomePage({
-    super.key,
-    this.message});
+  const HomePage({super.key, this.message});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -86,7 +79,6 @@ class _HomePageState extends State<HomePage> {
   //List<Map<String, String>> maldives_emiratesData = [];
   //List<Map<String, String>> ayurveda_honeymoonData = [];
 
-
   int notificationCount = 0;
   void onNotificationClick() {
     setState(() {
@@ -94,7 +86,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> locationService() async{
+  Future<void> locationService() async {
     Location location = new Location();
 
     bool _serviceEnabled;
@@ -102,16 +94,16 @@ class _HomePageState extends State<HomePage> {
     LocationData _locationData;
 
     _serviceEnabled = await location.serviceEnabled();
-    if(!_serviceEnabled){
+    if (!_serviceEnabled) {
       _serviceEnabled = await location.requestService();
-      if(!_serviceEnabled){
+      if (!_serviceEnabled) {
         return;
       }
     }
     _permissionLocation = await location.hasPermission();
-    if(_permissionLocation == PermissionStatus.denied){
+    if (_permissionLocation == PermissionStatus.denied) {
       _permissionLocation = await location.requestPermission();
-      if(_permissionLocation != PermissionStatus.granted){
+      if (_permissionLocation != PermissionStatus.granted) {
         return;
       }
     }
@@ -128,11 +120,10 @@ class _HomePageState extends State<HomePage> {
 
     UserLocation().getLocations();
     print('locayion is ${UserLocation.currentLocation}');
-
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     locationService();
     _loadDayTripsData();
@@ -142,10 +133,13 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadDayTripsData() async {
     try {
       List<Category> data = await _apiService.fetchCategory();
-      List<Map<String, String>> convertedData = data.take(3).map((category) => {
-        "imagePath": category.packageCategoryImage ?? '',
-        "cardText": category.packageCategoryName ?? '',
-      }).toList();
+      List<Map<String, String>> convertedData = data
+          .take(3)
+          .map((category) => {
+                "imagePath": category.packageCategoryImage ?? '',
+                "cardText": category.packageCategoryName ?? '',
+              })
+          .toList();
       setState(() {
         dayTripData = convertedData;
       });
@@ -157,10 +151,13 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadRoundTripsData() async {
     try {
       List<RoundTrip> data = await _roundapiService.fetchRoundTrips();
-      List<Map<String, String>> convertedData = data.take(4).map((category) => {
-        "imagePath": category.packageCoverImage ?? '',
-        "cardText": category.packageName ?? '',
-      }).toList();
+      List<Map<String, String>> convertedData = data
+          .take(4)
+          .map((category) => {
+                "imagePath": category.packageCoverImage ?? '',
+                "cardText": category.packageName ?? '',
+              })
+          .toList();
       setState(() {
         roundTripData = convertedData;
       });
@@ -168,7 +165,6 @@ class _HomePageState extends State<HomePage> {
       print('Error loading round trips data: $e');
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -222,9 +218,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: _width * 0.04,
-                      vertical: _height * 0.06
-                  ),
+                      horizontal: _width * 0.04, vertical: _height * 0.06),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,7 +238,6 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -269,9 +262,7 @@ class _HomePageState extends State<HomePage> {
                                 //     fit: BoxFit.fill,
                                 //   ),
                                 // ),
-                                child: Icon(
-                                    Icons.location_city
-                                ),
+                                child: Icon(Icons.location_city),
                               ),
                               SizedBox(
                                 width: _width * 0.02,
@@ -289,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                      if(widget.message?.notification?.title != null)
+                      if (widget.message?.notification?.title != null)
                         Text(
                           widget.message?.notification?.title ?? '',
                           style: TextStyle(
@@ -300,7 +291,7 @@ class _HomePageState extends State<HomePage> {
                             height: _height * 0.001,
                           ),
                         ),
-                      if(widget.message?.notification?.title != null)
+                      if (widget.message?.notification?.title != null)
                         Text(
                           widget.message?.notification?.body ?? '',
                           style: TextStyle(
@@ -331,8 +322,8 @@ class _HomePageState extends State<HomePage> {
                   _height,
                   'Cruise Ship',
                   cruise_shipdData,
-                      () {
-                    Get.to(CruiseShip());
+                  () {
+                    Get.to(CruiseShipListPage());
                   },
                   context,
                 ),
@@ -344,7 +335,7 @@ class _HomePageState extends State<HomePage> {
                   _height,
                   'Round Trips',
                   roundTripData,
-                      () {
+                  () {
                     Get.to(RoundTripListPage());
                   },
                   context,
@@ -358,8 +349,9 @@ class _HomePageState extends State<HomePage> {
                   _height,
                   'Day Trips',
                   dayTripData,
-                      () {
-                        Get.to(DayTripListPage_EastCoast(categoryName: 'East Coast Excursions'));
+                  () {
+                    Get.to(DayTripListPage_EastCoast(
+                        categoryName: 'East Coast Excursions'));
                   },
                   context,
                   showSeeAll: true,
@@ -400,18 +392,18 @@ class _HomePageState extends State<HomePage> {
 }
 
 Widget _buildCardSection(
-    double _width,
-    double _height,
-    String sectionTitle,
-    List<Map<String, String>> sectionData,
-    VoidCallback onSeeAllTap,
-    BuildContext context, {
-      bool showSeeAll = false,
-    }) {
+  double _width,
+  double _height,
+  String sectionTitle,
+  List<Map<String, String>> sectionData,
+  VoidCallback onSeeAllTap,
+  BuildContext context, {
+  bool showSeeAll = false,
+}) {
   return Padding(
     padding: EdgeInsets.only(
-      // horizontal: _width * 0.04,
-    ),
+        // horizontal: _width * 0.04,
+        ),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -456,43 +448,45 @@ Widget _buildCardSection(
           height: _height * 0.25,
           child: sectionData.isEmpty
               ? Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: 4, // Show 4 shimmering cards
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.only(left: _width * 0.02, right: _width * 0.02),
-                  child: Container(
-                    width: _width * 0.4,
-                    height: _height * 0.25,
-                    color: Colors.white,
-                  ),
-                );
-              },
-            ),
-          )
-              : ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: sectionData.length,
-            itemBuilder: (context, index) {
-              if (index < sectionData.length) {
-                return Padding(
-                  padding: EdgeInsets.only(left: _width * 0.02, right: _width * 0.02),
-                  child: InkWell(
-                    onTap: () {
-                      _onCardTap(context, index, sectionData);
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 4, // Show 4 shimmering cards
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            left: _width * 0.02, right: _width * 0.02),
+                        child: Container(
+                          width: _width * 0.4,
+                          height: _height * 0.25,
+                          color: Colors.white,
+                        ),
+                      );
                     },
-                    child: Cards(
-                      networkImage: sectionData[index]["imagePath"]!,
-                      cardText: sectionData[index]["cardText"]!,
-                    ),
                   ),
-                );
-              }
-            },
-          ),
+                )
+              : ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: sectionData.length,
+                  itemBuilder: (context, index) {
+                    if (index < sectionData.length) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            left: _width * 0.02, right: _width * 0.02),
+                        child: InkWell(
+                          onTap: () {
+                            _onCardTap(context, index, sectionData);
+                          },
+                          child: Cards(
+                            networkImage: sectionData[index]["imagePath"]!,
+                            cardText: sectionData[index]["cardText"]!,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
         ),
       ],
     ),
@@ -508,16 +502,13 @@ void _onCardTap(
     if (packageName == 'West Coast Excursions') {
       Get.to(DayTripListPage_WestCoast(categoryName: 'West Coast Excursions'));
     } else if (packageName == 'Excursions north-west coast') {
-      Get.to(DayTripListPage_North_West_Coast(categoryName: 'Excursions north-west coast'));
+      Get.to(DayTripListPage_North_West_Coast(
+          categoryName: 'Excursions north-west coast'));
     } else if (packageName == 'East Coast Excursions') {
       Get.to(DayTripListPage_EastCoast(categoryName: 'East Coast Excursions'));
     }
-
-
   }
 }
-
-
 
 class searchbar extends StatefulWidget {
   const searchbar({Key? key}) : super(key: key);

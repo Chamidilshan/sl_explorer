@@ -51,7 +51,7 @@ class _DateBoxState extends State<DateBox> {
               formattedDate,
               style: TextStyle(fontSize: 16),
             ),
-             // Add spacer to push the icon to the right
+            // Add spacer to push the icon to the right
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: Icon(

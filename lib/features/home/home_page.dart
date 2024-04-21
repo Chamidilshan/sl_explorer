@@ -7,6 +7,7 @@ import 'package:SL_Explorer/features/home/round_trips/screens/round_trips_list_p
 import 'package:SL_Explorer/features/home/widgets/notifications_drawer.dart';
 import 'package:SL_Explorer/models/round2.dart';
 import 'package:SL_Explorer/models/round_trip_packages_model.dart';
+import 'package:SL_Explorer/services/api_services/round_trips_service.dart';
 import 'package:SL_Explorer/services/firebase_services/authentication_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -72,6 +73,7 @@ class HomePage extends StatefulWidget {
 
   @override
   State<HomePage> createState() => _HomePageState();
+
 }
 
 class _HomePageState extends State<HomePage> {
@@ -160,6 +162,7 @@ class _HomePageState extends State<HomePage> {
       List<Map<String, String>> convertedData = data.take(4).map((category) => {
         "imagePath": category.packageCoverImage ?? '',
         "cardText": category.packageName ?? '',
+        "id": category.id ?? '',
       }).toList();
       setState(() {
         roundTripData = convertedData;
@@ -500,9 +503,11 @@ Widget _buildCardSection(
 }
 
 void _onCardTap(
+
     BuildContext context, int index, List<Map<String, String>> sectionData) {
   Map<String, String> tappedCardData = sectionData[index];
   String? packageName = tappedCardData['cardText'];
+  String? id = tappedCardData['id'];
 
   if (packageName != null) {
     if (packageName == 'West Coast Excursions') {
@@ -513,8 +518,25 @@ void _onCardTap(
       Get.to(DayTripListPage_EastCoast(categoryName: 'East Coast Excursions'));
     }
 
+    if (id != null) {
+      _fetchRoundTripDetails(id);
+
+    }
+
 
   }
+}
+void _fetchRoundTripDetails(String id) {
+  RoundTripsApiService _roundapiService = RoundTripsApiService();
+  _roundapiService.fetchRoundTripsById(id).then((RoundTrip fetchedRoundTrip) {
+    if (fetchedRoundTrip != null) {
+      Get.to(RoundTripsDetailsPage(roundTrip: fetchedRoundTrip));
+    } else {
+    }
+  }).catchError((error) {
+    // Handle any errors that occur during the API call
+    print('Error fetching round trip details: $error');
+  });
 }
 
 

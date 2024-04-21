@@ -27,4 +27,23 @@ class RoundTripsApiService{
     }
   }
 
+  Future<RoundTrip> fetchRoundTripsById(String id) async {
+    final response = await http.get(Uri.parse('$baseUrl/api/v1/roundTrips/$id'));
+    print(response.statusCode);
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      try {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        return RoundTrip.fromJson(data); // Assuming RoundTrip.fromJson is used to parse a single object
+      } catch (e) {
+        print('Error parsing response: $e');
+        throw e;
+      }
+    } else {
+      throw Exception('Failed to load round trip by Id');
+    }
+  }
+
+
 }

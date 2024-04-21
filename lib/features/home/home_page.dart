@@ -25,6 +25,7 @@ import 'package:SL_Explorer/features/home/day_trip_screens/screens/day_trip_list
 import 'package:SL_Explorer/models/category_model.dart';
 
 class CruiseShipApiServicehome{
+
 }
 
 class CategoryApiService {
@@ -56,11 +57,10 @@ class RoundTripsApiServicehome{
     }
   }
 }
-class MaldivesEmiratesApiServicehome{
-}
-
-class AyurvedaHoneymoonServicehome{
-}
+//class MaldivesEmiratesApiServicehome{
+//}
+//class AyurvedaHoneymoonServicehome{
+//}
 
 
 
@@ -83,8 +83,8 @@ class _HomePageState extends State<HomePage> {
   final CategoryApiService _apiService = CategoryApiService();
   List<Map<String, String>> dayTripData = [];
 
-  List<Map<String, String>> maldives_emiratesData = [];
-  List<Map<String, String>> ayurveda_honeymoonData = [];
+  //List<Map<String, String>> maldives_emiratesData = [];
+  //List<Map<String, String>> ayurveda_honeymoonData = [];
 
 
   int notificationCount = 0;
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     UserLocation().getLocations();
-     print('locayion is ${UserLocation.currentLocation}');
+    print('locayion is ${UserLocation.currentLocation}');
 
   }
 
@@ -143,8 +143,8 @@ class _HomePageState extends State<HomePage> {
     try {
       List<Category> data = await _apiService.fetchCategory();
       List<Map<String, String>> convertedData = data.take(3).map((category) => {
-        "imagePath": category.packageCategoryImage,
-        "cardText": category.packageCategoryName,
+        "imagePath": category.packageCategoryImage ?? '',
+        "cardText": category.packageCategoryName ?? '',
       }).toList();
       setState(() {
         dayTripData = convertedData;
@@ -157,17 +157,18 @@ class _HomePageState extends State<HomePage> {
   Future<void> _loadRoundTripsData() async {
     try {
       List<RoundTrip> data = await _roundapiService.fetchRoundTrips();
-      List<Map<String, String?>> convertedData = data.take(4).map((category) => {
-        "imagePath": category.packageCoverImage,
-        "cardText": category.packageName,
+      List<Map<String, String>> convertedData = data.take(4).map((category) => {
+        "imagePath": category.packageCoverImage ?? '',
+        "cardText": category.packageName ?? '',
       }).toList();
       setState(() {
-        // roundTripData = convertedData;
+        roundTripData = convertedData;
       });
     } catch (e) {
       print('Error loading round trips data: $e');
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -221,8 +222,8 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
-                    horizontal: _width * 0.04,
-                    vertical: _height * 0.06
+                      horizontal: _width * 0.04,
+                      vertical: _height * 0.06
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -260,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                           Row(
                             children: [
                               Container(
-                                width: _width * 0.04, 
+                                width: _width * 0.04,
                                 height: _height * 0.025,
                                 // decoration: const BoxDecoration(
                                 //   image: DecorationImage(
@@ -269,7 +270,7 @@ class _HomePageState extends State<HomePage> {
                                 //   ),
                                 // ),
                                 child: Icon(
-                                  Icons.location_city
+                                    Icons.location_city
                                 ),
                               ),
                               SizedBox(
@@ -330,7 +331,7 @@ class _HomePageState extends State<HomePage> {
                   _height,
                   'Cruise Ship',
                   cruise_shipdData,
-                  () {
+                      () {
                     Get.to(CruiseShip());
                   },
                   context,
@@ -357,37 +358,38 @@ class _HomePageState extends State<HomePage> {
                   _height,
                   'Day Trips',
                   dayTripData,
-                  () {
-
+                      () {
+                        Get.to(DayTripListPage_EastCoast(categoryName: 'East Coast Excursions'));
                   },
                   context,
+                  showSeeAll: true,
                 ),
                 SizedBox(
                   height: _height * 0.01,
                 ),
-                _buildCardSection(
-                  _width,
-                  _height,
-                  'Maldives & Emirates',
-                  maldives_emiratesData,
-                  () {
-
-                  },
-                  context,
-                ),
+                // _buildCardSection(
+                //   _width,
+                //   _height,
+                //   'Maldives & Emirates',
+                //   maldives_emiratesData,
+                //       () {
+                //
+                //   },
+                //   context,
+                // ),
                 SizedBox(
                   height: _height * 0.01,
                 ),
-                _buildCardSection(
-                  _width,
-                  _height,
-                  'Ayurveda & Honeymoon',
-                  ayurveda_honeymoonData,
-                  () {
-                    // Navigate to ayurveda page
-                  },
-                  context,
-                ),
+                // _buildCardSection(
+                //   _width,
+                //   _height,
+                //   'Ayurveda & Honeymoon',
+                //   ayurveda_honeymoonData,
+                //       () {
+                //     // Navigate to ayurveda page
+                //   },
+                //   context,
+                // ),
               ],
             ),
           ),
@@ -511,8 +513,10 @@ void _onCardTap(
       Get.to(DayTripListPage_EastCoast(categoryName: 'East Coast Excursions'));
     }
 
+
   }
 }
+
 
 
 class searchbar extends StatefulWidget {

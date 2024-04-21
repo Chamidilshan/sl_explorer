@@ -121,7 +121,7 @@ class _DayTripListPageState extends State<DayTripListPage_WestCoast>
                     ),
                   ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.03),
-            CustomButton(onPressed: () {}),
+            //CustomButton(onPressed: () {}),
             TabBar(
               controller: _tabController,
               labelColor: logoColor,
@@ -186,80 +186,80 @@ class _DayTripListPageState extends State<DayTripListPage_WestCoast>
   }
 }
 
-class CustomButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const CustomButton({Key? key, required this.onPressed}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-
-    return Container(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Color(0xFFfd8103),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-        ),
-        child: Text(
-          'Ongoing Trips',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: _width * 0.025,
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        onPressed: onPressed,
-      ),
-    );
-  }
-}
-
-class PopupTrip {
-  final String title;
-  final String description;
-  final int durationInDays;
-
-  PopupTrip({
-    required this.title,
-    required this.description,
-    required this.durationInDays,
-  });
-}
-
-class PopupBuilder {
-  static void showTripsPopup(
-      BuildContext context, String title, List<PopupTrip> trips) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(title),
-        content: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: trips.map((trip) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('- ${trip.title}'),
-                Text('  Description: ${trip.description}'),
-                Text('  Duration: ${_getDurationText(trip.durationInDays)}'),
-                SizedBox(height: 16),
-              ],
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  static String _getDurationText(int durationInDays) {
-    if (durationInDays == 1) {
-      return '1 Day';
-    } else {
-      return '$durationInDays Days';
-    }
-  }
-}
+// class CustomButton extends StatelessWidget {
+//   final VoidCallback onPressed;
+//
+//   const CustomButton({Key? key, required this.onPressed}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final _width = MediaQuery.of(context).size.width;
+//
+//     return Container(
+//       child: ElevatedButton(
+//         style: ElevatedButton.styleFrom(
+//           backgroundColor: Color(0xFFfd8103),
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(10.0),
+//           ),
+//         ),
+//         child: Text(
+//           'Ongoing Trips',
+//           style: TextStyle(
+//             color: Colors.white,
+//             fontSize: _width * 0.025,
+//             fontFamily: 'Montserrat',
+//             fontWeight: FontWeight.w400,
+//           ),
+//         ),
+//         onPressed: onPressed,
+//       ),
+//     );
+//   }
+// }
+//
+// class PopupTrip {
+//   final String title;
+//   final String description;
+//   final int durationInDays;
+//
+//   PopupTrip({
+//     required this.title,
+//     required this.description,
+//     required this.durationInDays,
+//   });
+// }
+//
+// class PopupBuilder {
+//   static void showTripsPopup(
+//       BuildContext context, String title, List<PopupTrip> trips) {
+//     showDialog(
+//       context: context,
+//       builder: (context) => AlertDialog(
+//         title: Text(title),
+//         content: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: trips.map((trip) {
+//             return Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text('- ${trip.title}'),
+//                 Text('  Description: ${trip.description}'),
+//                 Text('  Duration: ${_getDurationText(trip.durationInDays)}'),
+//                 SizedBox(height: 16),
+//               ],
+//             );
+//           }).toList(),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   static String _getDurationText(int durationInDays) {
+//     if (durationInDays == 1) {
+//       return '1 Day';
+//     } else {
+//       return '$durationInDays Days';
+//     }
+//   }
+// }

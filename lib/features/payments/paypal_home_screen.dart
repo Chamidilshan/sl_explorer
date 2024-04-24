@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import 'package:SL_Explorer/common/snackbar.dart';
 import 'package:SL_Explorer/constants/constants.dart';
 import 'package:SL_Explorer/constants/utils/styles.dart';
@@ -8,10 +11,6 @@ import 'package:SL_Explorer/features/payments/payment_screen.dart';
 import 'package:SL_Explorer/models/orders_model.dart';
 import 'package:SL_Explorer/services/api_services/orders_api_service.dart';
 import 'package:SL_Explorer/services/payment_service/stripe_service.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 class PaypalHomeScreen extends StatefulWidget {
   final Order order;
@@ -19,13 +18,14 @@ class PaypalHomeScreen extends StatefulWidget {
   final DateTime date;
   final String adultCount;
   final String childCount;
+
   const PaypalHomeScreen({
     Key? key,
     required this.packageName,
     required this.date,
     required this.adultCount,
     required this.childCount,
-    required this.order
+    required this.order,
   }) : super(key: key);
 
   @override
@@ -63,40 +63,33 @@ class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
     }
   }
 
-
   void displayPaymentSheet() async {
     try {
       await Stripe.instance.presentPaymentSheet().then((value) async {
-
-        Get.offAll(()=> bottomNavigationBar());
-
+        Get.offAll(() => bottomNavigationBar());
 
         await updateOrderStatus(widget.order.orderId, 'Confirmed');
 
         CommonLoaders.successSnackBar(
-              title: 'Payment Success',
-            duration: 4,
-            message: 'The advance payment has been successfully processed. Thank you for your transaction'
+          title: 'Payment Success',
+          duration: 4,
+          message:
+          'The advance payment has been successfully processed. Thank you for your transaction',
         );
-
-
-
       });
-
     } on Exception catch (e) {
       if (e is StripeException) {
         print(e);
         CommonLoaders.errorSnackBar(
-            title: 'Something went wrong',
-            duration: 4,
-            message: '${e.error.localizedMessage}'
+          title: 'Something went wrong',
+          duration: 4,
+          message: '${e.error.localizedMessage}',
         );
-
       } else {
         CommonLoaders.errorSnackBar(
-            title: 'Something went wrong',
-            duration: 4,
-            message: 'Unforeseen error: ${e}'
+          title: 'Something went wrong',
+          duration: 4,
+          message: 'Unforeseen error: ${e}',
         );
         print(e);
       }
@@ -105,36 +98,25 @@ class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
 
   Future<void> makePayment(BuildContext context) async {
     try {
-      final paymentIntentData = await createPaymentIntent(widget.order.advance!.amount.toString(), 'USD') ?? {};
+      final paymentIntentData = await createPaymentIntent(
+          widget.order.advance!.amount.toString(), 'USD') ??
+          {};
 
       await Stripe.instance
           .initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-              // billingDetails: BillingDetails(
-              //     name: 'YOUR NAME',
-              //     email: 'YOUREMAIL@gmail.com',
-              //     phone: 'YOUR NUMBER',
-              //     address: Address(
-              //         city: 'YOUR CITY',
-              //         country: 'YOUR COUNTRY',
-              //         line1: 'YOUR ADDRESS 1',
-              //         line2: 'YOUR ADDRESS 2',
-              //         postalCode: 'YOUR PINCODE',
-              //         state: 'YOUR STATE')),
-              paymentIntentClientSecret: paymentIntentData!['client_secret'], //Gotten from payment intent
-              style: ThemeMode.dark,
-              merchantDisplayName: 'Ikay'))
+            paymentIntentClientSecret:
+            paymentIntentData!['client_secret'], //Gotten from payment intent
+            style: ThemeMode.dark,
+            merchantDisplayName: 'Ikay',
+          ))
           .then((value) {
         displayPaymentSheet();
       });
-
-      //STEP 3: Display Payment sheet
     } catch (e) {
       print(e.toString());
-      // Fluttertoast.showToast(msg: e.toString());
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -153,153 +135,111 @@ class _PaypalHomeScreenState extends State<PaypalHomeScreen> {
           ),
         ),
       ),
-      body: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  widget.packageName,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                  ),
-                ),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.people,
-                      size: 15,
-                      color: Colors.grey,
-                    ),
-                    Text("    ${widget.adultCount}-Adults | ${widget.childCount}-Children",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Icon(Icons.date_range,
-                      size: 15,
-                      color: Colors.grey,
-                    ),
-                    Text("    ${widget.date.year}-${widget.date.month}-${widget.date.day}",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 40.0,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20.0),
-                    border: Border.all(color: Colors.black.withOpacity(0.45))
-                  ),
-                  padding: EdgeInsets.only(
-                      left: 8.0,
-                      right: 8.0,
-                      top: 4.0,
-                      bottom: 4.0
-                  ),
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                            hintText: 'Have a promo code? Enter here',
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 80.0,
-                        child: ElevatedButton(
-                            onPressed: (){},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey.withOpacity(0.05),
-                              side: BorderSide(color: Colors.grey.withOpacity(0.1)),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.0)
-                              )
-                            ),
-                            child: Text(
-                              'Apply',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12.0
-                              ),
-                            )
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  height: 40.0,
-                ),
-                Text(
-                  'Payment Method',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.0
-                  ),
-                ),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SizedBox(height: 20),
+            Text(
+              widget.packageName,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+              ),
             ),
-          )),
+            SizedBox(height: 10),
+            Text(
+              '${widget.adultCount} Adults | ${widget.childCount} Children',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Date: ${widget.date.year}-${widget.date.month}-${widget.date.day}',
+              style: TextStyle(
+                color: Colors.grey,
+              ),
+            ),
+            SizedBox(height: 30), // Add space between text and payment button
+            Text(
+              'Select Payment Method',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+              ),
+            ),
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.credit_card, color: logoColor),
+                  SizedBox(width: 10),
+                  Text(
+                    'Credit Card',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.payment, color: logoColor),
+                  SizedBox(width: 10),
+                  Text(
+                    'PayPal',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Spacer(), // Add space to push payment button to the bottom
+          ],
+        ),
+      ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(16.0),
         child: Container(
           height: 48.0,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
-                backgroundColor: logoColor.withOpacity(0.75),
-                side: BorderSide(color: Colors.grey.withOpacity(0.1)),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0)
-                )
+              backgroundColor: logoColor.withOpacity(0.75),
+              side: BorderSide(color: Colors.grey.withOpacity(0.1)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.0),
+              ),
             ),
-            onPressed: (){
+            onPressed: () {
               makePayment(context);
-              // Navigator.of(context).push(
-              //   MaterialPageRoute(
-              //     builder: (BuildContext context) => Payment(
-              //       onFinish: (number) async {
-              //         // payment done
-              //         final snackBar = SnackBar(
-              //           content: const Text("Payment done Successfully"),
-              //           duration: const Duration(seconds: 5),
-              //           action: SnackBarAction(
-              //             label: 'Close',
-              //             onPressed: () {
-              //               // Some code to undo the change.
-              //             },
-              //           ),
-              //         );
-              //         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              //       },
-              //     ),
-              //   ),
-              // );
             },
             child: Text(
               'Pay Advance ${widget.order.advance!.amount.toString()}\$',
               style: TextStyle(
-                color: Colors.white
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
